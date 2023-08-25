@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="winch.js"></script>
+    <style>
+        td,
+        tr,
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        input,
+        p {
+            text-align: right;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>parameter</td>
+            <td>new value</td>
+            <td>current val</td>
+        </tr>
+        <tr>
+            <td>Addresses:</td>
+        </tr>
+        <tr>
+            <td>A address</td>
+            <td> <input id="NewAddrA" type="number" min="1" max="512" />
+            </td>
+            <td>
+                <p id="CurrAddrA"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>B address</td>
+            <td> <input id="NewAddrB" type="number" min="1" max="512" />
+            </td>
+            <td>
+                <p id="CurrAddrB"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>C address</td>
+            <td> <input id="NewAddrC" type="number" min="1" max="512" />
+            </td>
+            <td>
+                <p id="CurrAddrC"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>D address</td>
+            <td> <input id="NewAddrD" type="number" min="1" max="512" />
+            </td>
+            <td>
+                <p id="CurrAddrD"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Safety address</td>
+            <td> <input id="NewSaftyAddr" type="number" min="1" max="512" />
+            </td>
+            <td>
+                <p id="CurrSaftyAddr"></p>
+            </td>
+        </tr>
+        <tr>
+            <td>Deviation:</td>
+        </tr>
+
+        <!-- <tr>
+        <td>Winch A Deviation</td>
+        <td> <input id="NewDevA" type="number" min="0" max="255" />
+        </td>
+        <td>
+            <p id="CurrAddrA"></p>
+        </td>
+    </tr> -->
+
+        <tr>
+            <td>B max Deviation</td>
+            <td> <input id="NewDevB" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrDevB"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>C max Deviation</td>
+            <td> <input id="NewDevC" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrDevC"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>D max Deviation</td>
+            <td> <input id="NewDevD" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrDevD"></p>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>Line position:</td>
+        </tr>
+
+        <!-- <tr>
+        <td>Winch A Deviation</td>
+        <td> <input id="NewDevA" type="number" min="0" max="255" />
+        </td>
+        <td>
+            <p id="CurrAddrA"></p>
+        </td>
+    </tr> -->
+
+        <tr>
+            <td>B line position</td>
+            <td> <input id="NewPosB" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrPosB"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>C line position</td>
+            <td> <input id="NewPosC" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrPosC"></p>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>mode</td>
+            <td>
+                <form id="NewMode">
+                    <input type="radio" name="mode" id="NewModeOptionFolwA">Square<br>
+                    <input type="radio" name="mode" id="NewModeOptionFolwP">triangle<br>
+                    <input type="radio" name="mode" id="NewModeOptionDubble">pair a&b, c&d<br>
+                    <input type="radio" name="mode" id="NewModeOptionLine3">3 in line<br>
+                    <input type="radio" name="mode" id="NewModeOptionLine4">4 in line<br>
+                </form>
+            </td>
+            <td>
+                <!-- display durrent mode -->
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>type</td>
+            <td>
+                <form id="NewType">
+                    <input type="radio" name="type" id="NewTypeorb5">orbi5<br>
+                    <input type="radio" name="type" id="NewTypeorb9">orbi9<br>
+                    <input type="radio" name="type" id="NewTypeDLB">DLB<br>
+                </form>
+            </td>
+            <td>
+                <!-- display durrent mode -->
+            </td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="NewName" type="text" maxlength="8" />
+            </td>
+            <td>
+                <p id="CurrName"></p>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" onclick="alert('Connect')" value="Connect">
+            </td>
+            <td>
+                <input type="button" onclick="alert('Send new values')" value="Send new values">
+            </td>
+            <td>
+                <input type="button" onclick="alert('Get current values')" value="Get current values">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="button"
+                    onclick="incrementAddresses(winchNew, getElementById('AddrIncrement').value, document.getElementById('AddrIncrementSafety').checked)"
+                    value="Increment addresses">
+            <td> <input id="AddrIncrement" type="number" min="1" max="512" />
+            </td>
+            <td>
+                increment safety: <input type="checkbox" id="AddrIncrementSafety">
+            </td>
+        </tr>
+    </table>
+
+</body>
+<script type="text/javascript">
+    const winchNew = new WinchSettings();
+    const winchcur = new WinchSettings();
+
+    function getNewData() {
+
+        winchNew.WinchAaddr = document.getElementById("NewAddrA").value;
+        winchNew.WinchBaddr = document.getElementById("NewAddrB").value;
+        winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
+        winchNew.WinchDaddr = document.getElementById("NewAddrD").value;
+
+        winchNew.WinchSafetyAddr = document.getElementById("NewSaftyAddr").value;
+
+        // document.getElementById("NewDevA").innerHTML = winchNew.WinchAdev;
+        winchNew.WinchBdev = document.getElementById("NewDevB").innerHTML;
+        winchNew.WinchCdev = document.getElementById("NewDevC").innerHTML;
+        winchNew.WinchDdev = document.getElementById("NewDevD").innerHTML;
+
+        // document.getElementById("NewPosA").innerHTML = winchcur.WinchALinP;
+        winchNew.WinchBlinP = document.getElementById("NewPosB").innerHTML;
+        winchNew.WinchClinP = document.getElementById("NewPosC").innerHTML;
+    }
+
+    function setCurrentData() {
+        document.getElementById("CurrAddrA").innerHTML = winchcur.WinchAaddr;
+        document.getElementById("CurrAddrB").innerHTML = winchcur.WinchBaddr;
+        document.getElementById("CurrAddrC").innerHTML = winchcur.WinchCaddr;
+        document.getElementById("CurrAddrD").innerHTML = winchcur.WinchDaddr;
+
+        document.getElementById("CurrSaftyAddr").innerHTML = winchcur.WinchSafetyAddr;
+
+        // document.getElementById("CurrDevA").innerHTML = winchcur.WinchAdev;
+        document.getElementById("CurrDevB").innerHTML = winchcur.WinchBdev;
+        document.getElementById("CurrDevC").innerHTML = winchcur.WinchCdev;
+        document.getElementById("CurrDevD").innerHTML = winchcur.WinchDdev;
+
+        // document.getElementById("CurrPosA").innerHTML = winchcur.WinchALinP;
+        document.getElementById("CurrPosB").innerHTML = winchcur.WinchBlinP;
+        document.getElementById("CurrPosC").innerHTML = winchcur.WinchClinP;
+        // document.getElementById("CurrPosD").innerHTML = winchcur.WinchDLinP;
+
+    }
+
+    function setNewData() {
+        document.getElementById("NewAddrA").value = winchNew.WinchAaddr;
+        document.getElementById("NewAddrB").value = winchNew.WinchBaddr;
+        document.getElementById("NewAddrC").value = winchNew.WinchCaddr;
+        document.getElementById("NewAddrD").value = winchNew.WinchDaddr;
+
+        document.getElementById("NewSaftyAddr").value = winchNew.WinchSafetyAddr;
+
+
+        // document.getElementById("NewDevA").value = winchNew.WinchAdev;
+        document.getElementById("NewDevB").value = winchNew.WinchBdev;
+        document.getElementById("NewDevC").value = winchNew.WinchCdev;
+        document.getElementById("NewDevD").value = winchNew.WinchDdev;
+
+        // document.getElementById("NewPosA").value = winchcur.WinchALinP;
+        document.getElementById("NewPosB").value = winchNew.WinchBlinP;
+        document.getElementById("NewPosC").value = winchNew.WinchClinP;
+
+        document.getElementById("AddrIncrement").value = 40
+    }
+
+
+    function incrementAddresses(w, increment, saf) {
+        let incr = parseInt(increment);
+        if (!incr) {
+            return
+        }
+        w.WinchAaddr += incr;
+        w.WinchBaddr += incr;
+        w.WinchCaddr += incr;
+        w.WinchDaddr += incr;
+        if (saf) {
+            w.WinchSafetyAddr += incr;
+        }
+        setNewData();
+        console.log(w.WinchAaddr)
+    }
+
+    setCurrentData();
+    setNewData();
+    console.log(winchNew.WinchAaddr);
+    // NewAddrA = winchNew.WinchAaddr;
+</script>
