@@ -306,5 +306,3 @@ class SerialWinchParser {
         this.endcommandcb();
     }
 }
-
-class sie
