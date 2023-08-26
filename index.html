@@ -3,6 +3,7 @@
 
 <head>
     <script src="winch.js"></script>
+    <script src="webserial.js"></script>
     <style>
         td,
         tr,
@@ -14,9 +15,10 @@
 
         input,
         p {
+            /* font-size: medium; */
             text-align: right;
+            margin: 0;
         }
-
     </style>
 
 </head>
@@ -146,13 +148,11 @@
                 <p id="CurrPosC"></p>
             </td>
         </tr>
-
-
         <tr>
             <td>mode</td>
             <td>
                 <form id="NewMode">
-                    <input type="radio" name="mode" id="NewModeOptionFolwA">Square<br>
+                    <input type="radio" name="mode" id="NewModeOptionFolwA" checked="true">Square<br>
                     <input type="radio" name="mode" id="NewModeOptionFolwP">triangle<br>
                     <input type="radio" name="mode" id="NewModeOptionDubble">pair a&b, c&d<br>
                     <input type="radio" name="mode" id="NewModeOptionLine3">3 in line<br>
@@ -160,7 +160,7 @@
                 </form>
             </td>
             <td>
-                <!-- display durrent mode -->
+                <!-- display current mode -->
             </td>
         </tr>
 
@@ -170,12 +170,12 @@
             <td>
                 <form id="NewType">
                     <input type="radio" name="type" id="NewTypeorb5">orbi5<br>
-                    <input type="radio" name="type" id="NewTypeorb9">orbi9<br>
+                    <input type="radio" name="type" id="NewTypeorb9" checked="true">orbi9<br>
                     <input type="radio" name="type" id="NewTypeDLB">DLB<br>
                 </form>
             </td>
             <td>
-                <!-- display durrent mode -->
+                <!-- display current type -->
             </td>
         </tr>
         <tr>
@@ -185,12 +185,12 @@
             </td>
             <td>
                 <p id="CurrName"></p>
-
             </td>
         </tr>
         <tr>
             <td>
-                <input type="button" onclick="alert('Connect')" value="Connect">
+                <input type="button" onclick="connect();" value="Connect" id="con">
+                <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
             </td>
             <td>
                 <input type="button" onclick="alert('Send new values')" value="Send new values">
@@ -199,7 +199,6 @@
                 <input type="button" onclick="alert('Get current values')" value="Get current values">
             </td>
         </tr>
-
         <tr>
             <td>
                 <input type="button"
@@ -212,91 +211,133 @@
             </td>
         </tr>
     </table>
+    <script type="text/javascript">
+        // create serial obj from webserial wrapper
+        const webserial = new WebSerialPort();
 
-</body>
-<script type="text/javascript">
-    const winchNew = new WinchSettings();
-    const winchcur = new WinchSettings();
+        // 'struct with all settings'
+        const winchNew = new WinchSettings();
+        // set default tosetting
+        winchNew.SetDefaults();
+        const winchCurr = new WinchSettings();
 
-    function getNewData() {
+        // winchCurr.SetDefaults();
 
-        winchNew.WinchAaddr = document.getElementById("NewAddrA").value;
-        winchNew.WinchBaddr = document.getElementById("NewAddrB").value;
-        winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
-        winchNew.WinchDaddr = document.getElementById("NewAddrD").value;
+        // create a serial parser from winch send the instance to edit as arg
+        const serialParser = new SerialWinchParser(winchCurr);
 
-        winchNew.WinchSafetyAddr = document.getElementById("NewSaftyAddr").value;
-
-        // document.getElementById("NewDevA").innerHTML = winchNew.WinchAdev;
-        winchNew.WinchBdev = document.getElementById("NewDevB").innerHTML;
-        winchNew.WinchCdev = document.getElementById("NewDevC").innerHTML;
-        winchNew.WinchDdev = document.getElementById("NewDevD").innerHTML;
-
-        // document.getElementById("NewPosA").innerHTML = winchcur.WinchALinP;
-        winchNew.WinchBlinP = document.getElementById("NewPosB").innerHTML;
-        winchNew.WinchClinP = document.getElementById("NewPosC").innerHTML;
-    }
-
-    function setCurrentData() {
-        document.getElementById("CurrAddrA").innerHTML = winchcur.WinchAaddr;
-        document.getElementById("CurrAddrB").innerHTML = winchcur.WinchBaddr;
-        document.getElementById("CurrAddrC").innerHTML = winchcur.WinchCaddr;
-        document.getElementById("CurrAddrD").innerHTML = winchcur.WinchDaddr;
-
-        document.getElementById("CurrSaftyAddr").innerHTML = winchcur.WinchSafetyAddr;
-
-        // document.getElementById("CurrDevA").innerHTML = winchcur.WinchAdev;
-        document.getElementById("CurrDevB").innerHTML = winchcur.WinchBdev;
-        document.getElementById("CurrDevC").innerHTML = winchcur.WinchCdev;
-        document.getElementById("CurrDevD").innerHTML = winchcur.WinchDdev;
-
-        // document.getElementById("CurrPosA").innerHTML = winchcur.WinchALinP;
-        document.getElementById("CurrPosB").innerHTML = winchcur.WinchBlinP;
-        document.getElementById("CurrPosC").innerHTML = winchcur.WinchClinP;
-        // document.getElementById("CurrPosD").innerHTML = winchcur.WinchDLinP;
-
-    }
-
-    function setNewData() {
-        document.getElementById("NewAddrA").value = winchNew.WinchAaddr;
-        document.getElementById("NewAddrB").value = winchNew.WinchBaddr;
-        document.getElementById("NewAddrC").value = winchNew.WinchCaddr;
-        document.getElementById("NewAddrD").value = winchNew.WinchDaddr;
-
-        document.getElementById("NewSaftyAddr").value = winchNew.WinchSafetyAddr;
-
-
-        // document.getElementById("NewDevA").value = winchNew.WinchAdev;
-        document.getElementById("NewDevB").value = winchNew.WinchBdev;
-        document.getElementById("NewDevC").value = winchNew.WinchCdev;
-        document.getElementById("NewDevD").value = winchNew.WinchDdev;
-
-        // document.getElementById("NewPosA").value = winchcur.WinchALinP;
-        document.getElementById("NewPosB").value = winchNew.WinchBlinP;
-        document.getElementById("NewPosC").value = winchNew.WinchClinP;
-
-        document.getElementById("AddrIncrement").value = 40
-    }
-
-
-    function incrementAddresses(w, increment, saf) {
-        let incr = parseInt(increment);
-        if (!incr) {
-            return
+        // F onclick to connect to serial port(check on port connected evntlistener?) 
+        function connect() {
+            if (webserial) {
+                if (document.getElementById("con").value == "Connect") {
+                    webserial.openPort();
+                    document.getElementById("con").value = "Disconnect"
+                } else {
+                    webserial.closePort();
+                    document.getElementById("con").value = "Connect"
+                }
+            }
         }
-        w.WinchAaddr += incr;
-        w.WinchBaddr += incr;
-        w.WinchCaddr += incr;
-        w.WinchDaddr += incr;
-        if (saf) {
-            w.WinchSafetyAddr += incr;
+
+        // copy the set data from the html to the winchNew obj
+        function getNewData() {
+            winchNew.WinchAaddr = document.getElementById("NewAddrA").value;
+            winchNew.WinchBaddr = document.getElementById("NewAddrB").value;
+            winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
+            winchNew.WinchDaddr = document.getElementById("NewAddrD").value;
+
+            winchNew.WinchSafetyAddr = document.getElementById("NewSaftyAddr").value;
+
+            // document.getElementById("NewDevA").innerHTML = winchNew.WinchAdev;
+            winchNew.WinchBdev = document.getElementById("NewDevB").innerHTML;
+            winchNew.WinchCdev = document.getElementById("NewDevC").innerHTML;
+            winchNew.WinchDdev = document.getElementById("NewDevD").innerHTML;
+
+            // document.getElementById("NewPosA").innerHTML = winchCurr.WinchALinP;
+            winchNew.WinchBlinP = document.getElementById("NewPosB").innerHTML;
+            winchNew.WinchClinP = document.getElementById("NewPosC").innerHTML;
         }
+
+        // copy the data from the winchNew obj to the html
+        function setNewData() {
+            document.getElementById("NewAddrA").value = winchNew.WinchAaddr;
+            document.getElementById("NewAddrB").value = winchNew.WinchBaddr;
+            document.getElementById("NewAddrC").value = winchNew.WinchCaddr;
+            document.getElementById("NewAddrD").value = winchNew.WinchDaddr;
+
+            document.getElementById("NewSaftyAddr").value = winchNew.WinchSafetyAddr;
+
+
+            document.getElementById("NewDevB").value = winchNew.WinchBdev;
+            document.getElementById("NewDevC").value = winchNew.WinchCdev;
+            document.getElementById("NewDevD").value = winchNew.WinchDdev;
+
+            document.getElementById("NewPosB").value = winchNew.WinchBlinP;
+            document.getElementById("NewPosC").value = winchNew.WinchClinP;
+
+            document.getElementById("AddrIncrement").value = 40
+        }
+
+        // cpy the data from the 'winchCurr' obj to the html 
+        function setCurrentData() {
+            // winchCurr.WinchAaddr++;
+            if (winchCurr.WinchAaddr)
+                document.getElementById("CurrAddrA").innerHTML = winchCurr.WinchAaddr;
+            if (winchCurr.WinchBaddr)
+                document.getElementById("CurrAddrB").innerHTML = winchCurr.WinchBaddr;
+            if (winchCurr.WinchCaddr)
+                document.getElementById("CurrAddrC").innerHTML = winchCurr.WinchCaddr;
+            if (winchCurr.WinchDaddr)
+                document.getElementById("CurrAddrD").innerHTML = winchCurr.WinchDaddr;
+
+            if (winchCurr.WinchSafetyAddr)
+                document.getElementById("CurrSaftyAddr").innerHTML = winchCurr.WinchSafetyAddr;
+
+            if (winchCurr.WinchBdev)
+                document.getElementById("CurrDevB").innerHTML = winchCurr.WinchBdev;
+            if (winchCurr.WinchCdev)
+                document.getElementById("CurrDevC").innerHTML = winchCurr.WinchCdev;
+            if (winchCurr.WinchDdev)
+                document.getElementById("CurrDevD").innerHTML = winchCurr.WinchDdev;
+
+            if (winchCurr.WinchBlinP)
+                document.getElementById("CurrPosB").innerHTML = winchCurr.WinchBlinP;
+            if (winchCurr.WinchClinP)
+                document.getElementById("CurrPosC").innerHTML = winchCurr.WinchClinP;
+
+        }
+
+        // increases the addesses of WinchSettings Obj, 
+        // takes WinchSettings obj, number to increment, bool to increment safety also
+        function incrementAddresses(w, increment, saf) {
+            let incr = parseInt(increment);
+            if (!incr) {
+                return
+            }
+            // mask to overflow at 512
+            w.WinchAaddr = 0x01ff & (w.WinchAaddr + incr);
+            w.WinchBaddr = 0x01ff & (w.WinchBaddr + incr);
+            w.WinchCaddr = 0x01ff & (w.WinchCaddr + incr);
+            w.WinchDaddr = 0x01ff & (w.WinchDaddr + incr);
+            if (saf) {
+                w.WinchSafetyAddr = 0x01ff & (w.WinchSafetyAddr + incr);
+            }
+            setNewData();
+            console.log(w.WinchAaddr)
+        }
+
+        //// pppffftttt!!!
+        // note bind to instance!
+        webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
+
+        // attacht a callback at the end of data parsed to update the html
+        serialParser.endcommandcb = setCurrentData;
+        // attacht the 
+        // serialParser.wc = winchCurr;
+        setCurrentData();
         setNewData();
-        console.log(w.WinchAaddr)
-    }
 
-    setCurrentData();
-    setNewData();
-    console.log(winchNew.WinchAaddr);
-    // NewAddrA = winchNew.WinchAaddr;
-</script>
+
+    </script>
+
+</body> 
