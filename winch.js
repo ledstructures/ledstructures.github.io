@@ -247,11 +247,8 @@ class SerialWinchParser {
                 break;
             //trim
             case USB_WINCH_COMMAND_TRIM_DOWN:
-<<<<<<< HEAD
                 this.ws.WinchDdev = this.value;
-=======
                 this.ws.WinchTrimDown = this.value;
->>>>>>> cf42219cbc1002ca85653bfcca0a6775c8beb0cf
                 break;
 
             case USB_WINCH_COMMAND_TRIM_UP:
