@@ -88,6 +88,12 @@ class WinchSettings {
         this.WinchClinP;
         this.WinchDlinP;
 
+        this.WinchTrimUp;
+        this.WinchTrimDown;
+
+        this.WinchTrimUpCD;
+        this.WinchTrimDownCD;
+
         this.WinchSafetyAddr;
 
         this.name;
@@ -112,7 +118,14 @@ class WinchSettings {
         this.WinchClinP = 128;
         this.WinchDlinP = 128;
 
+        this.WinchTrimUp = 0;
+        this.WinchTrimDown= 200;
+
+        this.WinchTrimUpCD = 0;
+        this.WinchTrimDownCD = 200;
+
         this.WinchSafetyAddr = 41;
+
 
         this.name = "winch1"
     }
@@ -151,7 +164,7 @@ class SerialWinchParser {
         switch (this.state) {
             case usbState.USBSSTART:
 
-                if (bt== USB_WINCH_START_MESS)
+                if (bt == USB_WINCH_START_MESS)
                     this.state = usbState.USBSCOMM;
                 break;
 
@@ -169,7 +182,7 @@ class SerialWinchParser {
                 break;
 
             case usbState.USBSPAYLOAD:
-                this.incommingdata[this.count] =  bt;
+                this.incommingdata[this.count] = bt;
                 this.count++;
                 if (this.count >= this.pktsize)
                     this.state = usbState.USBEND;
@@ -194,18 +207,51 @@ class SerialWinchParser {
             this.value = this.incommingdata[0]; // parse as 8bit
 
         } else if (this.pktsize == 2) {
+            this.value = this.incommingdata[1];
+            this.value |= (8 << this.incommingdata[0])
+        } else {
             ;
+            // do something with the name
         }
         switch (this.command) {
-            case USB_WINCH_COMMAND_DEVIATION_A:
-                // this.ws.WinchBdev = this.value;
-                this.ws.WinchAdev = this.value;
-                // this.ws.WinchAdev = this.value.charCodeAt(0);
+
+            // 1byt commands
+            // mode en type, TODO swcase in swcase:)
+            case USB_WINCH_COMMAND_LINKMODE:
+                ;
                 break;
+
+            case USB_WINCH_COMMAND_TYPE:
+                ;
+                break;
+
+// deviatons
+            case USB_WINCH_COMMAND_DEVIATION_A:
+                this.ws.WinchAdev = this.value;
+                break;
+
             case USB_WINCH_COMMAND_DEVIATION_B:
                 this.ws.WinchBdev = this.value;
-                // console.log(this.value);
+                break;
 
+            case USB_WINCH_COMMAND_DEVIATION_C:
+                this.ws.WinchCdev = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_DEVIATION_D:
+                this.ws.WinchDdev = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_DEVIATION_D:
+                this.ws.WinchDdev = this.value;
+                break;
+//trim
+            case USB_WINCH_COMMAND_TRIM_DOWN:
+                this.ws. = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_TRIM_UP:
+                this.ws.WinchDdev = this.value;
                 break;
             default:
                 break;
