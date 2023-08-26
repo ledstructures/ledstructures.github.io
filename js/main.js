@@ -1,5 +1,5 @@
 // create serial obj from webserial wrapper
-const webserial = new  WebSerialPort();
+const webserial = new WebSerialPort();
 
 // 'struct with all settings'
 const winchNew = new WinchSettings();
@@ -70,6 +70,9 @@ function setNewData() {
     document.getElementById("NewPosB").value = winchNew.WinchBlinP;
     document.getElementById("NewPosC").value = winchNew.WinchClinP;
 
+    document.getElementById("NewName").value = winchNew.name;
+
+
     document.getElementById("AddrIncrement").value = 40
 }
 
@@ -107,6 +110,9 @@ function setCurrentData() {
         document.getElementById("CurrPosB").innerHTML = winchCurr.WinchBlinP;
     if (winchCurr.WinchClinP)
         document.getElementById("CurrPosC").innerHTML = winchCurr.WinchClinP;
+    if (winchCurr.name)
+        document.getElementById("CurrName").innerHTML = winchCurr.name;
+
 
 }
 
