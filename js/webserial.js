@@ -67,8 +67,9 @@ class WebSerialPort {
       // set port settings and open it:
       // TODO: make port settings configurable
       // from calling script:
-      // await this.port.open({ baudRate: 9600, stopBits: 2 });
-      await this.port.open({ baudRate: 9600 });
+ // changed to 2 stopbit
+      await this.port.open({ baudRate: 9600, stopBits: 2 });
+      // await this.port.open({ baudRate: 9600 });
       // start the listenForSerial function:
       this.serialReadPromise = this.listenForSerial();
 
@@ -102,7 +103,8 @@ class WebSerialPort {
       // TODO: make it possible to send as binary:
       var output = new TextEncoder().encode(data);
       // send it, then release the writer:
-      writer.write(output).then(writer.releaseLock());
+      // writer.write(output).then(writer.releaseLock());
+      writer.write(data).then(writer.releaseLock());
     }
   }
 
@@ -120,7 +122,7 @@ class WebSerialPort {
           // convert the input to a text string:
           // TODO: make it possible to receive as binary:
           // this.incoming.data = new TextDecoder().decode(value);
-          // remove the tect decoder to have acces to the uint8 arr
+          // remove the text decoder to have acces to the uint8 arr
           this.incoming.data =value;
 
           // fire the event:
