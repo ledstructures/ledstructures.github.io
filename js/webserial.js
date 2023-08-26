@@ -93,6 +93,7 @@ class WebSerialPort {
   }
 
   async sendSerial(data) {
+    console.log(data);
     // if there's no port open, skip this function:
     if (!this.port) return;
     // if the port's writable: 

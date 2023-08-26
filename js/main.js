@@ -5,11 +5,11 @@ const webserial = new  WebSerialPort();
 const winchNew = new WinchSettings();
 // set default tosetting
 winchNew.SetDefaults();
+// init 'struct' for settings remote
 const winchCurr = new WinchSettings();
-
-// winchCurr.SetDefaults();
-
-// create a serial parser from winch send the instance to edit as arg
+// init obj to send all the serial commands
+const wsender = new SerialWinchSender();
+// init a serial parser from winch send the instance to edit as arg (place to put data in)
 const serialParser = new SerialWinchParser(winchCurr);
 
 // F onclick to connect to serial port(check on port connected evntlistener?) 
@@ -139,6 +139,5 @@ serialParser.endcommandcb = setCurrentData;
 // serialParser.wc = winchCurr;
 setCurrentData();
 setNewData();
-const wsender = new SerialWinchSender();
-wsender.sendatacb = webserial.sendSerial
-wsender.reqMode();
+// attacht send funton to winchsender
+wsender.sendatacb = webserial.sendSerial;
