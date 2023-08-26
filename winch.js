@@ -119,7 +119,7 @@ class WinchSettings {
         this.WinchDlinP = 128;
 
         this.WinchTrimUp = 0;
-        this.WinchTrimDown= 200;
+        this.WinchTrimDown = 200;
 
         this.WinchTrimUpCD = 0;
         this.WinchTrimDownCD = 200;
@@ -225,7 +225,7 @@ class SerialWinchParser {
                 ;
                 break;
 
-// deviatons
+            // deviatons
             case USB_WINCH_COMMAND_DEVIATION_A:
                 this.ws.WinchAdev = this.value;
                 break;
@@ -245,14 +245,27 @@ class SerialWinchParser {
             case USB_WINCH_COMMAND_DEVIATION_D:
                 this.ws.WinchDdev = this.value;
                 break;
-//trim
+            //trim
             case USB_WINCH_COMMAND_TRIM_DOWN:
+<<<<<<< HEAD
                 this.ws.WinchDdev = this.value;
+=======
+                this.ws.WinchTrimDown = this.value;
+>>>>>>> cf42219cbc1002ca85653bfcca0a6775c8beb0cf
                 break;
 
             case USB_WINCH_COMMAND_TRIM_UP:
-                this.ws.WinchDdev = this.value;
+                this.ws.WinchTrimUp = this.value;
                 break;
+
+            case USB_WINCH_COMMAND_TRIMCD_DOWN:
+                this.ws.WinchTrimDownCD = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_TRIMCD_UP:
+                this.ws.WinchTrimUpCD = this.value;
+                break;
+
             default:
                 break;
 
