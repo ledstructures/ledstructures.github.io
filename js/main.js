@@ -141,3 +141,5 @@ setCurrentData();
 setNewData();
 // attacht send funton to winchsender
 wsender.sendatacb = webserial.sendSerial;
+wsender.reqAllData();
+wsender.setAllData(winchNew);

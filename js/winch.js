@@ -328,7 +328,7 @@ class SerialWinchSender {
         this.reqAddrA();
         this.reqAddrB();
         this.reqAddrC();
-        this.reqAddrd();
+        this.reqAddrD();
         this.reqAddrSaf();
 
         this.reqDevA();
@@ -347,19 +347,19 @@ class SerialWinchSender {
         this.reqName();
     }
     setAllData(winch) {
-        this.setMode(winch);
-        this.setType(winch);
+        // this.setMode(winch);
+        // this.setType(winch);
 
         this.setAddrA(winch);
         this.setAddrB(winch);
         this.setAddrC(winch);
-        this.setAddrd(winch);
+        this.setAddrD(winch);
         this.setAddrSaf(winch);
 
-        this.setDevA(Winch);
-        this.setDevB(Winch);
-        this.setDevC(Winch);
-        this.setDevD(Winch);
+        this.setDevA(winch);
+        this.setDevB(winch);
+        this.setDevC(winch);
+        this.setDevD(winch);
 
         this.setLinB(winch);
         this.setLinC(winch);
@@ -453,45 +453,45 @@ class SerialWinchSender {
         this.reqByte(USB_WINCH_COMMAND_DEVIATION_D);
     }
     // trim
-    getTrimUp() {
+    reqTrimUp() {
         this.reqByte(USB_WINCH_COMMAND_TRIM_UP);
     }
-    getTrimDown() {
+    reqTrimDown() {
         this.reqByte(USB_WINCH_COMMAND_TRIM_DOWN);
     }
-    getTrimUpCD() {
+    reqTrimUpCD() {
         this.reqByte(USB_WINCH_COMMAND_TRIMCD_UP);
     }
-    getTrimDownCD() {
+    reqTrimDownCD() {
         this.reqByte(USB_WINCH_COMMAND_TRIMCD_DOWN);
     }
 
     // linpos
-    getLinB(winch) {
+    reqLinB() {
         this.reqByte(USB_WINCH_COMMAND_LIN_POS_B)
     }
-    getLinB(winch) {
+    reqLinC() {
         this.reqByte(USB_WINCH_COMMAND_LIN_POS_C)
     }
 
     // addresses
-    getAddrA() {
+    reqAddrA() {
         this.reqByte(USB_WINCH_COMMAND_ADDRES_A);
     }
-    getAddrB() {
+    reqAddrB() {
         this.reqByte(USB_WINCH_COMMAND_ADDRES_B);
     }
-    getAddrC() {
+    reqAddrC() {
         this.reqByte(USB_WINCH_COMMAND_ADDRES_C);
     }
-    getAddrD() {
+    reqAddrD() {
         this.reqByte(USB_WINCH_COMMAND_ADDRES_D);
     }
-    getAddrSaf() {
+    reqAddrSaf() {
         this.reqByte(USB_WINCH_COMMAND_ADDRES_SAFETY);
     }
 
-    getName() {
+    reqName() {
         this.reqByte(USB_WINCH_COMMAND_NAME);
     }
 
@@ -540,7 +540,7 @@ class SerialWinchSender {
     setLinB(winch) {
         this.set1Byte(USB_WINCH_COMMAND_LIN_POS_B, winch.WinchBlinP)
     }
-    setLinB(winch) {
+    setLinC(winch) {
         this.set1Byte(USB_WINCH_COMMAND_LIN_POS_C, winch.WinchClinP)
     }
 
