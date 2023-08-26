@@ -117,6 +117,46 @@
             </td>
         </tr>
 
+        <tr>
+            <td>Trim:</td>
+        </tr>
+
+        <tr>
+            <td>Down</td>
+            <td> <input id="NewDown" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrDown"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Up</td>
+            <td> <input id="NewUp" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrUp"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Down2</td>
+            <td> <input id="NewDownCD" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrDownCD"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Up2</td>
+            <td> <input id="NewUpCD" type="number" min="0" max="255" />
+            </td>
+            <td>
+                <p id="CurrUpCD"></p>
+            </td>
+        </tr>
+
 
         <tr>
             <td>Line position:</td>
@@ -246,6 +286,11 @@
             winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
             winchNew.WinchDaddr = document.getElementById("NewAddrD").value;
 
+            winchNew.WinchTrimUp = document.getElementById("NewUp").value;
+            winchNew.WinchTrimDown = document.getElementById("NewDown").value;
+            winchNew.WinchTrimUpCD = document.getElementById("NewUpCD").value;
+            winchNew.WinchTrimDownCD = document.getElementById("NewDownCD").value;
+
             winchNew.WinchSafetyAddr = document.getElementById("NewSaftyAddr").value;
 
             // document.getElementById("NewDevA").innerHTML = winchNew.WinchAdev;
@@ -265,8 +310,12 @@
             document.getElementById("NewAddrC").value = winchNew.WinchCaddr;
             document.getElementById("NewAddrD").value = winchNew.WinchDaddr;
 
-            document.getElementById("NewSaftyAddr").value = winchNew.WinchSafetyAddr;
+            document.getElementById("NewUp").value = winchNew.WinchTrimUp;
+            document.getElementById("NewDown").value = winchNew.WinchTrimDown;
+            document.getElementById("NewUpCD").value = winchNew.WinchTrimUpCD;
+            document.getElementById("NewDownCD").value = winchNew.WinchTrimDownCD;
 
+            document.getElementById("NewSaftyAddr").value = winchNew.WinchSafetyAddr;
 
             document.getElementById("NewDevB").value = winchNew.WinchBdev;
             document.getElementById("NewDevC").value = winchNew.WinchCdev;
@@ -289,6 +338,14 @@
                 document.getElementById("CurrAddrC").innerHTML = winchCurr.WinchCaddr;
             if (winchCurr.WinchDaddr)
                 document.getElementById("CurrAddrD").innerHTML = winchCurr.WinchDaddr;
+            if (winchCurr.WinchTrimUp)
+                document.getElementById("CurrUp").value = winchCurr.WinchTrimUp;
+            if (winchCurr.WinchTrimDown)
+                document.getElementById("CurrDown").value = winchCurr.WinchTrimDown;
+            if (winchCurr.WinchTrimUpCD)
+                document.getElementById("CurrUpCD").value = winchCurr.WinchTrimUpCD;
+            if (winchCurr.WinchTrimDownCD)
+                document.getElementById("CurrDownCD").value = winchCurr.WinchTrimDownCD;
 
             if (winchCurr.WinchSafetyAddr)
                 document.getElementById("CurrSaftyAddr").innerHTML = winchCurr.WinchSafetyAddr;
@@ -340,4 +397,4 @@
 
     </script>
 
-</body> 
+</body>
