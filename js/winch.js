@@ -223,7 +223,7 @@ class SerialWinchParser {
             // does this work?!?!?
             this.value = "";
             for (let i = 0; i < this.pktsize; i++) {
-                this.value += String.fromCharCode(parseInt(array[i], 2));
+                this.value += String.fromCharCode(this.incommingdata[i]);
             }
         }
         switch (this.command) {
@@ -298,7 +298,7 @@ class SerialWinchParser {
                 break;
 
             case USB_WINCH_COMMAND_NAME:
-                this.ws.WinchSafetyAddr = this.value;
+                this.ws.name = this.value;
                 break;
 
             default:

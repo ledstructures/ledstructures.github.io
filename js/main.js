@@ -7,6 +7,8 @@ const winchNew = new WinchSettings();
 winchNew.SetDefaults();
 // init 'struct' for settings remote
 const winchCurr = new WinchSettings();
+winchCurr.SetDefaults();
+
 // init obj to send all the serial commands
 const wsender = new SerialWinchSender();
 // init a serial parser from winch send the instance to edit as arg (place to put data in)
@@ -79,36 +81,37 @@ function setNewData() {
 // cpy the data from the 'winchCurr' obj to the html 
 function setCurrentData() {
     // winchCurr.WinchAaddr++;
-    if (winchCurr.WinchAaddr)
+    if (winchCurr.WinchAaddr || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrAddrA").innerHTML = winchCurr.WinchAaddr;
-    if (winchCurr.WinchBaddr)
+    if (winchCurr.WinchBaddr || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrAddrB").innerHTML = winchCurr.WinchBaddr;
-    if (winchCurr.WinchCaddr)
+    if (winchCurr.WinchCaddr || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrAddrC").innerHTML = winchCurr.WinchCaddr;
-    if (winchCurr.WinchDaddr)
+    if (winchCurr.WinchDaddr  || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrAddrD").innerHTML = winchCurr.WinchDaddr;
-    if (winchCurr.WinchTrimUp)
-        document.getElementById("CurrUp").value = winchCurr.WinchTrimUp;
-    if (winchCurr.WinchTrimDown)
-        document.getElementById("CurrDown").value = winchCurr.WinchTrimDown;
-    if (winchCurr.WinchTrimUpCD)
-        document.getElementById("CurrUpCD").value = winchCurr.WinchTrimUpCD;
-    if (winchCurr.WinchTrimDownCD)
-        document.getElementById("CurrDownCD").value = winchCurr.WinchTrimDownCD;
 
-    if (winchCurr.WinchSafetyAddr)
+    if (winchCurr.WinchTrimUp || (winchCurr.WinchTrimUp === 0))
+        document.getElementById("CurrUp").innerHTML = winchCurr.WinchTrimUp;
+    if (winchCurr.WinchTrimDown  || (winchCurr.WinchTrimUp === 0))
+        document.getElementById("CurrDown").innerHTML = winchCurr.WinchTrimDown;
+    if (winchCurr.WinchTrimUpCD || (winchCurr.WinchTrimUp === 0))
+        document.getElementById("CurrUpCD").innerHTML = winchCurr.WinchTrimUpCD;
+    if (winchCurr.WinchTrimDownCD || (winchCurr.WinchTrimUp === 0))
+        document.getElementById("CurrDownCD").innerHTML = winchCurr.WinchTrimDownCD;
+
+    if (winchCurr.WinchSafetyAddr || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrSaftyAddr").innerHTML = winchCurr.WinchSafetyAddr;
 
-    if (winchCurr.WinchBdev)
+    if (winchCurr.WinchBdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevB").innerHTML = winchCurr.WinchBdev;
-    if (winchCurr.WinchCdev)
+    if (winchCurr.WinchCdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevC").innerHTML = winchCurr.WinchCdev;
-    if (winchCurr.WinchDdev)
+    if (winchCurr.WinchDdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevD").innerHTML = winchCurr.WinchDdev;
 
-    if (winchCurr.WinchBlinP)
+    if (winchCurr.WinchBlinP || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrPosB").innerHTML = winchCurr.WinchBlinP;
-    if (winchCurr.WinchClinP)
+    if (winchCurr.WinchClinP || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrPosC").innerHTML = winchCurr.WinchClinP;
     if (winchCurr.name)
         document.getElementById("CurrName").innerHTML = winchCurr.name;
