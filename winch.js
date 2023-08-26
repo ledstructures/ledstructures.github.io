@@ -306,3 +306,42 @@ class SerialWinchParser {
         this.endcommandcb();
     }
 }
+
+class SerialWinchSender {
+    constructor() {
+        this.sendatacb; // pointer to serial obj.sendblbala
+        this.outgoingdata = new Uint8Array(16);
+        this.pktsize;
+    }
+
+    set1Byte(command, value) {
+        this.outgoingdata[0] = USB_WINCH_START_MESS | USB_WINCH_SET;
+        this.outgoingdata[1] = command;
+        this.outgoingdata[2] = 0x01;
+        this.outgoingdata[3] = 0xff & value; // mask?
+        this.outgoingdata[4] = USB_WINCH_END_MESS;
+        this.pktsize = 5;
+        this.sendatacb();
+    }
+    req1Byte(command) {
+        this.outgoingdata[0] = USB_WINCH_START_MESS;
+        this.outgoingdata[1] = command;
+        this.outgoingdata[2] = USB_WINCH_END_MESS;
+        this.pktsize = 3;
+        this.sendatacb();
+    }
+
+    reqMode() {
+        this.req1Byte(USB_WINCH_COMMAND_LINKMODE);
+    }
+    setMode(winch) {
+        this.set1Byte(USB_WINCH_COMMAND_LINKMODE, winch.mode);
+    }
+    reqType() {
+        this.req1Byte(USB_WINCH_COMMAND_TYPE);
+    }
+    setType(winch) {
+        this.set1Byte(USB_WINCH_COMMAND_TYPE, winch.type);
+    }
+//etcetcetc
+}
