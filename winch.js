@@ -151,7 +151,7 @@ class SerialWinchParser {
 
     parseData(data) {
         ///hahaha data.detail.data
-        console.log(data)
+        // console.log(data)
         for (let i = 0; i < data.detail.data.length; i++) {
             this.parseByte(data.detail.data[i]);
         }
@@ -207,11 +207,18 @@ class SerialWinchParser {
             this.value = this.incommingdata[0]; // parse as 8bit
 
         } else if (this.pktsize == 2) {
+            //litlebit of shifitng here and there
             this.value = this.incommingdata[1];
             this.value |= (8 << this.incommingdata[0])
         } else {
-            ;
+            // ;
             // do something with the name
+            //
+            // does this work?!?!?
+            this.value = "";
+            for (let i = 0; i < this.pktsize; i++) {
+                this.value += String.fromCharCode(parseInt(array[i], 2));
+            }
         }
         switch (this.command) {
 
@@ -263,6 +270,33 @@ class SerialWinchParser {
                 this.ws.WinchTrimUpCD = this.value;
                 break;
 
+
+            //dmx addresses // 2byt vals
+            case USB_WINCH_COMMAND_ADDRES_A:
+                this.ws.WinchAaddr = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_ADDRES_B:
+                this.ws.WinchBaddr = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_ADDRES_C:
+                this.ws.WinchCaddr = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_ADDRES_D:
+                this.ws.WinchDaddr = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_ADDRES_SAFETY:
+                this.ws.WinchSafetyAddr = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_NAME:
+                this.ws.WinchSafetyAddr = this.value;
+                break;
+
+
             default:
                 break;
 
@@ -272,3 +306,5 @@ class SerialWinchParser {
         this.endcommandcb();
     }
 }
+
+class sie
