@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>A address</td>
-            <td> <input id="NewAddrA" type="number" min="1" max="512" />
+            <td> <input id="NewAddrA" type="number" min="1" max="512" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrAddrA"></p>
@@ -27,7 +27,7 @@
 
         <tr>
             <td>B address</td>
-            <td> <input id="NewAddrB" type="number" min="1" max="512" />
+            <td> <input id="NewAddrB" type="number" min="1" max="512" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrAddrB"></p>
@@ -36,7 +36,7 @@
 
         <tr>
             <td>C address</td>
-            <td> <input id="NewAddrC" type="number" min="1" max="512" />
+            <td> <input id="NewAddrC" type="number" min="1" max="512" onchange="changeCatchAll();" />
             </td>
             <td>
                 <p id="CurrAddrC"></p>
@@ -45,7 +45,7 @@
 
         <tr>
             <td>D address</td>
-            <td> <input id="NewAddrD" type="number" min="1" max="512" />
+            <td> <input id="NewAddrD" type="number" min="1" max="512" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrAddrD"></p>
@@ -54,7 +54,7 @@
 
         <tr>
             <td>Safety address</td>
-            <td> <input id="NewSaftyAddr" type="number" min="1" max="512" />
+            <td> <input id="NewSaftyAddr" type="number" min="1" max="512" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrSaftyAddr"></p>
@@ -75,7 +75,7 @@
 
         <tr>
             <td>B max Deviation</td>
-            <td> <input id="NewDevB" type="number" min="0" max="255" />
+            <td> <input id="NewDevB" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrDevB"></p>
@@ -84,7 +84,7 @@
 
         <tr>
             <td>C max Deviation</td>
-            <td> <input id="NewDevC" type="number" min="0" max="255" />
+            <td> <input id="NewDevC" type="number" min="0" max="255" onchange="changeCatchAll();" />
             </td>
             <td>
                 <p id="CurrDevC"></p>
@@ -93,7 +93,7 @@
 
         <tr>
             <td>D max Deviation</td>
-            <td> <input id="NewDevD" type="number" min="0" max="255" />
+            <td> <input id="NewDevD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrDevD"></p>
@@ -106,7 +106,7 @@
 
         <tr>
             <td>Down</td>
-            <td> <input id="NewDown" type="number" min="0" max="255" />
+            <td> <input id="NewDown" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrDown"></p>
@@ -115,7 +115,7 @@
 
         <tr>
             <td>Up</td>
-            <td> <input id="NewUp" type="number" min="0" max="255" />
+            <td> <input id="NewUp" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrUp"></p>
@@ -124,7 +124,7 @@
 
         <tr>
             <td>Down2</td>
-            <td> <input id="NewDownCD" type="number" min="0" max="255" />
+            <td> <input id="NewDownCD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrDownCD"></p>
@@ -133,7 +133,7 @@
 
         <tr>
             <td>Up2</td>
-            <td> <input id="NewUpCD" type="number" min="0" max="255" />
+            <td> <input id="NewUpCD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrUpCD"></p>
@@ -156,7 +156,7 @@
 
         <tr>
             <td>B line position</td>
-            <td> <input id="NewPosB" type="number" min="0" max="255" />
+            <td> <input id="NewPosB" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrPosB"></p>
@@ -165,7 +165,7 @@
 
         <tr>
             <td>C line position</td>
-            <td> <input id="NewPosC" type="number" min="0" max="255" />
+            <td> <input id="NewPosC" type="number" min="0" max="255" onchange="changeCatchAll();"/>
             </td>
             <td>
                 <p id="CurrPosC"></p>
@@ -174,16 +174,18 @@
         <tr>
             <td>mode</td>
             <td>
-                <form id="NewMode">
-                    <input type="radio" name="mode" id="NewModeOptionFolwA" checked="true">Square<br>
-                    <input type="radio" name="mode" id="NewModeOptionFolwP">triangle<br>
-                    <input type="radio" name="mode" id="NewModeOptionDubble">pair a&b, c&d<br>
-                    <input type="radio" name="mode" id="NewModeOptionLine3">3 in line<br>
-                    <input type="radio" name="mode" id="NewModeOptionLine4">4 in line<br>
+                <form id="NewMode" onchange="changeCatchAll();">
+                    <input type="radio" name="mode" id="LIFOLLOWA" checked="true">Square<br>
+                    <input type="radio" name="mode" id="LIFOLLOWPREV">Triangle<br>
+                    <input type="radio" name="mode" id="LIDUBBLEPAIR">Pair a&b, c&d<br>
+                    <input type="radio" name="mode" id="LI3INLINE">3 in line<br>
+                    <input type="radio" name="mode" id="LI4INLINE">4 in line<br>
                 </form>
             </td>
             <td>
                 <!-- display current mode -->
+                <p id="CurrMode"></p>
+
             </td>
         </tr>
 
@@ -191,20 +193,22 @@
         <tr>
             <td>type</td>
             <td>
-                <form id="NewType">
-                    <input type="radio" name="type" id="NewTypeorb5">orbi5<br>
-                    <input type="radio" name="type" id="NewTypeorb9" checked="true">orbi9<br>
-                    <input type="radio" name="type" id="NewTypeDLB">DLB<br>
+                <form id="NewType" onchange="changeCatchAll();">
+                    <input type="radio" name="type" id="TYORBISFLY5">orbi5<br>
+                    <input type="radio" name="type" id="TYORBISFLY9" checked="true">orbi9<br>
+                    <input type="radio" name="type" id="TYDLB">DLB<br>
                 </form>
             </td>
             <td>
                 <!-- display current type -->
+                <p id="CurrType"></p>
+
             </td>
         </tr>
         <tr>
             <td>Name</td>
             <td>
-                <input id="NewName" type="text" maxlength="8" />
+                <input id="NewName" type="text" maxlength="8"onchange="changeCatchAll();" />
             </td>
             <td>
                 <p id="CurrName"></p>
