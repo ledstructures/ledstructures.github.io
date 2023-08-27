@@ -1,70 +1,85 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" href="IndexStyle.css">
-<head> 
+
+<head>
 </head>
 
 <body>
     <div class="Items">
-    <table>
-        <tr>
-            <td>parameter</td>
-            <td>new value's</td>
-            <td>current value's</td>
-            <td>real world value's</td>
-        </tr>
-        <tr>
-            <td>Addresses:</td>
-        </tr>
-        <tr>
-            <td>A address</td>
-            <td> <input id="NewAddrA" type="number" min="1" max="512" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrAddrA"></p>
-            </td>
-        </tr>
+        <table>
+            <tr>
+                <td>Parameter</td>
+                <td>New values</td>
+                <td>Metrics</td>
 
-        <tr>
-            <td>B address</td>
-            <td> <input id="NewAddrB" type="number" min="1" max="512" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrAddrB"></p>
-            </td>
-        </tr>
+                <td>current values</td>
+            </tr>
+            <tr>
+                <td>Addresses:</td>
+            </tr>
+            <tr>
+                <td>A address</td>
+                <td> <input id="NewAddrA" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                </td>
+                <td></td>
 
-        <tr>
-            <td>C address</td>
-            <td> <input id="NewAddrC" type="number" min="1" max="512" onchange="changeCatchAll();" />
-            </td>
-            <td>
-                <p id="CurrAddrC"></p>
-            </td>
-        </tr>
+                <td>
+                    <p id="CurrAddrA"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>D address</td>
-            <td> <input id="NewAddrD" type="number" min="1" max="512" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrAddrD"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>B address</td>
+                <td> <input id="NewAddrB" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                </td>
+                <td></td>
 
-        <tr>
-            <td>Safety address</td>
-            <td> <input id="NewSaftyAddr" type="number" min="1" max="512" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrSaftyAddr"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>Deviation:</td>
-        </tr>
+                <td>
+                    <p id="CurrAddrB"></p>
+                </td>
+            </tr>
 
-        <!-- <tr>
+            <tr>
+                <td>C address</td>
+                <td> <input id="NewAddrC" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                </td>
+                <td></td>
+
+                <td>
+                    <p id="CurrAddrC"></p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>D address</td>
+                <td> <input id="NewAddrD" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                </td>
+                <td></td>
+
+                <td>
+                    <p id="CurrAddrD"></p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Safety address</td>
+                <td> <input id="NewSaftyAddr" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                </td>
+                <td></td>
+                <td>
+                    <p id="CurrSaftyAddr"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Deviation:</td>
+                <td></td>
+                <td>
+                    <p id="RWVcentimeters"></p>
+                </td>
+            </tr>
+
+            <!-- <tr>
         <td>Winch A Deviation</td>
         <td> <input id="NewDevA" type="number" min="0" max="255" />
         </td>
@@ -73,79 +88,107 @@
         </td>
     </tr> -->
 
-        <tr>
-            <td>B max Deviation</td>
-            <td> <input id="NewDevB" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrDevB"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>B max Deviation</td>
+                <td> <input id="NewDevB" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVDevB"></p>
+                </td>
 
-        <tr>
-            <td>C max Deviation</td>
-            <td> <input id="NewDevC" type="number" min="0" max="255" onchange="changeCatchAll();" />
-            </td>
-            <td>
-                <p id="CurrDevC"></p>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <p id="CurrDevB"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>D max Deviation</td>
-            <td> <input id="NewDevD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrDevD"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>C max Deviation</td>
+                <td> <input id="NewDevC" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVDevC"></p>
+                </td>
+                <td>
+                    <p id="CurrDevC"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Trim:</td>
-        </tr>
+            <tr>
+                <td>D max Deviation</td>
+                <td> <input id="NewDevD" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVDevD"></p>
+                </td>
+                <td>
+                    <p id="CurrDevD"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Down</td>
-            <td> <input id="NewDown" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrDown"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>Trim / endpoints:</td>
+                <td></td>
+                <td><p>winch ↓</p></td>
+            </tr>
 
-        <tr>
-            <td>Up</td>
-            <td> <input id="NewUp" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrUp"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>Up</td>
+                <td> <input id="NewUp" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVup"></p>
+                </td>
+                <td>
+                    <p id="CurrUp"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Down2</td>
-            <td> <input id="NewDownCD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrDownCD"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>Down</td>
+                <td> <input id="NewDown" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVdown"></p>
+                </td>
+                <td>
+                    <p id="CurrDown"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Up2</td>
-            <td> <input id="NewUpCD" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrUpCD"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>Up2</td>
+                <td> <input id="NewUpCD" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVupCD"></p>
+                </td>
 
+                <td>
+                    <p id="CurrUpCD"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Line position:</td>
-        </tr>
+            <tr>
+                <td>Down2</td>
+                <td> <input id="NewDownCD" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVdownCD"></p>
+                </td>
 
-        <!-- <tr>
+                <td>
+                    <p id="CurrDownCD"></p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Line position:</td>
+                <td></td>
+                <td><p>A=0 → end 1</p> </td>
+            </tr>
+
+            <!-- <tr>
         <td>Winch A Deviation</td>
         <td> <input id="NewDevA" type="number" min="0" max="255" />
         </td>
@@ -154,93 +197,99 @@
         </td>
     </tr> -->
 
-        <tr>
-            <td>B line position</td>
-            <td> <input id="NewPosB" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrPosB"></p>
-            </td>
-        </tr>
+            <tr>
+                <td>B line position</td>
+                <td> <input id="NewPosB" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVposB"></p>
+                </td>
+                <td>
+                    <p id="CurrPosB"></p>
+                </td>
+            </tr>
 
-        <tr>
-            <td>C line position</td>
-            <td> <input id="NewPosC" type="number" min="0" max="255" onchange="changeCatchAll();"/>
-            </td>
-            <td>
-                <p id="CurrPosC"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>mode</td>
-            <td>
-                <form id="NewMode" onchange="changeCatchAll();">
-                    <input type="radio" name="mode" id="LIFOLLOWA" checked="true">Square<br>
-                    <input type="radio" name="mode" id="LIFOLLOWPREV">Triangle<br>
-                    <input type="radio" name="mode" id="LIDUBBLEPAIR">Pair a&b, c&d<br>
-                    <input type="radio" name="mode" id="LI3INLINE">3 in line<br>
-                    <input type="radio" name="mode" id="LI4INLINE">4 in line<br>
-                </form>
-            </td>
-            <td>
-                <!-- display current mode -->
-                <p id="CurrMode"></p>
+            <tr>
+                <td>C line position</td>
+                <td> <input id="NewPosC" type="number" min="0" max="255" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="RWVposC"></p>
+                </td>
+                <td>
+                    <p id="CurrPosC"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>mode</td>
+                <td class="radiob">
+                    <form id="NewMode" onchange="changeCatchAll();">
+                        <input type="radio" name="mode" id="LIFOLLOWA" checked="true">Square, triangle etc.<br>
+                        <input type="radio" name="mode" id="LIFOLLOWPREV">flex line<br>
+                        <input type="radio" name="mode" id="LIDUBBLEPAIR">Pair a&b, c&d<br>
+                        <input type="radio" name="mode" id="LI3INLINE">3 in line<br>
+                        <input type="radio" name="mode" id="LI4INLINE">4 in line<br>
+                    </form>
+                </td>
+                <td>
+                    <!-- display current mode -->
+                    <p id="CurrMode"></p>
 
-            </td>
-        </tr>
+                </td>
+            </tr>
 
 
-        <tr>
-            <td>type</td>
-            <td>
-                <form id="NewType" onchange="changeCatchAll();">
-                    <input type="radio" name="type" id="TYORBISFLY5">orbi5<br>
-                    <input type="radio" name="type" id="TYORBISFLY9" checked="true">orbi9<br>
-                    <input type="radio" name="type" id="TYDLB">DLB<br>
-                </form>
-            </td>
-            <td>
-                <!-- display current type -->
-                <p id="CurrType"></p>
+            <tr>
+                <td>type</td>
+                <td class="radiob">
+                    <form id="NewType" onchange="changeCatchAll();">
+                        <input type="radio" name="type" id="TYORBISFLY5">orbi5<br>
+                        <input type="radio" name="type" id="TYORBISFLY9" checked="true">orbi9<br>
+                        <input type="radio" name="type" id="TYDLB">DLB<br>
+                    </form>
+                </td>
+                <td>
+                    <!-- display current type -->
+                    <p id="CurrType"></p>
 
-            </td>
-        </tr>
-        <tr>
-            <td>Name</td>
-            <td>
-                <input id="NewName" type="text" maxlength="8"onchange="changeCatchAll();" />
-            </td>
-            <td>
-                <p id="CurrName"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" onclick="connect();" value="Connect" id="con">
-                <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
-            </td>
-            <td>
-                <input type="button" onclick="alert('Send new values')" value="Send new values">
-            </td>
-            <td>
-                <input type="button" onclick="alert('Get current values')" value="Get current values">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button"
-                    onclick="incrementAddresses(winchNew, getElementById('AddrIncrement').value, document.getElementById('AddrIncrementSafety').checked)"
-                    value="Increment addresses">
-            <td> <input id="AddrIncrement" type="number" min="1" max="512" />
-            </td>
-            <td>
-                increment safety: <input type="checkbox" id="AddrIncrementSafety">
-            </td>
-        </tr>
-    </table>
-</div>
-    <script  src="./js/winch.js"></script>
-    <script  src="./js/webserial.js"></script>
-    <script  src="./js/main.js"></script>
+                </td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input id="NewName" type="text" maxlength="8" onchange="changeCatchAll();" />
+                </td>
+                <td>
+                    <p id="CurrName"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" onclick="connect();" value="Connect" id="con">
+                    <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
+                </td>
+                <td>
+                    <input type="button" onclick="alert('Send new values')" value="Send new values">
+                </td>
+                <td>
+                    <input type="button" onclick="alert('Get current values')" value="Get current values">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button"
+                        onclick="incrementAddresses(winchNew, getElementById('AddrIncrement').value, document.getElementById('AddrIncrementSafety').checked)"
+                        value="Increment addresses">
+                <td> <input id="AddrIncrement" type="number" min="1" max="512" />
+                </td>
+                <td>
+                    increment safety: <input type="checkbox" id="AddrIncrementSafety">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="./js/winch.js"></script>
+    <script src="./js/webserial.js"></script>
+    <script src="./js/main.js"></script>
 
 </body>

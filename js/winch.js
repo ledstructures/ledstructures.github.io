@@ -113,10 +113,10 @@ class WinchSettings {
         this.WinchCaddr = 21;
         this.WinchDaddr = 31;
 
-        this.WinchAdev = 16;
-        this.WinchBdev = 16;
-        this.WinchCdev = 16;
-        this.WinchDdev = 16;
+        this.WinchAdev = 32;
+        this.WinchBdev = 32;
+        this.WinchCdev = 32;
+        this.WinchDdev = 32;
 
         // this.WinchAlinP = 128;
         this.WinchBlinP = 128;

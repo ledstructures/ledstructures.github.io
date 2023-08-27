@@ -1,7 +1,7 @@
 // create serial obj from webserial wrapper
 const webserial = new WebSerialPort();
 
-// 'struct with all settings'
+// 'struct' with all settings
 const winchNew = new WinchSettings();
 // set default tosetting
 winchNew.SetDefaults();
@@ -33,11 +33,58 @@ function changeCatchAll() {
     // fuck it, just get all data from page
     getNewData();
     setVisable();
+    setRWV();
+}
+
+function setRWV() {
+    let factor;
+    let factor2;
+
+    switch (winchNew.type) {
+        case WinchTypes.TYORBISFLY5:
+        case WinchTypes.TYORBISFLY9:
+            factor = 1200/255;
+            factor2 = 600/255;
+
+            document.getElementById("RWVDevB").innerHTML = (winchNew.WinchBdev * factor).toFixed(1) + " / " + (winchNew.WinchBdev * factor2).toFixed(1);
+            document.getElementById("RWVDevC").innerHTML = (winchNew.WinchCdev * factor).toFixed(1) + " / " + (winchNew.WinchCdev * factor2).toFixed(1);
+            document.getElementById("RWVDevD").innerHTML = (winchNew.WinchDdev * factor).toFixed(1) + " / " + (winchNew.WinchDdev * factor2).toFixed(1);
+
+            document.getElementById("RWVup").innerHTML = (winchNew.WinchTrimUp * factor).toFixed(1) + " / " + (winchNew.WinchTrimUp * factor2).toFixed(1);
+            document.getElementById("RWVdown").innerHTML = (winchNew.WinchTrimDown * factor).toFixed(1) + " / " + (winchNew.WinchTrimDown * factor2).toFixed(1);
+            document.getElementById("RWVupCD").innerHTML = (winchNew.WinchTrimUpCD * factor).toFixed(1) + " / " + (winchNew.WinchTrimUpCD * factor2).toFixed(1);
+            document.getElementById("RWVdownCD").innerHTML = (winchNew.WinchTrimDownCD * factor).toFixed(1) + " / " + (winchNew.WinchTrimDownCD * factor2).toFixed(1);
+           
+            document.getElementById("RWVcentimeters").innerHTML = "cm, short/long"
+
+            break;
+
+        case WinchTypes.TYDLB:
+            factor = 1200/255;
+            document.getElementById("RWVDevB").innerHTML = (winchNew.WinchBdev * factor).toFixed(1);
+            document.getElementById("RWVDevC").innerHTML = (winchNew.WinchCdev * factor).toFixed(1);
+            document.getElementById("RWVDevD").innerHTML = (winchNew.WinchDdev * factor).toFixed(1);
+
+            document.getElementById("RWVup").innerHTML = (winchNew.WinchTrimUp * factor).toFixed(1);
+            document.getElementById("RWVdown").innerHTML = (winchNew.WinchTrimDown * factor).toFixed(1);
+            document.getElementById("RWVupCD").innerHTML = (winchNew.WinchTrimUpCD * factor).toFixed(1);
+            document.getElementById("RWVdownCD").innerHTML = (winchNew.WinchTrimDownCD * factor).toFixed(1);
+
+            document.getElementById("RWVcentimeters").innerHTML = "cm"
+
+            break;
+
+        default:
+            break;
+    }
+
+    document.getElementById("RWVposB").innerHTML = (winchNew.WinchBlinP / 255).toFixed(3);
+    document.getElementById("RWVposC").innerHTML = (winchNew.WinchClinP / 255).toFixed(3);
+
+
 }
 
 function setVisable() {
-
-
     switch (winchNew.mode) {
         case WinchModes.LIFOLLOWPREV:
             document.getElementById("NewPosB").disabled = true;
@@ -57,7 +104,6 @@ function setVisable() {
 
             document.getElementById("NewUpCD").disabled = true;
             document.getElementById("NewDownCD").disabled = true;
-
 
             document.getElementById("NewDevB").disabled = false;
             document.getElementById("NewDevC").disabled = false;
@@ -92,7 +138,6 @@ function setVisable() {
             document.getElementById("NewPosC").disabled = true;
             document.getElementById("NewPosB").disabled = false;
 
-
             document.getElementById("NewUpCD").disabled = true;
             document.getElementById("NewDownCD").disabled = true;
 
@@ -122,13 +167,13 @@ function getNewData() {
     winchNew.WinchSafetyAddr = document.getElementById("NewSaftyAddr").value;
 
     // document.getElementById("NewDevA").innerHTML = winchNew.WinchAdev;
-    winchNew.WinchBdev = document.getElementById("NewDevB").innerHTML;
-    winchNew.WinchCdev = document.getElementById("NewDevC").innerHTML;
-    winchNew.WinchDdev = document.getElementById("NewDevD").innerHTML;
+    winchNew.WinchBdev = document.getElementById("NewDevB").value;
+    winchNew.WinchCdev = document.getElementById("NewDevC").value;
+    winchNew.WinchDdev = document.getElementById("NewDevD").value;
 
     // document.getElementById("NewPosA").innerHTML = winchCurr.WinchALinP;
-    winchNew.WinchBlinP = document.getElementById("NewPosB").innerHTML;
-    winchNew.WinchClinP = document.getElementById("NewPosC").innerHTML;
+    winchNew.WinchBlinP = document.getElementById("NewPosB").value;
+    winchNew.WinchClinP = document.getElementById("NewPosC").value;
 
     let mode = document.getElementById("NewMode").mode;
     for (let i = 0; i < mode.length; i++) {
@@ -263,12 +308,12 @@ function incrementAddresses(w, increment, saf) {
         return
     }
     // mask to overflow at 512
-    w.WinchAaddr = 0x01ff & (w.WinchAaddr + incr);
-    w.WinchBaddr = 0x01ff & (w.WinchBaddr + incr);
-    w.WinchCaddr = 0x01ff & (w.WinchCaddr + incr);
-    w.WinchDaddr = 0x01ff & (w.WinchDaddr + incr);
+    w.WinchAaddr = 0x01ff & (parseInt(w.WinchAaddr) + incr);
+    w.WinchBaddr = 0x01ff & (parseInt(w.WinchBaddr) + incr);
+    w.WinchCaddr = 0x01ff & (parseInt(w.WinchCaddr) + incr);
+    w.WinchDaddr = 0x01ff & (parseInt(w.WinchDaddr) + incr);
     if (saf) {
-        w.WinchSafetyAddr = 0x01ff & (w.WinchSafetyAddr + incr);
+        w.WinchSafetyAddr = 0x01ff & (parseInt(w.WinchSafetyAddr) + incr);
     }
     setNewData();
     console.log(w.WinchAaddr)
@@ -288,6 +333,4 @@ setNewData();
 wsender.sendatacb = webserial.sendSerial;
 // wsender.reqAllData();
 // wsender.setAllData(winchNew);
-
-getNewData();
-setVisable();
+changeCatchAll();
