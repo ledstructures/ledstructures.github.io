@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="IndexStyle.css">
+<link rel="stylesheet" href="style.css">
 
 <head>
 </head>
 
 <body>
-    <div class="Items">
+    <div class="contentdiv">
         <table>
             <tr>
-                <td>Parameter</td>
-                <td>New values</td>
-                <td>Metrics</td>
+                <td>
+                    <p class="table_paragraph"> Parameter</p>
+                </td>
+                <td>
+                    <p class="table_paragraph">New values</p>
+                </td>
+                <td>
+                    <p class="table_paragraph">Metrics</p>
+                </td>
 
-                <td>current values</td>
+                <td>
+                    <p class="table_paragraph">current values</p>
+                </td>
             </tr>
             <tr>
-                <td>Addresses:</td>
+                <td>
+                    <p class="table_paragraph"> Addresses:</p>
+                </td>
             </tr>
             <tr>
                 <td>A address</td>
@@ -72,10 +82,12 @@
                 </td>
             </tr>
             <tr>
-                <td>Deviation:</td>
+                <td>
+                    <p class="table_paragraph"> Deviation:</p>
+                </td>
                 <td></td>
                 <td>
-                    <p id="RWVcentimeters"></p>
+                    <p id="RWVcentimeters" class="table_metrics"></p>
                 </td>
             </tr>
 
@@ -127,13 +139,18 @@
             </tr>
 
             <tr>
-                <td>Trim / endpoints:</td>
+                <td>
+                    <p class="table_paragraph">Trim / endpoints:</p>
+
+                </td>
                 <td></td>
-                <td><p>winch ↓</p></td>
+                <td>
+                    <p class="table_metrics">winch ↓</p>
+                </td>
             </tr>
 
             <tr>
-                <td>Up</td>
+                <td>Upper end</td>
                 <td> <input id="NewUp" type="number" min="0" max="255" onchange="changeCatchAll();" />
                 </td>
                 <td>
@@ -145,7 +162,7 @@
             </tr>
 
             <tr>
-                <td>Down</td>
+                <td>Lower end</td>
                 <td> <input id="NewDown" type="number" min="0" max="255" onchange="changeCatchAll();" />
                 </td>
                 <td>
@@ -157,7 +174,7 @@
             </tr>
 
             <tr>
-                <td>Up2</td>
+                <td>Upper end CD</td>
                 <td> <input id="NewUpCD" type="number" min="0" max="255" onchange="changeCatchAll();" />
                 </td>
                 <td>
@@ -170,7 +187,7 @@
             </tr>
 
             <tr>
-                <td>Down2</td>
+                <td>Lower end CD</td>
                 <td> <input id="NewDownCD" type="number" min="0" max="255" onchange="changeCatchAll();" />
                 </td>
                 <td>
@@ -183,9 +200,13 @@
             </tr>
 
             <tr>
-                <td>Line position:</td>
+                <td>
+                    <p class="table_paragraph">Line position:</p>
+                </td>
                 <td></td>
-                <td><p>A=0 → end 1</p> </td>
+                <td>
+                    <p class="table_metrics">A=0 -> last=1</p>
+                </td>
             </tr>
 
             <!-- <tr>
@@ -221,7 +242,9 @@
                 </td>
             </tr>
             <tr>
-                <td>mode</td>
+                <td>
+                    <p class="table_paragraph">Mode:</p>
+                </td>
                 <td class="radiob">
                     <form id="NewMode" onchange="changeCatchAll();">
                         <input type="radio" name="mode" id="LIFOLLOWA" checked="true">Square, triangle etc.<br>
@@ -240,11 +263,11 @@
 
 
             <tr>
-                <td>type</td>
+                <td><p class="table_paragraph">Type:</p></td>
                 <td class="radiob">
                     <form id="NewType" onchange="changeCatchAll();">
-                        <input type="radio" name="type" id="TYORBISFLY5">orbi5<br>
-                        <input type="radio" name="type" id="TYORBISFLY9" checked="true">orbi9<br>
+                        <input type="radio" name="type" id="TYORBISFLY5">Orbisfly 5ch<br>
+                        <input type="radio" name="type" id="TYORBISFLY9" checked="true">Orbisfly 9ch<br>
                         <input type="radio" name="type" id="TYDLB">DLB<br>
                     </form>
                 </td>
@@ -255,7 +278,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Name</td>
+                <td><p class="table_paragraph">Name:</p></td>
                 <td>
                     <input id="NewName" type="text" maxlength="8" onchange="changeCatchAll();" />
                 </td>
@@ -283,7 +306,7 @@
                 <td> <input id="AddrIncrement" type="number" min="1" max="512" />
                 </td>
                 <td>
-                    increment safety: <input type="checkbox" id="AddrIncrementSafety">
+                    increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true">
                 </td>
             </tr>
         </table>

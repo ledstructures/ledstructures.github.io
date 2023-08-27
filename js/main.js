@@ -27,6 +27,12 @@ function connect() {
     }
 }
 
+// add eventlistener to scrollwheel to enable scrolling on numerik inputs
+document.addEventListener("wheel", function (event) {
+    if (document.activeElement.type === "number") { 
+        //YES again a very bad idea, but it works!
+        changeCatchAll(); }
+});
 
 //obviously a very bad implementation of onchange handler, but i don't feel like doin it right in this hiddious language!
 function changeCatchAll() {
@@ -43,8 +49,8 @@ function setRWV() {
     switch (winchNew.type) {
         case WinchTypes.TYORBISFLY5:
         case WinchTypes.TYORBISFLY9:
-            factor = 1200/255;
-            factor2 = 600/255;
+            factor = 1200 / 255;
+            factor2 = 600 / 255;
 
             document.getElementById("RWVDevB").innerHTML = (winchNew.WinchBdev * factor).toFixed(1) + " / " + (winchNew.WinchBdev * factor2).toFixed(1);
             document.getElementById("RWVDevC").innerHTML = (winchNew.WinchCdev * factor).toFixed(1) + " / " + (winchNew.WinchCdev * factor2).toFixed(1);
@@ -54,13 +60,13 @@ function setRWV() {
             document.getElementById("RWVdown").innerHTML = (winchNew.WinchTrimDown * factor).toFixed(1) + " / " + (winchNew.WinchTrimDown * factor2).toFixed(1);
             document.getElementById("RWVupCD").innerHTML = (winchNew.WinchTrimUpCD * factor).toFixed(1) + " / " + (winchNew.WinchTrimUpCD * factor2).toFixed(1);
             document.getElementById("RWVdownCD").innerHTML = (winchNew.WinchTrimDownCD * factor).toFixed(1) + " / " + (winchNew.WinchTrimDownCD * factor2).toFixed(1);
-           
+
             document.getElementById("RWVcentimeters").innerHTML = "cm, short/long"
 
             break;
 
         case WinchTypes.TYDLB:
-            factor = 1200/255;
+            factor = 1200 / 255;
             document.getElementById("RWVDevB").innerHTML = (winchNew.WinchBdev * factor).toFixed(1);
             document.getElementById("RWVDevC").innerHTML = (winchNew.WinchCdev * factor).toFixed(1);
             document.getElementById("RWVDevD").innerHTML = (winchNew.WinchDdev * factor).toFixed(1);
