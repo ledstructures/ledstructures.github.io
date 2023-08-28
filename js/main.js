@@ -14,6 +14,8 @@ const wsender = new SerialWinchSender();
 // init a serial parser from winch send the instance to edit as arg (place to put data in)
 const serialParser = new SerialWinchParser(winchCurr);
 
+let increment = 40;
+
 // F onclick to connect to serial port (should check on port connected evntlistener?) 
 function connect() {
     if (webserial) {
@@ -163,6 +165,8 @@ function setVisable() {
 
 // copy the set data from the html to the winchNew obj
 function getNewData() {
+    increment = document.getElementById("AddrIncrement").value;
+
     winchNew.WinchAaddr = document.getElementById("NewAddrA").value;
     winchNew.WinchBaddr = document.getElementById("NewAddrB").value;
     winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
@@ -225,7 +229,7 @@ function setNewData() {
 
     document.getElementById("NewName").value = winchNew.name;
 
-    document.getElementById("AddrIncrement").value = 40
+    document.getElementById("AddrIncrement").value = increment
 }
 
 // cpy the data from the 'winchCurr' obj to the html 
@@ -330,9 +334,9 @@ function incrementAddresses(w, increment, saf) {
 
 //// pppffftttt!!!
 // note bind to instance!
-try{
-webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
-}catch{
+try {
+    webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
+} catch {
     console.log("not a compatible browser")
 }
 // attacht a callback at the end of data parsed to update the html
