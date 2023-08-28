@@ -19,7 +19,9 @@ function connect() {
     if (webserial) {
         if (document.getElementById("con").value == "Connect") {
             webserial.openPort();
-            document.getElementById("con").value = "Disconnect"
+            if (webserial.port) {
+                document.getElementById("con").value = "Disconnect"
+            }
         } else {
             webserial.closePort();
             document.getElementById("con").value = "Connect"
@@ -29,9 +31,10 @@ function connect() {
 
 // add eventlistener to scrollwheel to enable scrolling on numerik inputs
 document.addEventListener("wheel", function (event) {
-    if (document.activeElement.type === "number") { 
+    if (document.activeElement.type === "number") {
         //YES again a very bad idea, but it works!
-        changeCatchAll(); }
+        changeCatchAll();
+    }
 });
 
 //obviously a very bad implementation of onchange handler, but i don't feel like doin it right in this hiddious language!
@@ -327,8 +330,11 @@ function incrementAddresses(w, increment, saf) {
 
 //// pppffftttt!!!
 // note bind to instance!
+try{
 webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
-
+}catch{
+    console.log("not a compatible browser")
+}
 // attacht a callback at the end of data parsed to update the html
 serialParser.endcommandcb = setCurrentData;
 // attacht the 

@@ -17,7 +17,7 @@ class WebSerialPort {
   constructor() {
     // if webserial doesn't exist, return false:
     if (!navigator.serial) {
-      alert("WebSerial is not enabled in this browser");
+      alert("WebSerial is not enabled in this browser, please use Chrome, Chromium, Opera or Edge.");
       return false;
     }
     // TODO: make this an option.

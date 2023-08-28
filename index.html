@@ -263,7 +263,9 @@
 
 
             <tr>
-                <td><p class="table_paragraph">Type:</p></td>
+                <td>
+                    <p class="table_paragraph">Type:</p>
+                </td>
                 <td class="radiob">
                     <form id="NewType" onchange="changeCatchAll();">
                         <input type="radio" name="type" id="TYORBISFLY5">Orbisfly 5ch<br>
@@ -278,7 +280,9 @@
                 </td>
             </tr>
             <tr>
-                <td><p class="table_paragraph">Name:</p></td>
+                <td>
+                    <p class="table_paragraph">Name:</p>
+                </td>
                 <td>
                     <input id="NewName" type="text" maxlength="8" onchange="changeCatchAll();" />
                 </td>
@@ -295,7 +299,10 @@
                     <input type="button" onclick="alert('Send new values')" value="Send new values">
                 </td>
                 <td>
-                    <input type="button" onclick="alert('Get current values')" value="Get current values">
+                    <input type="button" onclick="alert('Copy current values')" value="Copy current values">
+                </td>
+                <td>
+                    Serial number:
                 </td>
             </tr>
             <tr>
@@ -306,7 +313,12 @@
                 <td> <input id="AddrIncrement" type="number" min="1" max="512" />
                 </td>
                 <td>
-                    increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true">
+                    Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true">
+                </td>
+                <td>
+                    <p>
+                    <p id="CurrSer"></p>
+                    </p>
                 </td>
             </tr>
         </table>
