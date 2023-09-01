@@ -15,6 +15,8 @@ let serialParser = new SerialWinchParser(winchCurr);
 
 let increment = 50;
 
+
+// for some reason this must be a const (i assume pointer) to modify disable attr? wtf....
 const butCpy = document.getElementById("btnCpy");
 const butSend = document.getElementById("btnSend");
 
@@ -53,6 +55,9 @@ function enableButtons(e) {
     butSend.disabled = !e;
 }
 
+function eneableButSend(e) {
+    butSend.disabled = !e;
+}
 // add eventlistener to scrollwheel to enable scrolling on numerik inputs
 document.addEventListener("wheel", function (event) {
     if (document.activeElement.type === "number") {
@@ -286,10 +291,6 @@ function setNewData() {
     document.getElementById("NewName").value = winchNew.name;
 
     document.getElementById("AddrIncrement").value = increment
-
-
-
-
 }
 
 // cpy the data from the 'winchCurr' obj to the html 
@@ -402,8 +403,10 @@ try {
 } catch {
     console.log("not a compatible browser")
 }
-// attacht a callback at the end of data parsed to update the html
+
+//setting a function pointer i guesss... end of data parsed to update the html
 serialParser.endcommandcb = setCurrentData;
+/// set a pointer to disconnected funtion on disconnect
 webserial.errorCalback = disconnected
 
 setCurrentData();
