@@ -268,23 +268,23 @@ class SerialWinchParser {
             case USB_WINCH_COMMAND_LINKMODE:
                 console.log(this.value);
                 switch (this.value) {
-                    case 0:
+                    case 0x00:
                         this.ws.mode = WinchModes.LIFOLLOWA;
                         break;
 
-                    case 1:
+                    case 0x01:
                         this.ws.mode = WinchModes.LIFOLLOWPREV;
                         break;
 
-                    case 2:
+                    case 0x02:
                         this.ws.mode = WinchModes.LIDUBBLEPAIR;
                         break;
 
-                    case 3:
+                    case 0x03:
                         this.ws.mode = WinchModes.LI3INLINE;
                         break;
 
-                    case 4:
+                    case 0x04:
                         this.ws.mode = WinchModes.LI4INLINE;
                         console.log(this.ws.mode);
                         console.log(WinchModes.LI4INLINE);

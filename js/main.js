@@ -15,17 +15,26 @@ let serialParser = new SerialWinchParser(winchCurr);
 
 let increment = 50;
 
+const butCpy = document.getElementById("btnCpy");
+const butSend = document.getElementById("btnSend");
+
+
 async function connect() {
     // label for the button will change depending on what you do:
     let buttonLabel = "Connect";
     // if port is open, close it; if closed, open it:
     if (webserial.port) {
         await webserial.closePort();
+        enableButtons(false)
+
 
     } else {
         await webserial.openPort();
-        buttonLabel = "Disconnect";
-        getDataSet();
+        if (webserial.port) {
+            buttonLabel = "Disconnect";
+            getDataSet();
+            enableButtons(true)
+        }
     }
     // change button label:
     document.getElementById("btnCon").value = buttonLabel;
@@ -36,17 +45,21 @@ function disconnected(e) {
     console.log(e);
     delete webserial.port;
     document.getElementById("btnCon").value = "Connect";
+    enableButtons(false);
 }
 
 function enableButtons(e) {
-    if (e) {
-        document.getElementById("NewDevC").disabled = false;
-        document.getElementById("NewDevD").disabled = false;
-    }
-    else {
-        document.getElementById("NewDevC").disabled = false;
-        document.getElementById("NewDevD").disabled = false;
-    }
+    // if (e) {
+    butCpy.disabled = !e;
+    butSend.disabled = !e;
+    // document.getElementById("btnCpy").disabled = true;
+    // document.getElementById("btnSend").disabled = false;
+    // document.getElementById("btnCpy").disabled = false;
+    // // }
+    // else {
+    //     document.getElementById("NewDevC").disabled = true;
+    //     document.getElementById("NewDevD").disabled = true;
+    // }
 }
 
 // add eventlistener to scrollwheel to enable scrolling on numerik inputs
@@ -414,3 +427,4 @@ webserial.errorCalback = disconnected
 setCurrentData();
 setNewData();
 changeCatchAll();
+enableButtons(false);
