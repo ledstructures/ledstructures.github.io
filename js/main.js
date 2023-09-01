@@ -49,17 +49,8 @@ function disconnected(e) {
 }
 
 function enableButtons(e) {
-    // if (e) {
     butCpy.disabled = !e;
     butSend.disabled = !e;
-    // document.getElementById("btnCpy").disabled = true;
-    // document.getElementById("btnSend").disabled = false;
-    // document.getElementById("btnCpy").disabled = false;
-    // // }
-    // else {
-    //     document.getElementById("NewDevC").disabled = true;
-    //     document.getElementById("NewDevD").disabled = true;
-    // }
 }
 
 // add eventlistener to scrollwheel to enable scrolling on numerik inputs
@@ -296,17 +287,8 @@ function setNewData() {
 
     document.getElementById("AddrIncrement").value = increment
 
-    // if (!webserial.port) {
-    //     document.getElementById("btnCon").value = "Connect"
-    //     document.getElementById("btnCpy").disabled = true;
-    //     document.getElementById("btnCpy").disabled = true;
-    //     document.getElementById("btnCpy").disabled = true;
-    // } else {
-    //     document.getElementById("btnCon").value = "Disconnect"
-    //     document.getElementById("btnCpy").disabled = true;
-    //     document.getElementById("btnCpy").disabled = true;
-    //     document.getElementById("btnCpy").disabled = true;
-    // }
+
+
 
 }
 

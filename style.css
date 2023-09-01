@@ -1,11 +1,6 @@
 body {
-    /* text-align: center; */
     margin: auto;
-    /* background-color: black; */
-}
-
-body {
-    background-color: rgb(67, 67, 67);
+    background-color: #464646;
     /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     font-family: 'Courier New', Courier, monospace;
     font-size: small;
@@ -18,18 +13,20 @@ input {
     vertical-align: right;
 }
 
-/* input[type="button"] {
-    background-color: #7f7f7f;
-    /* border: none; */
-    color: white;
-    padding: 4px;
-    /* text-decoration: none; 
-} */
+input[type=text] {
+    width: 95%;
+}
+
+input[type=button] {
+    width: 100%;
+    text-align: center;
+    font-weight: bolder;
+}
 
 .button.disabled {
     opacity: 0.6;
     cursor: not-allowed;
-  }
+}
 
 .button:hover {
     background-color: #a7a7a7;
@@ -37,10 +34,8 @@ input {
 
 .button:active {
     background-color: #464646;
-    /* box-shadow: 0 5px #666; */
-    /* transform: translateY(1%); */
     transform: translate3d(1px, 1px, 1px)
-  }
+}
 
 input[type="checkbox"],
 input[type="radio"] {
@@ -54,6 +49,7 @@ input[type="radio"] {
 .table_paragraph {
     font-size: medium;
     vertical-align: top;
+    font-weight: bolder;
 }
 
 .table_paragraph {
@@ -68,34 +64,49 @@ input[type="radio"] {
 
 
 .contentdiv {
+    width: 640px;
     position: absolute;
-    /* top: 50%; */
     left: 50%;
-    transform: translate(-50%, 10%);
-    /* display: grid; */
-    /* grid-template-columns: 0.2fr 2.6fr 0.2fr;     */
-    /* grid-template-rows: 0.2fr 3.6fr 0.2fr; */
-    /* grid-auto-columns: 1fr;
-    gap: 1px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        ". . ."
-        ". table ."
-        ". . ."; */
+    transform: translate(-50%, 5%);
 }
 
-td,
-tr,
+.title {
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: #a7a7a7;
+}
+
+.footer {
+    text-align: center;
+    font-size: smaller;
+    color: #a7a7a7;
+}
+
+a {
+    color: #e9e9e9;
+
+}
+
 table {
-    vertical-align: top;
-    border: 1px solid rgb(91, 91, 91);
-    border-radius: 5px;
+    table-layout: fixed;
+    border: 3px solid #727272;
+    background-color: #202020;
+
     border-collapse: collapse;
-    /* text-align: center; */
-    grid-area: table;
-    background-color: rgb(25, 25, 25);
-    color: white;
-    /* border-color: white; */
+
+    color: #e9e9e9;
+    width: 100%;
+}
+
+td {
+    vertical-align: top;
+    border: 1px solid #727272;
+    background-color: #202020;
+    border-collapse: collapse;
+    border-style: dashed;
+    color: #e9e9e9;
+    width: 25%;
 }
 
 input,

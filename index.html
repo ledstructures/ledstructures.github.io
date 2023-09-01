@@ -7,6 +7,7 @@
 
 <body>
     <div class="contentdiv">
+        <p class="title">Whatchamacallit</p>
         <table>
             <tr>
                 <td>
@@ -27,12 +28,14 @@
                 <td>
                     <p class="table_paragraph"> Addresses:</p>
                 </td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>A address</td>
                 <td> <input id="NewAddrA" type="number" min="1" max="512" onchange="changeCatchAll();" />
                 </td>
-                <td></td>
+                <td> </td>
 
                 <td>
                     <p id="CurrAddrA"></p>
@@ -300,11 +303,12 @@
                 </td>
                 <td>
                     <!-- <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
-                    <input type="button" class="button" onclick="setDataSer();" value="Upload and save" id="btnSend" >
+                    <input type="button" class="button" onclick="setDataSer();" value="Upload to device" id="btnSend">
                     <!-- <input type="button" onclick="wsender.setAllData(winchNew)" value="Send new values"> -->
                 </td>
                 <td>
-                    <input type="button" class="button" onclick="cpyFromCurrent();" value="Copy from device" id="btnCpy">
+                    <input type="button" class="button" onclick="cpyFromCurrent();" value="Copy from device"
+                        id="btnCpy">
                 </td>
                 <td>
                     Serial number:
@@ -327,6 +331,10 @@
                 </td>
             </tr>
         </table>
+        <p class="footer">2023 LedKinetic</p>
+        <p class="footer">uses a modified version of 
+            <a href="https://github.com/tigoe/html-for-conndev/blob/main/webSerial/webserial.js">this</a> 
+            webSerial wrapper</p>
     </div>
     <script src="./js/winch.js"></script>
     <script src="./js/webserial.js"></script>
