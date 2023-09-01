@@ -10,8 +10,8 @@ const USB_WINCH_SET = 0x80;
 // all commands are b0-6 an combined with 0x80 to set, or 0x00 to get
 
 // 1byte commands. If the playload is bigger, dont set it
-const USB_WINCH_COMMAND_LINKMODE = 0x01; // datatype LINKMODE
-const USB_WINCH_COMMAND_TYPE = 0x02;     // datatype WINCHTYPE
+const USB_WINCH_COMMAND_LINKMODE = 0x12; // datatype LINKMODE
+const USB_WINCH_COMMAND_TYPE = 0x13;     // datatype WINCHTYPE
 
 // 1byte commands 0-255 range avail.
 const USB_WINCH_COMMAND_DEVIATION_A = 0x50; // winch A has this atribute, but is never used. A is always a cunductor
@@ -286,8 +286,8 @@ class SerialWinchParser {
 
                     case 0x04:
                         this.ws.mode = WinchModes.LI4INLINE;
-                        console.log(this.ws.mode);
-                        console.log(WinchModes.LI4INLINE);
+                        // console.log(this.ws.mode);
+                        // console.log(WinchModes.LI4INLINE);
 
                         break;
 
@@ -425,6 +425,13 @@ class SerialWinchSender {
         //     ;
         this.serial.sendSerial(this.outgoingdata);
     }
+    setAndReqAllData(winch){
+        this.setAllData(winch);
+        this.reqAllData()
+        this.reqSave();
+
+        }
+
     reqAllData() {
         this.reqMode();
         this.reqType();
@@ -476,7 +483,9 @@ class SerialWinchSender {
 
         this.setName(winch);
         // after a set a save is done
-        this.reqSave();
+        // this.reqMode();
+
+
 
     }
 

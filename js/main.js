@@ -70,7 +70,7 @@ function setDataSer() {
     changeCatchAll();
     let sd = new SerialWinchSender(webserial);
     // webserial.
-    sd.setAllData(winchNew);
+    sd.setAndReqAllData(winchNew);
     // wsender.setAllData(winchNew);
 }
 
@@ -336,12 +336,13 @@ function setCurrentData() {
     // set mode and type to html
     if (winchCurr.mode) {
         let m;
+        // console.log(winchCurr.mode);
         switch (winchCurr.mode) {
             case WinchModes.LIFOLLOWA:
                 m = "Square";
                 break;
             case WinchModes.LIFOLLOWPREV:
-                m = "Triangle";
+                m = "flex line";
                 break;
             case WinchModes.LIDUBBLEPAIR:
                 m = "Double ab & cd";
