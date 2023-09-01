@@ -20,12 +20,10 @@ const USB_WINCH_COMMAND_DEVIATION_C = 0x52;
 const USB_WINCH_COMMAND_DEVIATION_D = 0x53;
 
 // // 1byte commands 0-255 range avail.  // note in reversed
-const USB_WINCH_COMMAND_TRIM_DOWN = 0x54;
-const USB_WINCH_COMMAND_TRIM_UP = 0x55;
-
-// // 1byte commands 0-255 range avail.  // note in reversed
-const USB_WINCH_COMMAND_TRIMCD_DOWN = 0x56;
-const USB_WINCH_COMMAND_TRIMCD_UP = 0x57;
+const USB_WINCH_COMMAND_TRIM_DOWN = 0x20;
+const USB_WINCH_COMMAND_TRIM_UP = 0x21;
+const USB_WINCH_COMMAND_TRIMCD_DOWN = 0x22;
+const USB_WINCH_COMMAND_TRIMCD_UP = 0x23;
 
 // 2byte commands MSB first. If the playload is bigger, dont set it.
 // must be an unsigned short (u16). 0-511. Wil be masked at 0x01ff.
@@ -45,13 +43,14 @@ const USB_WINCH_COMMAND_LIN_POS_C = 0x31;
 const USB_WINCH_COMMAND_NAME = 0x61;
 
 // 0 byte command.
-const USB_WINCH_COMMAND_SAVE = 0xAA; //should return 0x55; 
+const USB_WINCH_COMMAND_SAVE = 0x55;
 
+const USB_WINCH_COMMAND_SERIALNUM = 0x0f;
 
 const WinchTypes = {
     TYORBISFLY5: Symbol("orbi9"),
     TYORBISFLY9: Symbol("orbi5"),
-    TYDLB: Symbol("dlb")
+    TYDLB: Symbol("dlb"),
 }
 
 const WinchModes = {
@@ -59,7 +58,7 @@ const WinchModes = {
     LIFOLLOWPREV: Symbol("followPrev"),
     LIDUBBLEPAIR: Symbol("dubble"),
     LI3INLINE: Symbol("line3"),
-    LI4INLINE: Symbol("line4")
+    LI4INLINE: Symbol("line4"),
 }
 
 const usbState =
@@ -68,7 +67,7 @@ const usbState =
     USBSCOMM: Symbol("UsbComm"),
     USBSSIZE: Symbol("UsbSize"),
     USBSPAYLOAD: Symbol("UsbPayload"),
-    USBEND: Symbol("UsbEnd")
+    USBEND: Symbol("UsbEnd"),
 }
 
 // bij gebrek aan een struct....
@@ -101,6 +100,8 @@ class WinchSettings {
 
         this.WinchSafetyAddr;
 
+        this.serNum;
+
         this.name;
     }
     SetDefaults() {
@@ -112,6 +113,13 @@ class WinchSettings {
         this.WinchBaddr = 11;
         this.WinchCaddr = 21;
         this.WinchDaddr = 31;
+
+        this.WinchAaddrIsOk = true;
+        this.WinchBaddrIsOk = true;
+        this.WinchCaddrIsOk = true;
+        this.WinchDaddrIsOk = true;
+
+        this.WinchSafetyAddrIsOk = true;
 
         this.WinchAdev = 32;
         this.WinchBdev = 32;
@@ -133,6 +141,18 @@ class WinchSettings {
 
 
         this.name = "winch1"
+    }
+
+    checkTrim() {
+        if (parseInt(this.WinchTrimUp) >= parseInt(this.WinchTrimDown))
+            this.WinchTrimUp = this.WinchTrimDown;
+        if (parseInt(this.WinchTrimUpCD) >= parseInt(this.WinchTrimDownCD))
+            this.WinchTrimUpCD = this.WinchTrimDownCD;
+    }
+
+    checkAddresses() {
+        //lets take address a as startpoint point. 
+
     }
     // ga ik hier nog echt nog setters en getters moeten maken voor elke wisseling van waarde?
 }
@@ -164,6 +184,7 @@ class SerialWinchParser {
 
 
     }
+    // state machine parsing each byte
     parseByte(bt) {
         // console.log(bt);
         // console.log(this.state);
@@ -208,14 +229,17 @@ class SerialWinchParser {
                 break;
         }
     }
+
+    // if a complete message is received, data is set to the winchsettings instance
     dataComplete() {
+        this.command = this.command & 0x7f; //remove first 1 of byte
         if (this.pktsize == 1) {
             this.value = this.incommingdata[0]; // parse as 8bit
 
         } else if (this.pktsize == 2) {
             //litlebit of shifitng here and there
-            this.value = this.incommingdata[1];
-            this.value |= (8 << this.incommingdata[0])
+            this.value = parseInt(this.incommingdata[1]);
+            this.value |= (parseInt(this.incommingdata[0]) << 8);
         } else {
             // ;
             // do something with the name
@@ -223,18 +247,80 @@ class SerialWinchParser {
             // does this work?!?!?
             this.value = "";
             for (let i = 0; i < this.pktsize; i++) {
-                this.value += String.fromCharCode(this.incommingdata[i]);
+                if ((this.incommingdata[i] < 32) || (this.incommingdata > 128))
+                    this.value += " ";
+                else
+                    this.value += String.fromCharCode((this.incommingdata[i]));
+                // console.log(this.incommingdata[i]);
             }
         }
         switch (this.command) {
 
+            // const WinchModes = {
+            //     LIFOLLOWA: Symbol("followA"),
+            //     LIFOLLOWPREV: Symbol("followPrev"),
+            //     LIDUBBLEPAIR: Symbol("dubble"),
+            //     LI3INLINE: Symbol("line3"),
+            //     LI4INLINE: Symbol("line4")
+            // }
+
             // 1byt commands
             case USB_WINCH_COMMAND_LINKMODE:
-                this.ws.mode = this.value;
+                console.log(this.value);
+                switch (this.value) {
+                    case 0:
+                        this.ws.mode = WinchModes.LIFOLLOWA;
+                        break;
+
+                    case 1:
+                        this.ws.mode = WinchModes.LIFOLLOWPREV;
+                        break;
+
+                    case 2:
+                        this.ws.mode = WinchModes.LIDUBBLEPAIR;
+                        break;
+
+                    case 3:
+                        this.ws.mode = WinchModes.LI3INLINE;
+                        break;
+
+                    case 4:
+                        this.ws.mode = WinchModes.LI4INLINE;
+                        console.log(this.ws.mode);
+                        console.log(WinchModes.LI4INLINE);
+
+                        break;
+
+                    default:
+                        break;
+                }
+                // console.log(this.ws.mode);
                 break;
 
+
+            // const WinchTypes = {
+            //     TYORBISFLY5: Symbol("orbi9"),
+            //     TYORBISFLY9: Symbol("orbi5"),
+            //     TYDLB: Symbol("dlb")
+            // }
+
             case USB_WINCH_COMMAND_TYPE:
-                this.ws.type = this.value;
+                switch (this.value) {
+                    case 0x00:
+                        this.ws.type = WinchTypes.TYORBISFLY5;
+                        break;
+
+                    case 0x01:
+                        this.ws.type = WinchTypes.TYORBISFLY9;
+                        break;
+
+                    case 0x02:
+                        this.ws.type = WinchTypes.TYDLB;
+                        break;
+
+                    default:
+                        break;
+                }
                 break;
 
             // deviatons
@@ -257,9 +343,9 @@ class SerialWinchParser {
             case USB_WINCH_COMMAND_DEVIATION_D:
                 this.ws.WinchDdev = this.value;
                 break;
+
             //trim
             case USB_WINCH_COMMAND_TRIM_DOWN:
-                this.ws.WinchDdev = this.value;
                 this.ws.WinchTrimDown = this.value;
                 break;
 
@@ -275,31 +361,47 @@ class SerialWinchParser {
                 this.ws.WinchTrimUpCD = this.value;
                 break;
 
+            // pos in line
+
+            case USB_WINCH_COMMAND_LIN_POS_B:
+                this.ws.WinchBlinP = this.value;
+                break;
+
+            case USB_WINCH_COMMAND_LIN_POS_C:
+                this.ws.WinchClinP = this.value;
+                break;
 
             //dmx addresses // 2byt vals
             case USB_WINCH_COMMAND_ADDRES_A:
-                this.ws.WinchAaddr = this.value;
+                this.ws.WinchAaddr = this.value + 1;
                 break;
 
             case USB_WINCH_COMMAND_ADDRES_B:
-                this.ws.WinchBaddr = this.value;
+                this.ws.WinchBaddr = this.value + 1;
                 break;
 
             case USB_WINCH_COMMAND_ADDRES_C:
-                this.ws.WinchCaddr = this.value;
+                this.ws.WinchCaddr = this.value + 1;
                 break;
 
             case USB_WINCH_COMMAND_ADDRES_D:
-                this.ws.WinchDaddr = this.value;
+                this.ws.WinchDaddr = this.value + 1;
                 break;
 
             case USB_WINCH_COMMAND_ADDRES_SAFETY:
-                this.ws.WinchSafetyAddr = this.value;
+                this.ws.WinchSafetyAddr = this.value + 1;
                 break;
 
             case USB_WINCH_COMMAND_NAME:
                 this.ws.name = this.value;
                 break;
+
+            case USB_WINCH_COMMAND_SERIALNUM:
+                this.ws.serNum = this.value;
+                // console.log(this.we.serNum);
+
+                break;
+
 
             default:
                 break;
@@ -312,14 +414,16 @@ class SerialWinchParser {
 }
 
 class SerialWinchSender {
-    constructor() {
+    constructor(s) {
         // this.sendatacb; // pointer to serial obj.sendblbala
         this.pktsize;
+        this.serial = s;
     }
     sendatacb(d) {
-        console.log(d);
-        console.log("datasender placeholder")
-            ;
+        // console.log(d);
+        // console.log("datasender placeholder")
+        //     ;
+        this.serial.sendSerial(this.outgoingdata);
     }
     reqAllData() {
         this.reqMode();
@@ -345,10 +449,11 @@ class SerialWinchSender {
         this.reqTrimUpCD();
 
         this.reqName();
+        this.reqSerial();
     }
     setAllData(winch) {
-        // this.setMode(winch);
-        // this.setType(winch);
+        this.setMode(winch);
+        this.setType(winch);
 
         this.setAddrA(winch);
         this.setAddrB(winch);
@@ -370,14 +475,18 @@ class SerialWinchSender {
         this.setTrimUpCD(winch);
 
         this.setName(winch);
+        // after a set a save is done
+        this.reqSave();
+
     }
 
     set1Byte(command, value) {
         this.outgoingdata = new Uint8Array(5);
-        this.outgoingdata[0] = USB_WINCH_START_MESS | USB_WINCH_SET;
-        this.outgoingdata[1] = command;
+        this.outgoingdata[0] = USB_WINCH_START_MESS;
+        this.outgoingdata[1] = command | USB_WINCH_SET;
         this.outgoingdata[2] = 0x01;
         this.outgoingdata[3] = 0xff & value; // mask?
+        // console.log(value)
         this.outgoingdata[4] = USB_WINCH_END_MESS;
         this.pktsize = 5;
         this.sendatacb(this.outgoingdata);
@@ -385,8 +494,8 @@ class SerialWinchSender {
 
     set2Byte(command, value) {
         this.outgoingdata = new Uint8Array(6);
-        this.outgoingdata[0] = USB_WINCH_START_MESS | USB_WINCH_SET;
-        this.outgoingdata[1] = command;
+        this.outgoingdata[0] = USB_WINCH_START_MESS;
+        this.outgoingdata[1] = command | USB_WINCH_SET;
         this.outgoingdata[2] = 0x02;
         this.outgoingdata[3] = 0xff & (value >> 8); // mask?
         this.outgoingdata[4] = 0xff & value; // mask?
@@ -400,18 +509,21 @@ class SerialWinchSender {
         value.padStart(8, ' ');
         let encoder = new TextEncoder();
         let bytes = encoder.encode(value);
-        this.outgoingdata = new Uint8Array(11);
-        this.outgoingdata[0] = USB_WINCH_START_MESS | USB_WINCH_SET;
-        this.outgoingdata[1] = command;
+        this.outgoingdata = new Uint8Array(12);
+        this.outgoingdata[0] = USB_WINCH_START_MESS;
+        this.outgoingdata[1] = command | USB_WINCH_SET;
+        this.outgoingdata[2] = 0x08;
         for (let i = 0; i < bytes.length; i++) {
-            this.outgoingdata[i + 2] = bytes[i];
+            this.outgoingdata[i + 3] = bytes[i];
         }
-        this.outgoingdata[10] = USB_WINCH_END_MESS;
+        this.outgoingdata[11] = USB_WINCH_END_MESS;
         this.pktsize = 11;
         this.sendatacb(this.outgoingdata);
+        this.serial
     }
 
     reqByte(command) {
+        // console.log(command)
         this.outgoingdata = new Uint8Array(3);
         this.outgoingdata[0] = USB_WINCH_START_MESS;
         this.outgoingdata[1] = command;
@@ -425,8 +537,8 @@ class SerialWinchSender {
     setSAve() {
 
         this.outgoingdata = new Uint8Array(3);
-        this.outgoingdata[0] = USB_WINCH_START_MESS | USB_WINCH_SET;
-        this.outgoingdata[1] = USB_WINCH_COMMAND_SAVE;
+        this.outgoingdata[0] = USB_WINCH_START_MESS;
+        this.outgoingdata[1] = USB_WINCH_COMMAND_SAVE | USB_WINCH_SET;
         this.outgoingdata[2] = USB_WINCH_END_MESS;
         this.pktsize = 3;
         this.sendatacb(this.outgoingdata);
@@ -495,13 +607,60 @@ class SerialWinchSender {
         this.reqByte(USB_WINCH_COMMAND_NAME);
     }
 
+    reqSerial() {
+        this.reqByte(USB_WINCH_COMMAND_SERIALNUM);
+    }
+
+    reqSave() {
+        this.reqByte(USB_WINCH_COMMAND_SAVE);
+    }
+
 
     // setters
     setMode(winch) {
-        this.set1Byte(USB_WINCH_COMMAND_LINKMODE, winch.mode);
+        let m;
+        switch (winch.mode) {
+            case WinchModes.LIFOLLOWA:
+                m = 0x00;
+                break;
+
+            case WinchModes.LIFOLLOWPREV:
+                m = 0x01;
+                break;
+
+            case WinchModes.LIDUBBLEPAIR:
+                m = 0x02;
+                break;
+
+            case WinchModes.LI3INLINE:
+                m = 0x03;
+                break;
+
+            case WinchModes.LI4INLINE:
+                m = 0x04;
+                break;
+
+            default:
+                break;
+        }
+        this.set1Byte(USB_WINCH_COMMAND_LINKMODE, m);
     }
     setType(winch) {
-        this.set1Byte(USB_WINCH_COMMAND_TYPE, winch.type);
+        let t;
+        switch (winch.type) {
+            case WinchTypes.TYORBISFLY5:
+                t = 0x00;
+                break;
+            case WinchTypes.TYORBISFLY9:
+                t = 0x01;
+                break;
+            case WinchTypes.TYDLB:
+                t = 0x02;
+                break;
+            default:
+                break;
+        }
+        this.set1Byte(USB_WINCH_COMMAND_TYPE, t);
     }
     // deviatons
     setDevA(winch) {
@@ -509,15 +668,15 @@ class SerialWinchSender {
     }
 
     setDevB(winch) {
-        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_B, winch.WinchAdev);
+        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_B, winch.WinchBdev);
     }
 
     setDevC(winch) {
-        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_C, winch.WinchAdev);
+        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_C, winch.WinchCdev);
     }
 
     setDevD(winch) {
-        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_D, winch.WinchAdev);
+        this.set1Byte(USB_WINCH_COMMAND_DEVIATION_D, winch.WinchDdev);
     }
 
     // trim
@@ -546,19 +705,19 @@ class SerialWinchSender {
 
     // addresses
     setAddrA(winch) {
-        this.set2Byte(USB_WINCH_COMMAND_ADDRES_A, winch.WinchAaddr);
+        this.set2Byte(USB_WINCH_COMMAND_ADDRES_A, (winch.WinchAaddr - 1));
     }
     setAddrB(winch) {
-        this.set2Byte(USB_WINCH_COMMAND_ADDRES_B, winch.WincBAaddr);
+        this.set2Byte(USB_WINCH_COMMAND_ADDRES_B, (winch.WinchBaddr - 1));
     }
     setAddrC(winch) {
-        this.set2Byte(USB_WINCH_COMMAND_ADDRES_C, winch.WinchCaddr);
+        this.set2Byte(USB_WINCH_COMMAND_ADDRES_C, (winch.WinchCaddr - 1));
     }
     setAddrD(winch) {
-        this.set2Byte(USB_WINCH_COMMAND_ADDRES_D, winch.WinchDaddr);
+        this.set2Byte(USB_WINCH_COMMAND_ADDRES_D, (winch.WinchDaddr - 1));
     }
     setAddrSaf(winch) {
-        this.set2Byte(USB_WINCH_COMMAND_ADDRES_SAFETY, winch.WinchSafetyAddr);
+        this.set2Byte(USB_WINCH_COMMAND_ADDRES_SAFETY, (winch.WinchSafetyAddr - 1));
     }
 
     // name

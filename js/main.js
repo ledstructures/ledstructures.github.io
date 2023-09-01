@@ -1,34 +1,35 @@
 // create serial obj from webserial wrapper
-const webserial = new WebSerialPort();
+let webserial = new WebSerialPort();
 
 // 'struct' with all settings
-const winchNew = new WinchSettings();
+let winchNew = new WinchSettings();
 // set default tosetting
 winchNew.SetDefaults();
 // init 'struct' for settings remote
-const winchCurr = new WinchSettings();
+let winchCurr = new WinchSettings();
 // winchCurr.SetDefaults();
 
 // init obj to send all the serial commands
-const wsender = new SerialWinchSender();
 // init a serial parser from winch send the instance to edit as arg (place to put data in)
-const serialParser = new SerialWinchParser(winchCurr);
+let serialParser = new SerialWinchParser(winchCurr);
 
-let increment = 40;
+let increment = 50;
 
-// F onclick to connect to serial port (should check on port connected evntlistener?) 
-function connect() {
-    if (webserial) {
-        if (document.getElementById("con").value == "Connect") {
-            webserial.openPort();
-            if (webserial.port) {
-                document.getElementById("con").value = "Disconnect"
-            }
-        } else {
-            webserial.closePort();
-            document.getElementById("con").value = "Connect"
-        }
+async function connect() {
+    // label for the button will change depending on what you do:
+    let buttonLabel = "Connect";
+    // if port is open, close it; if closed, open it:
+    if (webserial.port) {
+        await webserial.closePort();
+
+    } else {
+        await webserial.openPort();
+        buttonLabel = "Disconnect";
+        getDataSet();
     }
+    // change button label:
+    document.getElementById("btnCon").value = buttonLabel;
+
 }
 
 // add eventlistener to scrollwheel to enable scrolling on numerik inputs
@@ -39,12 +40,39 @@ document.addEventListener("wheel", function (event) {
     }
 });
 
+function setDataSer() {
+    changeCatchAll();
+    let sd = new SerialWinchSender(webserial);
+    // webserial.
+    sd.setAllData(winchNew);
+    // wsender.setAllData(winchNew);
+}
+
+function cpyFromCurrent() {
+    // really dont knwo if this will work...
+    for (const key in winchCurr) {
+        if (winchCurr.hasOwnProperty(key)) {
+            // console.log(key + "'s favorite fruit is " + winchCurr[key]);
+            winchNew[key] = winchCurr[key];
+        }
+    }
+    setNewData();
+    changeCatchAll();
+}
+
+function getDataSet() {
+    let sd = new SerialWinchSender(webserial);
+    sd.reqAllData();
+    changeCatchAll();
+}
+
 //obviously a very bad implementation of onchange handler, but i don't feel like doin it right in this hiddious language!
 function changeCatchAll() {
     // fuck it, just get all data from page
     getNewData();
     setVisable();
     setRWV();
+    setNewData();
 }
 
 function setRWV() {
@@ -54,8 +82,8 @@ function setRWV() {
     switch (winchNew.type) {
         case WinchTypes.TYORBISFLY5:
         case WinchTypes.TYORBISFLY9:
-            factor = 1200 / 255;
-            factor2 = 600 / 255;
+            factor = 600 / 255;
+            factor2 = 1200 / 255;
 
             document.getElementById("RWVDevB").innerHTML = (winchNew.WinchBdev * factor).toFixed(1) + " / " + (winchNew.WinchBdev * factor2).toFixed(1);
             document.getElementById("RWVDevC").innerHTML = (winchNew.WinchCdev * factor).toFixed(1) + " / " + (winchNew.WinchCdev * factor2).toFixed(1);
@@ -165,8 +193,9 @@ function setVisable() {
 
 // copy the set data from the html to the winchNew obj
 function getNewData() {
-    increment = document.getElementById("AddrIncrement").value;
 
+    increment = document.getElementById("AddrIncrement").value;
+    // console.log(increment);
     winchNew.WinchAaddr = document.getElementById("NewAddrA").value;
     winchNew.WinchBaddr = document.getElementById("NewAddrB").value;
     winchNew.WinchCaddr = document.getElementById("NewAddrC").value;
@@ -188,6 +217,8 @@ function getNewData() {
     winchNew.WinchBlinP = document.getElementById("NewPosB").value;
     winchNew.WinchClinP = document.getElementById("NewPosC").value;
 
+    winchNew.name = document.getElementById("NewName").value
+
     let mode = document.getElementById("NewMode").mode;
     for (let i = 0; i < mode.length; i++) {
         if (mode[i].checked == true) {
@@ -208,6 +239,10 @@ function getNewData() {
 
 // copy the data from the winchNew obj to the html
 function setNewData() {
+
+
+    winchNew.checkTrim();
+
     document.getElementById("NewAddrA").value = winchNew.WinchAaddr;
     document.getElementById("NewAddrB").value = winchNew.WinchBaddr;
     document.getElementById("NewAddrC").value = winchNew.WinchCaddr;
@@ -230,6 +265,19 @@ function setNewData() {
     document.getElementById("NewName").value = winchNew.name;
 
     document.getElementById("AddrIncrement").value = increment
+
+    // if (!webserial.port) {
+    //     document.getElementById("btnCon").value = "Connect"
+    //     document.getElementById("btnCpy").disabled = true;
+    //     document.getElementById("btnCpy").disabled = true;
+    //     document.getElementById("btnCpy").disabled = true;
+    // } else {
+    //     document.getElementById("btnCon").value = "Disconnect"
+    //     document.getElementById("btnCpy").disabled = true;
+    //     document.getElementById("btnCpy").disabled = true;
+    //     document.getElementById("btnCpy").disabled = true;
+    // }
+
 }
 
 // cpy the data from the 'winchCurr' obj to the html 
@@ -269,6 +317,9 @@ function setCurrentData() {
         document.getElementById("CurrPosC").innerHTML = winchCurr.WinchClinP;
     if (winchCurr.name)
         document.getElementById("CurrName").innerHTML = winchCurr.name;
+    if ((winchCurr.serNum) || (winchCurr.serNum === 0))
+        document.getElementById("CurrSer").innerHTML = winchCurr.serNum;
+
     // set mode and type to html
     if (winchCurr.mode) {
         let m;
@@ -285,8 +336,8 @@ function setCurrentData() {
             case WinchModes.LI3INLINE:
                 m = "3-in-line";
                 break;
-            case WinchModes.LI34NLINE:
-                m = "3-in-line";
+            case WinchModes.LI4INLINE:
+                m = "4-in-line";
                 break;
             default:
                 break;
@@ -329,7 +380,7 @@ function incrementAddresses(w, increment, saf) {
         w.WinchSafetyAddr = 0x01ff & (parseInt(w.WinchSafetyAddr) + incr);
     }
     setNewData();
-    console.log(w.WinchAaddr)
+    // console.log(w.WinchAaddr)
 }
 
 //// pppffftttt!!!
@@ -345,8 +396,4 @@ serialParser.endcommandcb = setCurrentData;
 // serialParser.wc = winchCurr;
 setCurrentData();
 setNewData();
-// attacht send funton to winchsender
-wsender.sendatacb = webserial.sendSerial;
-// wsender.reqAllData();
-// wsender.setAllData(winchNew);
 changeCatchAll();

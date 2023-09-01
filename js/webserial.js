@@ -10,6 +10,8 @@
 // TODO: multiple ports
 // TODO: multiple data types
 
+// modified 2023 for ledkinetics
+
 // need self = this for connect/disconnect functions
 let self;
 
@@ -32,6 +34,7 @@ class WebSerialPort {
     this.serialReadPromise;
     // add an incoming data event:
     // TODO: data should probably be an ArrayBuffer or Stream
+
     this.incoming = {
       data: null
     }
@@ -54,12 +57,20 @@ class WebSerialPort {
     };
   }
 
+  // a callbackc in case off error or connection break
+  errorCalback(e) {
+    console.log("placeholder");
+    console.log("e");
+  }
   async openPort(thisPort) {
     try {
       // if no port is passed to this function, 
       if (thisPort == null) {
         // pop up window to select port:
-        this.port = await navigator.serial.requestPort();
+        // this.port = await navigator.serial.requestPort();
+        const usbVendorId = 0x1a86;
+        this.port = await navigator.serial.requestPort({ filters: [{ usbVendorId }] });
+        // console.log(navigator.serial.getInfo())
       } else {
         // open the port that was passed:
         this.port = thisPort;
@@ -67,9 +78,11 @@ class WebSerialPort {
       // set port settings and open it:
       // TODO: make port settings configurable
       // from calling script:
- // changed to 2 stopbit
-      await this.port.open({ baudRate: 9600, stopBits: 2 });
-      // await this.port.open({ baudRate: 9600 });
+      // changed to 2 stopbit
+      // await this.port.open({ baudRate: 9600, stopBits: 2 });
+      await this.port.open({ baudRate: 9600 });
+      // await this.port.open({ baudRate: 4800});
+      // await this.port.open({ baudRate: 4800, stopBits: 2 });
       // start the listenForSerial function:
       this.serialReadPromise = this.listenForSerial();
 
@@ -93,16 +106,20 @@ class WebSerialPort {
   }
 
   async sendSerial(data) {
-    console.log(data);
-    // if there's no port open, skip this function:
+    // if there's no port open, skip this function: 
     if (!this.port) return;
+
     // if the port's writable: 
     if (this.port.writable) {
       // initialize the writer:
+
       const writer = this.port.writable.getWriter();
+
+      // console.log(data);
+
       // convert the data to be sent to an array:
       // TODO: make it possible to send as binary:
-      var output = new TextEncoder().encode(data);
+      // var output = new TextEncoder().encode(data);
       // send it, then release the writer:
       // writer.write(output).then(writer.releaseLock());
       writer.write(data).then(writer.releaseLock());
@@ -124,8 +141,8 @@ class WebSerialPort {
           // TODO: make it possible to receive as binary:
           // this.incoming.data = new TextDecoder().decode(value);
           // remove the text decoder to have acces to the uint8 arr
-          this.incoming.data =value;
-
+          this.incoming.data = value;
+          // console.log(this.incoming.data);
           // fire the event:
           parent.dispatchEvent(this.dataEvent);
         }
@@ -134,7 +151,8 @@ class WebSerialPort {
         }
       } catch (error) {
         // if there's an error reading the port:
-        console.log(error);
+        // console.log(error);
+        this.errorCalback(error);
       } finally {
         this.reader.releaseLock();
       }

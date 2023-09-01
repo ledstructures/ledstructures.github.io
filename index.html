@@ -254,6 +254,7 @@
                         <input type="radio" name="mode" id="LI4INLINE">4 in line<br>
                     </form>
                 </td>
+                <td></td>
                 <td>
                     <!-- display current mode -->
                     <p id="CurrMode"></p>
@@ -273,6 +274,7 @@
                         <input type="radio" name="type" id="TYDLB">DLB<br>
                     </form>
                 </td>
+                <td></td>
                 <td>
                     <!-- display current type -->
                     <p id="CurrType"></p>
@@ -286,20 +288,23 @@
                 <td>
                     <input id="NewName" type="text" maxlength="8" onchange="changeCatchAll();" />
                 </td>
+                <td></td>
                 <td>
                     <p id="CurrName"></p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="button" onclick="connect();" value="Connect" id="con">
+                    <input type="button" class="button" onclick="connect();" value="Connect" id="btnCon">
                     <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
                 </td>
                 <td>
-                    <input type="button" onclick="alert('Send new values')" value="Send new values">
+                    <!-- <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
+                    <input type="button" class="button" onclick="setDataSer();" value="Send new values" id="btnSend" >
+                    <!-- <input type="button" onclick="wsender.setAllData(winchNew)" value="Send new values"> -->
                 </td>
                 <td>
-                    <input type="button" onclick="alert('Copy current values')" value="Copy current values">
+                    <input type="button" class="button" onclick="cpyFromCurrent();" value="Copy current values" id="btnCpy">
                 </td>
                 <td>
                     Serial number:
@@ -307,10 +312,10 @@
             </tr>
             <tr>
                 <td>
-                    <input type="button"
-                        onclick="incrementAddresses(winchNew, getElementById('AddrIncrement').value, document.getElementById('AddrIncrementSafety').checked)"
+                    <input type="button" class="button"
+                        onclick="incrementAddresses(winchNew, increment, document.getElementById('AddrIncrementSafety').checked)"
                         value="Increment addresses">
-                <td> <input id="AddrIncrement" type="number" min="1" max="512" />
+                <td> <input id="AddrIncrement" type="number" min="1" max="512" onchange="changeCatchAll();" />
                 </td>
                 <td>
                     Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true">
