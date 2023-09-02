@@ -92,14 +92,100 @@ function getDataSet() {
     changeCatchAll();
 }
 
-//obviously a very bad implementation of onchange handler, but i don't feel like doin it right in this hiddious language!
+function setAddrPossible() {
+    let enable = true;
+    let personality = 3;
+    switch (winchNew.type) {
+        case WinchTypes.TYDLB:
+            personality = 3;
+            break;
+
+        case WinchTypes.TYORBISFLY5:
+            personality = 5;
+            break;
+
+        case WinchTypes.TYORBISFLY9:
+            personality = 9;
+            break;
+        default:
+            personality = 9;
+            break;
+    }
+    let max = 512 - personality;
+
+    // again this had to be a variable blegh....??!?!
+    let d = document.getElementById("NewAddrA");
+    d.setAttribute("max", max);
+
+    d = document.getElementById("NewAddrB");
+    d.setAttribute("max", max);
+
+    d = document.getElementById("NewAddrC");
+    d.setAttribute("max", max);
+
+    d = document.getElementById("NewAddrD");
+    d.setAttribute("max", max);
+
+    
+
+    let fault = "<- overlaps"
+
+    if (!winchNew.WinchAaddrIsOk) {
+        enable = false;
+        document.getElementById("NewAddrAisOK").innerHTML = fault;
+    } else {
+        document.getElementById("NewAddrAisOK").innerHTML = "";
+
+    }
+    if (!winchNew.WinchBaddrIsOk) {
+        enable = false;
+        document.getElementById("NewAddrBisOK").innerHTML = fault;
+    } else {
+        document.getElementById("NewAddrBisOK").innerHTML = "";
+
+    }
+    if (!winchNew.WinchCaddrIsOk) {
+        enable = false;
+        document.getElementById("NewAddrCisOK").innerHTML = fault;
+    } else {
+        document.getElementById("NewAddrCisOK").innerHTML = "";
+
+    }
+    if (!winchNew.WinchDaddrIsOk) {
+        enable = false;
+        document.getElementById("NewAddrDisOK").innerHTML = fault;
+    } else {
+        document.getElementById("NewAddrDisOK").innerHTML = "";
+
+    }
+    if (!winchNew.WinchSafetyAddrIsOk) {
+        enable = false;
+        document.getElementById("NewAddrSisOK").innerHTML = fault;
+    } else {
+        document.getElementById("NewAddrSisOK").innerHTML = "";
+
+    }
+    if (enable) {
+        if (webserial.port) {
+            eneableButSend(true);
+        }
+    } else {
+        eneableButSend(false);
+    }
+}
+
+//obviously a very bad implementation of onchange handler, 
 function changeCatchAll() {
     // fuck it, just get all data from page
     getNewData();
     setVisable();
     setRWV();
     setNewData();
+    winchNew.checkAddresses();
+    setAddrPossible();
+
 }
+
 
 function setRWV() {
     let factor;

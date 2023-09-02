@@ -143,6 +143,106 @@ class WinchSettings {
         this.name = "winch1"
     }
 
+    checkAddresses() {
+        let person;
+
+        switch (this.type) {
+            case WinchTypes.TYDLB:
+                person = 3;
+                break;
+
+            case WinchTypes.TYORBISFLY5:
+                person = 5;
+                break;
+
+            case WinchTypes.TYORBISFLY9:
+                person = 9;
+                break;
+            default:
+                person = 9;
+                break;
+        }
+
+        let addrA = Array(person);
+        let addrB = Array(person);
+        let addrC = Array(person);
+        let addrD = Array(person);
+
+        let addrS = Array(3);
+
+        addrS = [parseInt(this.WinchSafetyAddr), parseInt(this.WinchSafetyAddr) + 1, parseInt(this.WinchSafetyAddr) + 2];
+
+        for (let i = 0; i < person; i++) {
+            addrA[i] = parseInt(this.WinchAaddr) + i;
+            addrB[i] = parseInt(this.WinchBaddr) + i;
+            addrC[i] = parseInt(this.WinchCaddr) + i;
+            addrD[i] = parseInt(this.WinchDaddr) + i;
+        }
+
+        //https://stackoverflow.com/questions/1885557/simplest-code-for-array-intersection-in-javascript
+
+        // make a lot of comparissons..
+        // b
+        /// compare b to a
+        let compare = addrA.filter(value => addrB.includes(value));
+        if (compare.length > 0)
+            this.WinchBaddrIsOk = false;
+        else
+            this.WinchBaddrIsOk = true;
+
+        // c
+        // compare c to b
+        compare = addrB.filter(value => addrC.includes(value))
+        if (compare.length > 0)
+            this.WinchCaddrIsOk = false;
+        else
+            this.WinchCaddrIsOk = true;
+        //compare c to a
+        compare = addrA.filter(value => addrC.includes(value))
+        if (compare.length > 0)
+            this.WinchCaddrIsOk = false;
+
+        // d
+        compare = addrC.filter(value => addrD.includes(value))
+        if (compare.length > 0)
+            this.WinchDaddrIsOk = false;
+        else
+            this.WinchDaddrIsOk = true;
+        //compare d to b
+        compare = addrB.filter(value => addrD.includes(value))
+        if (compare.length > 0)
+            this.WinchDaddrIsOk = false;
+        // d to a
+        compare = addrA.filter(value => addrD.includes(value))
+        if (compare.length > 0)
+            this.WinchDaddrIsOk = false;
+
+        // saf
+        compare = addrD.filter(value => addrS.includes(value))
+        if (compare.length > 0)
+            this.WinchSafetyAddrIsOk = false;
+        else
+            this.WinchSafetyAddrIsOk = true;
+        //compare s to c
+        compare = addrC.filter(value => addrS.includes(value))
+        if (compare.length > 0)
+            this.WinchSafetyAddrIsOk = false;
+        // s to b
+        compare = addrB.filter(value => addrS.includes(value))
+        if (compare.length > 0)
+            this.WinchSafetyAddrIsOk = false;
+        // s to a 
+        compare = addrA.filter(value => addrS.includes(value))
+        if (compare.length > 0)
+            this.WinchSafetyAddrIsOk = false;
+
+        // console.log(this.WinchAaddrIsOk);
+        // console.log(this.WinchBaddrIsOk);
+        // console.log(this.WinchCaddrIsOk);
+        // console.log(this.WinchDaddrIsOk);
+        // console.log(this.WinchSafetyAddrIsOk);
+    }
+
     checkTrim() {
         if (parseInt(this.WinchTrimUp) >= parseInt(this.WinchTrimDown))
             this.WinchTrimUp = this.WinchTrimDown;
@@ -150,10 +250,6 @@ class WinchSettings {
             this.WinchTrimUpCD = this.WinchTrimDownCD;
     }
 
-    checkAddresses() {
-        //lets take address a as startpoint point. 
-
-    }
     // ga ik hier nog echt nog setters en getters moeten maken voor elke wisseling van waarde?
 }
 
@@ -425,12 +521,12 @@ class SerialWinchSender {
         //     ;
         this.serial.sendSerial(this.outgoingdata);
     }
-    setAndReqAllData(winch){
+    setAndReqAllData(winch) {
         this.setAllData(winch);
         this.reqAllData()
         this.reqSave();
 
-        }
+    }
 
     reqAllData() {
         this.reqMode();
