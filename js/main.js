@@ -82,6 +82,7 @@ function setDataSer() {
 
 function cpyFromCurrent() {
     // really dont knwo if this will work...
+
     for (const key in winchCurr) {
         if (winchCurr.hasOwnProperty(key)) {
             // console.log(key + "'s favorite fruit is " + winchCurr[key]);
@@ -192,7 +193,7 @@ function changeCatchAll() {
 
 }
 
-
+// set real world values
 function setRWV() {
     let factor;
     let factor2;
@@ -357,8 +358,6 @@ function getNewData() {
 
 // copy the data from the winchNew obj to the html
 function setNewData() {
-
-
     winchNew.checkTrim();
 
     document.getElementById("NewAddrA").value = winchNew.WinchAaddr;
@@ -383,6 +382,21 @@ function setNewData() {
     document.getElementById("NewName").value = winchNew.name;
 
     document.getElementById("AddrIncrement").value = increment
+
+    let mode = document.getElementById("NewMode").mode;
+    for (let i = 0; i < mode.length; i++) {
+        if (winchNew.mode == WinchModes[mode[i].id]) {
+            (mode[i].checked = true)
+            // console.log(WinchModes[mode[i].id])
+        }
+    };
+
+    let type = document.getElementById("NewType").type;
+    for (let i = 0; i < type.length; i++) {
+        if (winchNew.type == WinchTypes[type[i].id]) {
+            type[i].checked = true
+        }
+    }
 }
 
 // cpy the data from the 'winchCurr' obj to the html 
