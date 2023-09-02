@@ -48,6 +48,12 @@ function disconnected(e) {
     delete webserial.port;
     document.getElementById("btnCon").value = "Connect";
     enableButtons(false);
+    // delete winchCurr; // cant do this...
+    for (const key in winchCurr) {
+        delete winchCurr[key];
+    }
+    setCurrentData();
+    changeCatchAll();
 }
 
 function enableButtons(e) {
@@ -126,7 +132,7 @@ function setAddrPossible() {
     d = document.getElementById("NewAddrD");
     d.setAttribute("max", max);
 
-    
+
 
     let fault = "<- overlaps"
 
@@ -382,42 +388,86 @@ function setNewData() {
 // cpy the data from the 'winchCurr' obj to the html 
 function setCurrentData() {
     // winchCurr.WinchAaddr++;
-    if (winchCurr.WinchAaddr || (winchCurr.WinchTrimUp === 0))
+    if (winchCurr.WinchAaddr || (winchCurr.WinchAaddr === 0))
         document.getElementById("CurrAddrA").innerHTML = winchCurr.WinchAaddr;
-    if (winchCurr.WinchBaddr || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrAddrB").innerHTML = winchCurr.WinchBaddr;
-    if (winchCurr.WinchCaddr || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrAddrC").innerHTML = winchCurr.WinchCaddr;
-    if (winchCurr.WinchDaddr || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrAddrD").innerHTML = winchCurr.WinchDaddr;
+    else
+        document.getElementById("CurrAddrA").innerHTML = "";
 
-    if (winchCurr.WinchTrimUp || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrUp").innerHTML = winchCurr.WinchTrimUp;
-    if (winchCurr.WinchTrimDown || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrDown").innerHTML = winchCurr.WinchTrimDown;
-    if (winchCurr.WinchTrimUpCD || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrUpCD").innerHTML = winchCurr.WinchTrimUpCD;
-    if (winchCurr.WinchTrimDownCD || (winchCurr.WinchTrimUp === 0))
-        document.getElementById("CurrDownCD").innerHTML = winchCurr.WinchTrimDownCD;
+    if (winchCurr.WinchBaddr || (winchCurr.WinchBaddr === 0))
+        document.getElementById("CurrAddrB").innerHTML = winchCurr.WinchBaddr;
+    else
+        document.getElementById("CurrAddrB").innerHTML = "";
+
+    if (winchCurr.WinchCaddr || (winchCurr.WinchCaddr === 0))
+        document.getElementById("CurrAddrC").innerHTML = winchCurr.WinchCaddr;
+    else
+        document.getElementById("CurrAddrC").innerHTML = "";
+
+    if (winchCurr.WinchDaddr || (winchCurr.WinchDaddr === 0))
+        document.getElementById("CurrAddrD").innerHTML = winchCurr.WinchDaddr;
+    else
+        document.getElementById("CurrAddrD").innerHTML = "";
 
     if (winchCurr.WinchSafetyAddr || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrSaftyAddr").innerHTML = winchCurr.WinchSafetyAddr;
+    else
+        document.getElementById("CurrSaftyAddr").innerHTML = "";
+
+    if (winchCurr.WinchTrimUp || (winchCurr.WinchTrimUp === 0))
+        document.getElementById("CurrUp").innerHTML = winchCurr.WinchTrimUp;
+    else
+        document.getElementById("CurrUp").innerHTML = "";
+    if (winchCurr.WinchTrimDown || (winchCurr.WinchTrimDown === 0))
+        document.getElementById("CurrDown").innerHTML = winchCurr.WinchTrimDown;
+    else
+        document.getElementById("CurrDown").innerHTML = "";
+    if (winchCurr.WinchTrimUpCD || (winchCurr.WinchTrimUpCD === 0))
+        document.getElementById("CurrUpCD").innerHTML = winchCurr.WinchTrimUpCD;
+    else
+        document.getElementById("CurrUpCD").innerHTML = "";
+
+    if (winchCurr.WinchTrimDownCD || (winchCurr.WinchTrimDownCD === 0))
+        document.getElementById("CurrDownCD").innerHTML = winchCurr.WinchTrimDownCD;
+    else
+        document.getElementById("CurrDownCD").innerHTML = "";
+
+
 
     if (winchCurr.WinchBdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevB").innerHTML = winchCurr.WinchBdev;
+    else
+        document.getElementById("CurrDevB").innerHTML = "";
+
     if (winchCurr.WinchCdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevC").innerHTML = winchCurr.WinchCdev;
+    else
+        document.getElementById("CurrDevC").innerHTML = "";
+
     if (winchCurr.WinchDdev || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrDevD").innerHTML = winchCurr.WinchDdev;
+    else
+        document.getElementById("CurrDevD").innerHTML = "";
 
     if (winchCurr.WinchBlinP || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrPosB").innerHTML = winchCurr.WinchBlinP;
+    else
+        document.getElementById("CurrPosB").innerHTML = "";
+
     if (winchCurr.WinchClinP || (winchCurr.WinchTrimUp === 0))
         document.getElementById("CurrPosC").innerHTML = winchCurr.WinchClinP;
+    else
+        document.getElementById("CurrPosC").innerHTML = "";
+
     if (winchCurr.name)
         document.getElementById("CurrName").innerHTML = winchCurr.name;
+    else
+        document.getElementById("CurrName").innerHTML = "";
+
     if ((winchCurr.serNum) || (winchCurr.serNum === 0))
         document.getElementById("CurrSer").innerHTML = winchCurr.serNum;
+    else
+        document.getElementById("CurrSer").innerHTML = "";
+
 
     // set mode and type to html
     if (winchCurr.mode) {
@@ -443,7 +493,9 @@ function setCurrentData() {
                 break;
         }
         document.getElementById("CurrMode").innerHTML = m;
-    }
+    } else
+        document.getElementById("CurrMode").innerHTML = "";
+
     if (winchCurr.type) {
         let t;
         switch (winchCurr.type) {
@@ -460,7 +512,8 @@ function setCurrentData() {
                 break;
         }
         document.getElementById("CurrType").innerHTML = t;
-    }
+    } else
+        document.getElementById("CurrType").innerHTML = "";
 }
 
 
