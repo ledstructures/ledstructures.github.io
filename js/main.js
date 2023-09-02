@@ -28,6 +28,7 @@ async function connect() {
     if (webserial.port) {
         await webserial.closePort();
         enableButtons(false)
+        disconnected("disconnect pressed")
 
 
     } else {
@@ -82,7 +83,8 @@ function setDataSer() {
 
 function cpyFromCurrent() {
     // really dont knwo if this will work...
-
+    let sd = new SerialWinchSender(webserial);
+    sd.reqAllData();
     for (const key in winchCurr) {
         if (winchCurr.hasOwnProperty(key)) {
             // console.log(key + "'s favorite fruit is " + winchCurr[key]);
@@ -190,6 +192,7 @@ function changeCatchAll() {
     setNewData();
     winchNew.checkAddresses();
     setAddrPossible();
+    // setDiffencesData();
 
 }
 
@@ -397,6 +400,134 @@ function setNewData() {
             type[i].checked = true
         }
     }
+}
+
+// cpy the data from the 'winchCurr' obj to the html 
+function setDiffencesData() {
+    // winchCurr.WinchAaddr++;
+    let notEqual = "x"
+    if (parseInt(winchCurr.WinchAaddr) != parseInt(winchNew.WinchAaddr))
+        document.getElementById("CurrAddrAeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrAddrAeq").innerHTML = "";
+
+    if (winchCurr.WinchBaddr != winchNew.WinchBaddr)
+        document.getElementById("CurrAddrBeq").innerHTML =notEqual;
+    else
+        document.getElementById("CurrAddrBeq").innerHTML = "";
+
+    if (winchCurr.WinchCaddr != winchNew.WinchCaddr)
+        document.getElementById("CurrAddrCeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrAddrCeq").innerHTML = "";
+
+    if (winchCurr.WinchDaddr != winchNew.WinchDaddr)
+        document.getElementById("CurrAddrDeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrAddrDeq").innerHTML = "";
+
+    if (winchCurr.WinchSafetyAddr != winchNew.WinchTrimUp)
+        document.getElementById("CurrSaftyAddreq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrSaftyAddreq").innerHTML = "";
+
+    if (winchCurr.WinchTrimUp != winchNew.WinchTrimUp)
+        document.getElementById("CurrUpeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrUpeq").innerHTML = "";
+    if (winchCurr.WinchTrimDown != winchNew.WinchTrimDown)
+        document.getElementById("CurrDowneq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrDowneq").innerHTML = "";
+    if (winchCurr.WinchTrimUpCD != winchNew.WinchTrimUpCD)
+        document.getElementById("CurrUpCDeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrUpCDeq").innerHTML = "";
+
+    if (winchCurr.WinchTrimDownCD != winchNew.WinchTrimDownCD)
+        document.getElementById("CurrDownCDeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrDownCDeq").innerHTML = "";
+
+
+
+    if (winchCurr.WinchBdev != winchNew.WinchTrimUp)
+        document.getElementById("CurrDevBeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrDevBeq").innerHTML = "";
+
+    if (winchCurr.WinchCdev != winchNew.WinchTrimUp)
+        document.getElementById("CurrDevCeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrDevCeq").innerHTML = "";
+
+    if (winchCurr.WinchDdev != winchNew.WinchTrimUp)
+        document.getElementById("CurrDevDeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrDevDeq").innerHTML = "";
+
+    if (winchCurr.WinchBlinP != winchNew.WinchTrimUp)
+        document.getElementById("CurrPosBeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrPosBeq").innerHTML = "";
+
+    if (winchCurr.WinchClinP != winchNew.WinchTrimUp)
+        document.getElementById("CurrPosCeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrPosCeq").innerHTML = "";
+
+    if (winchCurr.name != winchNew.name)
+        document.getElementById("CurrNameeq").innerHTML = notEqual;
+    else
+        document.getElementById("CurrNameeq").innerHTML = "";
+
+
+
+    // set mode and type to html
+    if (winchCurr.mode) {
+        let m;
+        // console.log(winchCurr.mode);
+        switch (winchCurr.mode) {
+            case WinchModes.LIFOLLOWA:
+                m = "Square";
+                break;
+            case WinchModes.LIFOLLOWPREV:
+                m = "flex line";
+                break;
+            case WinchModes.LIDUBBLEPAIR:
+                m = "Double ab & cd";
+                break;
+            case WinchModes.LI3INLINE:
+                m = "3-in-line";
+                break;
+            case WinchModes.LI4INLINE:
+                m = "4-in-line";
+                break;
+            default:
+                break;
+        }
+        document.getElementById("CurrMode").innerHTML = m;
+    } else
+        document.getElementById("CurrMode").innerHTML = "";
+
+    if (winchCurr.type) {
+        let t;
+        switch (winchCurr.type) {
+            case WinchTypes.TYORBISFLY5:
+                t = "Orbi 5";
+                break;
+            case WinchTypes.TYORBISFLY9:
+                t = "Orbi 9";
+                break;
+            case WinchTypes.TYDLB:
+                t = "DLB";
+                break;
+            default:
+                break;
+        }
+        document.getElementById("CurrType").innerHTML = t;
+    } else
+        document.getElementById("CurrType").innerHTML = "";
 }
 
 // cpy the data from the 'winchCurr' obj to the html 
