@@ -28,7 +28,9 @@
                 <td>
                     <p class="table_paragraph"> Addresses:</p>
                 </td>
-                <td></td>
+                <td>
+                    Address sequencial from A: <input type="checkbox" id="AddrAutomatic" checked="false" onchange="changeCatchAll();">
+                </td>
                 <td></td>
             </tr>
             <tr>
@@ -345,7 +347,7 @@
                 <td> <input id="AddrIncrement" type="number" min="1" max="512" onchange="changeCatchAll();" />
                 </td>
                 <td>
-                    Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true">
+                    Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true" onchange="changeCatchAll();">
                 </td>
                 <td>
                     <p>

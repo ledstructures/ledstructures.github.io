@@ -27,6 +27,13 @@ input[type=button] {
     font-weight: bolder;
 }
 
+input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #cccccc;
+    color: #202020;
+}
+
 .button.disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -34,7 +41,7 @@ input[type=button] {
 
 .button:hover {
     background-color: #a7a7a7;
-}
+} 
 
 .button:active {
     background-color: #464646;

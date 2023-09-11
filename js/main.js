@@ -186,6 +186,7 @@ function setAddrPossible() {
 //obviously a very bad implementation of onchange handler, 
 function changeCatchAll() {
     // fuck it, just get all data from page
+    addressSequencial();
     getNewData();
     setVisable();
     setRWV();
@@ -193,7 +194,68 @@ function changeCatchAll() {
     winchNew.checkAddresses();
     setAddrPossible();
     // setDiffencesData();
+}
 
+function addressSequencial() {
+    let firstaddr = parseInt(document.getElementById("NewAddrA").value)
+    let offset = 0;
+    let type = document.getElementById("NewType").type;
+    let tn;
+    for (let i = 0; i < type.length; i++) {
+        if (type[i].checked == true) {
+            tn = WinchTypes[type[i].id];
+            // console.log(WinchModes[mode[i].id])
+        }
+    };
+    switch (tn) {
+        case WinchTypes.TYORBISFLY5:
+            offset = 5;
+            break;
+        case WinchTypes.TYORBISFLY9:
+            offset = 9;
+            break;
+        case WinchTypes.TYDLB:
+            offset = 3;
+            break;
+        default:
+            break;
+    }
+
+    if (document.getElementById("AddrAutomatic").checked) {
+        // disable the posibilits in b-c-d-safe
+        // document.getElementById("NewAddrA").disabled = true;
+        document.getElementById("NewAddrB").disabled = true;
+        document.getElementById("NewAddrC").disabled = true;
+        document.getElementById("NewAddrD").disabled = true;
+
+        // change the values: // is this better done in a global?
+        document.getElementById("NewAddrB").value = firstaddr + offset;
+        document.getElementById("NewAddrC").value = firstaddr + (offset * 2);
+        document.getElementById("NewAddrD").value = firstaddr + (offset * 3);
+
+        if (document.getElementById("AddrIncrementSafety").checked) {
+            document.getElementById("NewSaftyAddr").disabled = true;
+            document.getElementById("NewSaftyAddr").value = firstaddr + (offset * 4);
+            document.getElementById("AddrIncrement").value = (offset*4) + 3
+
+            // incement addres by 4*offset + 3
+        }else{
+            // increment address by 4xofsset
+            document.getElementById("AddrIncrement").value = (offset*4)
+
+        }
+
+
+    }
+    else {
+        document.getElementById("NewAddrB").disabled = false;
+        document.getElementById("NewAddrC").disabled = false;
+        document.getElementById("NewAddrD").disabled = false;
+        document.getElementById("NewSaftyAddr").disabled = false;
+    }
+    if (!document.getElementById("AddrIncrementSafety").checked) {
+        document.getElementById("NewSaftyAddr").disabled = false;
+    }
 }
 
 // set real world values
@@ -412,7 +474,7 @@ function setDiffencesData() {
         document.getElementById("CurrAddrAeq").innerHTML = "";
 
     if (winchCurr.WinchBaddr != winchNew.WinchBaddr)
-        document.getElementById("CurrAddrBeq").innerHTML =notEqual;
+        document.getElementById("CurrAddrBeq").innerHTML = notEqual;
     else
         document.getElementById("CurrAddrBeq").innerHTML = "";
 
