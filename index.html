@@ -17,7 +17,10 @@
                     <p class="table_paragraph">New values</p>
                 </td>
                 <td>
-                    <p class="table_paragraph">Metrics</p>
+                    <p class="table_paragraph">Metrics
+                    </p>
+                    <i class="metrics_help">?</i>
+                    <span class="metrics_hide">numbers below are approximate</span>
                 </td>
 
                 <td>
@@ -29,7 +32,8 @@
                     <p class="table_paragraph"> Addresses:</p>
                 </td>
                 <td>
-                    Address sequencial from A: <input type="checkbox" id="AddrAutomatic" checked="false" onchange="changeCatchAll();">
+                    Address sequencial from A: <input type="checkbox" id="AddrAutomatic" checked="false"
+                        onchange="changeCatchAll();">
                 </td>
                 <td></td>
             </tr>
@@ -54,7 +58,7 @@
                 <td></td>
 
                 <td>
-                    <p id="CurrAddrBeq"class="isEq"></p>
+                    <p id="CurrAddrBeq" class="isEq"></p>
                     <p id="CurrAddrB"></p>
                 </td>
             </tr>
@@ -67,7 +71,7 @@
                 <td></td>
 
                 <td>
-                    <p id="CurrAddrCeq"class="isEq"></p>
+                    <p id="CurrAddrCeq" class="isEq"></p>
                     <p id="CurrAddrC"></p>
                 </td>
             </tr>
@@ -80,7 +84,7 @@
                 <td></td>
 
                 <td>
-                    <p id="CurrAddrDeq"class="isEq"></p>
+                    <p id="CurrAddrDeq" class="isEq"></p>
                     <p id="CurrAddrD"></p>
                 </td>
             </tr>
@@ -92,28 +96,21 @@
                 </td>
                 <td></td>
                 <td>
-                    <p id="CurrSaftyAddreq"class="isEq"></p>
+                    <p id="CurrSaftyAddreq" class="isEq"></p>
                     <p id="CurrSaftyAddr"></p>
                 </td>
             </tr>
             <tr>
                 <td>
                     <p class="table_paragraph"> Deviation:</p>
+                    <i class="deviation_help">?</i>
+                    <span class="deviation_hide">dev help placeholder</span>
                 </td>
                 <td></td>
                 <td>
                     <p id="RWVcentimeters" class="table_metrics"></p>
                 </td>
             </tr>
-
-            <!-- <tr>
-        <td>Winch A Deviation</td>
-        <td> <input id="NewDevA" type="number" min="0" max="255" />
-        </td>
-        <td>
-            <p id="CurrAddrA"></p>
-        </td>
-    </tr> -->
 
             <tr>
                 <td>B max Deviation</td>
@@ -125,7 +122,7 @@
 
                 </td>
                 <td>
-                    <p id="CurrDevBeq"class="isEq"></p>
+                    <p id="CurrDevBeq" class="isEq"></p>
                     <p id="CurrDevB"></p>
                 </td>
             </tr>
@@ -139,7 +136,7 @@
                 </td>
                 <td>
 
-                    <p id="CurrDevCeq"class="isEq"></p>
+                    <p id="CurrDevCeq" class="isEq"></p>
                     <p id="CurrDevC"></p>
                 </td>
             </tr>
@@ -152,15 +149,16 @@
                     <p id="RWVDevD"></p>
                 </td>
                 <td>
-                    <p id="CurrDevDeq"class="isEq"></p>
+                    <p id="CurrDevDeq" class="isEq"></p>
                     <p id="CurrDevD"></p>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <p class="table_paragraph">Trim / endpoints:</p>
-
+                    <p class="table_paragraph">Trim / endpoints: </p>
+                    <i class="deviation_help">?</i>
+                    <span class="deviation_hide">trim help help placeholder</span>
                 </td>
                 <td></td>
                 <td>
@@ -176,7 +174,7 @@
                     <p id="RWVup"></p>
                 </td>
                 <td>
-                    <p id="CurrUpeq"class="isEq"></p>
+                    <p id="CurrUpeq" class="isEq"></p>
                     <p id="CurrUp"></p>
                 </td>
             </tr>
@@ -189,7 +187,7 @@
                     <p id="RWVdown"></p>
                 </td>
                 <td>
-                    <p id="CurrDowneq"class="isEq"></p>
+                    <p id="CurrDowneq" class="isEq"></p>
                     <p id="CurrDown"></p>
                 </td>
             </tr>
@@ -203,7 +201,7 @@
                 </td>
 
                 <td>
-                    <p id="CurrUpCDeq"class="isEq"></p>
+                    <p id="CurrUpCDeq" class="isEq"></p>
                     <p id="CurrUpCD"></p>
                 </td>
             </tr>
@@ -217,39 +215,31 @@
                 </td>
 
                 <td>
-                    <p id="CurrDownCDeq"class="isEq"></p>
+                    <p id="CurrDownCDeq" class="isEq"></p>
                     <p id="CurrDownCD"></p>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <p class="table_paragraph">Line position:</p>
+                    <p class="table_paragraph">Line <br>position: </p>
+                    <i class="line_help">?</i>
+                    <span class="line_hide">line help help help placeholder</span>
                 </td>
                 <td></td>
                 <td>
                     <p class="table_metrics">A=0 -> last=1</p>
                 </td>
             </tr>
-
-            <!-- <tr>
-        <td>Winch A Deviation</td>
-        <td> <input id="NewDevA" type="number" min="0" max="255" />
-        </td>
-        <td>
-            <p id="CurrAddrA"></p>
-        </td>
-    </tr> -->
-
             <tr>
-                <td>B line position</td>
+                <td>B line position: </td>
                 <td> <input id="NewPosB" type="number" min="0" max="255" onchange="changeCatchAll();" />
                 </td>
                 <td>
                     <p id="RWVposB"></p>
                 </td>
                 <td>
-                    <p id="CurrPosBeq"class="isEq"></p>
+                    <p id="CurrPosBeq" class="isEq"></p>
                     <p id="CurrPosB"></p>
                 </td>
             </tr>
@@ -262,13 +252,18 @@
                     <p id="RWVposC"></p>
                 </td>
                 <td>
-                    <p id="CurrPosCeq"class="isEq"></p>
+                    <p id="CurrPosCeq" class="isEq"></p>
                     <p id="CurrPosC"></p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <p class="table_paragraph">Mode:</p>
+                    <p class="table_paragraph">Mode: </p>
+                    <i class="mode_help">?</i>
+                    <span class="mode_hide">mode help bla bla placeholder<br>
+                        mode help bla bla placeholder<br>
+                        mode help bla bla placeholder
+                    </span>
                 </td>
                 <td class="radiob">
                     <form id="NewMode" onchange="changeCatchAll();">
@@ -282,7 +277,7 @@
                 <td></td>
                 <td>
                     <!-- display current mode -->
-                    <p id="CurrModeeq"class="isEq"></p>
+                    <p id="CurrModeeq" class="isEq"></p>
                     <p id="CurrMode"></p>
 
                 </td>
@@ -347,7 +342,8 @@
                 <td> <input id="AddrIncrement" type="number" min="1" max="512" onchange="changeCatchAll();" />
                 </td>
                 <td>
-                    Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true" onchange="changeCatchAll();">
+                    Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true"
+                        onchange="changeCatchAll();">
                 </td>
                 <td>
                     <p>

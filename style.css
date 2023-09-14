@@ -15,6 +15,7 @@ input {
     font-family: inherit;
     font-size: small;
     vertical-align: right;
+    accent-color: #727272; ;
 }
 
 input[type=text] {
@@ -28,10 +29,16 @@ input[type=button] {
 }
 
 input:disabled {
-    opacity: 0.6;
     cursor: not-allowed;
-    background-color: #cccccc;
-    color: #202020;
+    background-color: #a7a7a7;
+    color: #464646;
+}
+
+input,
+p {
+    text-align: right;
+    margin: 0;
+    font-weight: lighter;
 }
 
 .button.disabled {
@@ -41,7 +48,7 @@ input:disabled {
 
 .button:hover {
     background-color: #a7a7a7;
-} 
+}
 
 .button:active {
     background-color: #464646;
@@ -68,6 +75,8 @@ input[type="radio"] {
     font-size: medium;
     vertical-align: top;
     font-weight: bolder;
+    display: inline;
+
 }
 
 .table_paragraph {
@@ -108,6 +117,24 @@ input[type="radio"] {
 
 a {
     color: #e9e9e9;
+}
+
+/* abused for help ? container */
+i {
+    font-style: normal;
+    font-weight: bolder;
+}
+
+/* used for thingy that displays the help */
+span {
+    font-size: small;
+    position: absolute;
+    background-color: #464646;
+    color: #e9e9e9;
+    border: 1px solid #a7a7a7;
+    font-weight: lighter;
+    padding: 2px 2px;
+    z-index: 1; 
 
 }
 
@@ -133,11 +160,43 @@ td {
     width: 25%;
 }
 
-input,
-p {
-    /* font-size: medium; */
-    text-align: right;
-    margin: 0;
-    font-weight: lighter;
 
+.metrics_hide {
+    display: none;
+}
+
+.metrics_help:hover+.metrics_hide {
+    display: block;
+}
+
+.deviation_hide {
+    display: none;
+}
+
+.deviation_help:hover+.deviation_hide {
+    display: block;
+}
+
+.trim_hide {
+    display: none;
+}
+
+.trim_help:hover+.trim_hide {
+    display: block;
+}
+
+.line_hide {
+    display: none;
+}
+
+.line_help:hover+.line_hide {
+    display: block;
+}
+
+.mode_hide {
+    display: none;
+}
+
+.mode_help:hover+.mode_hide {
+    display: block;
 }
