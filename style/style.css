@@ -10,7 +10,6 @@ body {
 }
 
 input {
-    border: none;
     font-family: inherit;
     /* font-size: small; */
     vertical-align: right;
@@ -19,10 +18,13 @@ input {
 }
 
 input[type=text] {
+    border: 0px;
     width: 95%;
     height: 100%;
 }
+
 input[type=number] {
+    border: 0px;
     width: 56px;
     height: 100%;
     vertical-align: middle;
@@ -31,13 +33,13 @@ input[type=number] {
 
 
 input[type=button] {
+    border: 2px;
     width: 100%;
     text-align: center;
     font-weight: bolder;
     background-color: #0046e5;
     color: #e6edfc;
     transition: 0.5s;
-
 }
 
 input,
@@ -52,6 +54,7 @@ input[type=button]:disabled {
     cursor: not-allowed;
     background-color: #7392db;
     color: #e6edfc;
+    border-color: #7392db;
 }
 
 .button:hover {
@@ -60,7 +63,7 @@ input[type=button]:disabled {
 }
 
 .button:active {
-    transform: translate3d(1px, 1px, 1px)
+    transform: translate3d(1px, 1px, 0px)
 }
 
 input[type="checkbox"],
