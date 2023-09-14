@@ -1,37 +1,43 @@
 body {
     margin: auto;
-    background-color: #464646;
+    background-color: #1f1f1f;
     /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
-    /* font-family: 'Courier New', Courier, monospace; */
-    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
+    /* font-family: "Lucida Console", "Courier New", Courier, monospace; */
 
     /* font-family: Verdana, Arial, Helvetica, sans-serif; */
-
     font-size: small;
 }
 
 input {
     border: none;
     font-family: inherit;
-    font-size: small;
+    /* font-size: small; */
     vertical-align: right;
-    accent-color: #727272; ;
+    accent-color: #0046e5;
+    /* accent-color: #37b820; */
 }
 
 input[type=text] {
     width: 95%;
+    height: 100%;
 }
+input[type=number] {
+    width: 56px;
+    height: 100%;
+    vertical-align: middle;
+}
+
+
 
 input[type=button] {
     width: 100%;
     text-align: center;
     font-weight: bolder;
-}
+    background-color: #0046e5;
+    color: #e6edfc;
+    transition: 0.5s;
 
-input:disabled {
-    cursor: not-allowed;
-    background-color: #a7a7a7;
-    color: #464646;
 }
 
 input,
@@ -41,17 +47,19 @@ p {
     font-weight: lighter;
 }
 
-.button.disabled {
-    opacity: 0.6;
+.button.disabled:hover,
+input[type=button]:disabled {
     cursor: not-allowed;
+    background-color: #7392db;
+    color: #e6edfc;
 }
 
 .button:hover {
-    background-color: #a7a7a7;
+    background-color: #e6edfc;
+    color: #2f2f2f;
 }
 
 .button:active {
-    background-color: #464646;
     transform: translate3d(1px, 1px, 1px)
 }
 
@@ -65,7 +73,7 @@ input[type="radio"] {
 
 .table_metrics {
 
-    font-size: small;
+    font-size: 14px;
     vertical-align: top;
     font-weight: bolder;
     /* text-decoration: underline; */
@@ -91,7 +99,7 @@ input[type="radio"] {
 
 
 .contentdiv {
-    width: 640px;
+    width: 720px;
     position: absolute;
     left: 50%;
     transform: translate(-50%, 5%);
@@ -101,7 +109,7 @@ input[type="radio"] {
     text-align: center;
     font-size: xx-large;
     font-weight: bolder;
-    color: #a7a7a7;
+    color: #f7f7f7;
 }
 
 .footer {
@@ -129,19 +137,18 @@ i {
 span {
     font-size: small;
     position: absolute;
-    background-color: #464646;
-    color: #e9e9e9;
+    background-color: #37b820;
+    color: #e6edfc;
     border: 1px solid #a7a7a7;
     font-weight: lighter;
-    padding: 2px 2px;
-    z-index: 1; 
+    z-index: 1;
 
 }
 
 table {
     table-layout: fixed;
-    border: 3px solid #727272;
-    background-color: #202020;
+    border: 15px solid #2f2f2f;
+    background-color: #2f2f2f;
 
     border-collapse: collapse;
 
@@ -153,14 +160,12 @@ table {
 td {
     vertical-align: top;
     border: 1px solid #727272;
-    background-color: #202020;
     border-collapse: collapse;
-    /* border-style:ridge; */
     color: #e9e9e9;
     width: 25%;
 }
 
-
+/* hidden help thingemawhatchies */
 .metrics_hide {
     display: none;
 }
