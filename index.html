@@ -38,7 +38,7 @@
                     <p class="table_paragraph"> Addresses:</p>
                 </td>
                 <td>
-                    Address sequencial from A: <input type="checkbox" id="AddrAutomatic" checked="false"
+                    Address auto from A: <input type="checkbox" id="AddrAutomatic" checked="false"
                         onchange="changeCatchAll();">
                 </td>
                 <td></td>
@@ -353,18 +353,19 @@
                     <input type="button" class="button" onclick="cpyFromCurrent();" value="Copy from device"
                         id="btnCpy">
                 </td>
-                <td>
+                <td class="nexto_button">
                     Serial number:
                 </td>
             </tr>
             <tr>
-                <td>
+                <td >
                     <input type="button" class="button"
                         onclick="incrementAddresses(winchNew, increment, document.getElementById('AddrIncrementSafety').checked)"
                         value="Increment addresses">
-                <td> <input id="AddrIncrement" type="number" min="1" max="512" onchange="changeCatchAll();" />
+                <td class="nexto_button"> 
+                    <input id="AddrIncrement" type="number" min="1" max="512" onchange="changeCatchAll();" />
                 </td>
-                <td>
+                <td  class="nexto_button">
                     Increment safety: <input type="checkbox" id="AddrIncrementSafety" checked="true"
                         onchange="changeCatchAll();">
                 </td>
