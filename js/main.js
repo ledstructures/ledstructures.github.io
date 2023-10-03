@@ -229,19 +229,19 @@ function addressSequencial() {
         document.getElementById("NewAddrD").disabled = true;
 
         // change the values: // is this better done in a global?
-        document.getElementById("NewAddrB").value = firstaddr + offset;
-        document.getElementById("NewAddrC").value = firstaddr + (offset * 2);
-        document.getElementById("NewAddrD").value = firstaddr + (offset * 3);
+        document.getElementById("NewAddrB").value = 0x1ff & (firstaddr + offset);
+        document.getElementById("NewAddrC").value = 0x1ff & (firstaddr + (offset * 2));
+        document.getElementById("NewAddrD").value = 0x1ff & (firstaddr + (offset * 3));
 
         if (document.getElementById("AddrIncrementSafety").checked) {
             document.getElementById("NewSaftyAddr").disabled = true;
-            document.getElementById("NewSaftyAddr").value = firstaddr + (offset * 4);
-            document.getElementById("AddrIncrement").value = (offset*4) + 3
+            document.getElementById("NewSaftyAddr").value = 0x1ff & (firstaddr + (offset * 4));
+            document.getElementById("AddrIncrement").value = 0x1ff & ((offset * 4) + 3);
 
             // incement addres by 4*offset + 3
-        }else{
+        } else {
             // increment address by 4xofsset
-            document.getElementById("AddrIncrement").value = (offset*4)
+            document.getElementById("AddrIncrement").value = (offset * 4)
 
         }
 
