@@ -219,3 +219,8 @@ td {
 .mode_help:hover+.mode_hide {
     display: block;
 }
+
+textarea{
+    height: 500px;
+    width: 80px;
+}
