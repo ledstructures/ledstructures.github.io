@@ -72,7 +72,7 @@
 
                 newdata += parseInt(newsplit[0]) + uni;
                 newdata += "-";
-                newdata += parseInt(newsplit[1]) + addr;
+                newdata += pad(parseInt(newsplit[1]) + addr, 3);
                 newdata += '\n';
             }
             document.getElementById("output").innerHTML = newdata;
@@ -88,6 +88,12 @@
 
         function clearInput() {
             document.getElementById("input").value = '';
+        }
+//https://stackoverflow.com/questions/2998784/how-to-output-numbers-with-leading-zeros-in-javascript
+        function pad(num, size) {
+            num = num.toString();
+            while (num.length < size) num = "0" + num;
+            return num;
         }
 
     </script>
