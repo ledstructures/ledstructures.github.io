@@ -281,6 +281,10 @@
                                 function setColorSliders(r, g, b) {
                                     let radio = getElementsByName('colorMode');
                                     let coltype;
+                                    let w;
+                                    let rt = r;
+                                    let gt = g;
+                                    let bt = b;
                                     for (i = 0; i < radio.length; i++) {
                                         if (radio[i].checked)
                                             coltype = radio[i].id;
@@ -294,7 +298,6 @@
                                             document.getElementById("staticWhite").value = 0;
                                             break;
                                         case "RGBW":
-                                            let w;
                                             while (r && g && b) {
                                                 w++;
                                                 r--;
@@ -307,10 +310,7 @@
                                             document.getElementById("staticWhite").value = w;
                                             break;
                                         case "RGBWPLUS":
-                                            let w;
-                                            let rt = r;
-                                            let gt = g;
-                                            let bt = b;
+
                                             while (r && g && b) {
                                                 w++;
                                                 r--;
