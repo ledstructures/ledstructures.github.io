@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../style/style.css">
+
+<head>
+    <title>Chamsys uni and addres shifter</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon_32x32.png">
+</head>
+
+<body class="patchbody">
+    <script id="navbar" src="../navbar.js"></script>
+    <br>
+    <div class="contentdiv">
+        <div class="activediv">
+            <table>
+                <tr>
+                    <td>
+                        <p class=" table_paragraph">Current DMX</p>
+                        <i class="deviation_help">&#x1F6C8;</i>
+                        <span class="deviation_hide">copy only the DMX column from magicq</span>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Shift universe</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Shift address</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">New addresses</p>
+                        <!-- *isn't checked for faults, negative and >512 -->
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <textarea id="input" onchange="changeAddr();"></textarea>
+
+                    </td>
+                    <td> <input id="uni" type="number" min="-512" max="512" value="0" onchange="changeAddr();" />
+                    </td>
+                    <td><input id="addr" type="number" min="-512" value="0" onchange="changeAddr();" /></td>
+                    <td>
+                        <textarea id="output" readonly></textarea>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="button" class="button" onclick="clearInput();" value="clear">
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <input type="button" class="button" onclick="selectOutput();" value="select output" id="btn">
+
+                    </td>
+                </tr>
+
+            </table>
+            <p class="footer">2023 LED structures</p>
+
+        </div>
+    </div>
+    <script>
+
+
+        function changeAddr() {
+            let inputdata = document.getElementById("input").value;
+            let uni = parseInt(document.getElementById("uni").value);
+            let addr = parseInt(document.getElementById("addr").value);
+            let newdata = '';
+
+            let data = inputdata.split('\n');
+
+            for (let i = 0; i < data.length; i++) {
+                let newsplit = data[i].split('-');
+                if ((parseInt(newsplit[0]) + uni > 0) && (parseInt(newsplit[0]) + uni < 65535))
+                    newdata += parseInt(newsplit[0]) + uni;
+                else
+                    newdata += 1;
+                newdata += "-";
+                if ((parseInt(newsplit[1]) + addr > 0) && (parseInt(newsplit[1]) + addr < 513))
+                    newdata += pad(parseInt(newsplit[1]) + addr, 3);
+                else
+                    newdata += pad(1, 3);
+
+                newdata += '\n';
+            }
+            if (inputdata)
+                document.getElementById("output").innerHTML = newdata;
+        }
+
+        function selectOutput() {
+            changeAddr();
+            document.getElementById("output").select();
+        }
+
+        function clearInput() {
+            document.getElementById("input").value = '';
+        }
+        //https://stackoverflow.com/questions/2998784/how-to-output-numbers-with-leading-zeros-in-javascript
+        function pad(num, size) {
+            num = num.toString();
+            while (num.length < size) {
+                num = "0" + num;
+            }
+            return num;
+        }
+
+    </script>
+</body>
+
+</html>

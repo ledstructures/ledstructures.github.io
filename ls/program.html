@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../style/style.css">
+
+<head>
+    <title>Ledstructures ledstrip programmer</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon_32x32.png">
+</head>
+
+<body class="progbody">
+    <script id="navbar" src="../navbar.js"></script>
+    <br>
+    <div class="contentdiv">
+
+        <nav>
+            <ul>
+                <li>
+                    <a onclick="
+                    document.getElementById('progSimple').style.display = 'block'; 
+                    document.getElementById('progShape').style.display = 'none'; 
+                    document.getElementById('progCSV').style.display = 'none'; 
+                    document.getElementById('testPattern').style.display = 'none'; 
+                    document.getElementById('testStatic').style.display = 'none'; 
+                    ">
+                        Standard pattern </a>
+                </li>
+
+                <li>
+                    <a onclick="
+                        document.getElementById('progSimple').style.display = 'none'; 
+                        document.getElementById('progShape').style.display = 'block'; 
+                        document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testStatic').style.display = 'none'; 
+                    ">
+                        Special shape </a>
+                </li>
+
+                <li>
+                    <a onclick="
+                        document.getElementById('progSimple').style.display = 'none'; 
+                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progCSV').style.display = 'block'; 
+                        document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testStatic').style.display = 'none'; 
+                    ">
+                        CSV / manual </a>
+                </li>
+
+                <li>
+                    <a onclick="
+                        document.getElementById('progSimple').style.display = 'none';
+                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('testPattern').style.display = 'block'; 
+                        document.getElementById('testStatic').style.display = 'none'; 
+                    "> Test pattern </a>
+                </li>
+
+                <li>
+                    <a onclick="
+                        document.getElementById('progSimple').style.display = 'none'; 
+                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testStatic').style.display = 'block'; 
+                    "> Test static </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="activediv" id="progSimple">
+            <table>
+                <tr>
+                    <td>
+                        <p class=" table_paragraph"> Start address:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Pattern:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph"> Pattern size:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph"> Mode:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph"> Address list:</p>
+                    </td>
+                </tr>
+
+                <tr class="contenttr">
+
+                    <td> <input id="addres" type="number" min="1" max="509" value="1" onchange="changeProgSimple();" />
+                    </td>
+
+                    <td>
+                        <form id="NewMode" onchange="changeProgSimple();">
+                            <input type="radio" name="mode" id="FWD" checked="true">Forward<br>
+                            <input type="radio" name="mode" id="RED">Reversed<br>
+                            <input type="radio" name="mode" id="ZIGZAGFWD">ZigZag fwd<br>
+                            <input type="radio" name="mode" id="ZIGZAGREV">ZigZag Rev<br>
+                            <input type="radio" name="mode" id="ZIGZAGFWDFLIP">ZigZag fwd flipped<br>
+                            <input type="radio" name="mode" id="ZIGZAGREVFLIP">ZigZag Rev flipped<br>
+                            <input type="radio" name="mode" id="DUBBLE">Dubble fwd<br>
+                            <input type="radio" name="mode" id="DUBBLEFLIP">Dubble flip<br>
+                            <input type="radio" name="mode" id="DUBBLEFZIG">Dubble ZigZag<br>
+
+                        </form>
+                    </td>
+                    <td>
+                        <input id="segSize" type="number" min="1" max="10" value="1" onchange="changeProgSimple();" />
+                    </td>
+                    <td> <input id="patternSize" type="number" min="1" max="10" value="1"
+                            onchange="changeProgSimple();" />
+                    </td>
+                    <td>
+                        <p id="outpList"></p>
+                    </td>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="activediv" id="progShape" style="display: none;">
+            <table>
+                <tr>
+                    <td>
+                        <p class=" table_paragraph"> Shape:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph"> Example:</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph"> Address list:</p>
+                    </td>
+                </tr>
+
+                <tr class="contenttr">
+                    <td>
+                        <form id="newShape" onchange="changeProgShape();">
+                            <input type="radio" name="shape" id="CUBE2M" checked="true">Cube 2m<br>
+                            <input type="radio" name="shape" id="CUBE1M">Cube 1m 2x<br>
+                            <input type="radio" name="shape" id="CUBE50CM">Cube 50cm 4x<br>
+
+                        </form>
+                    </td>
+                    <td>
+                        <img id="shapeEaxmple">
+                    </td>
+                    <td>
+                        <p id="outpList"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="activediv" id="progCSV" style="display: none;">
+            <table>
+                <tr>
+                    <td>
+                        <p class="table_paragraph"> Load CSV:</p>
+                    </td>
+                    <td>
+                        <p class="table_paragraph">Address list:</p>
+                    </td>
+                </tr>
+                <tr class="contenttr">
+                    <td>
+                        <!-- <input type="button" class="button" onclick="loadCSV();" value="open CSV"> -->
+                    </td>
+                    <td>
+                        <textarea id="outpList"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" class="button" onclick="loadCSV();" value="open CSV">
+
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="activediv" id="testPattern" style="display: none;">
+            <table>
+                <tr>
+                    <td>
+                        <p class="table_paragraph"> Testpattern:</p>
+                    </td>
+                    <td>
+                        <p class="table_paragraph">Intensity/Speed:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form id="newTespat" onchange="changeTestPattern();">
+                            <input type="radio" name="shape" id="TESTWHGR" checked="true">White w/ green snake<br>
+                            <input type="radio" name="shape" id="TESTGRBL">Green w/ blue snake<br>
+                            <input type="radio" name="shape" id="TESTBLRD">Blue w/ red snake<br>
+                            <input type="radio" name="shape" id="TESTRDGR">Red w/ green snake<br>
+                            <input type="radio" name="shape" id="TESTRGB">RGBW snake<br>
+                            <input type="radio" name="shape" id="TESTRAINBOW">Rainbow<br>
+                            <input type="radio" name="shape" id="TESTRGBSNAP">RGB snap<br>
+                            <input type="radio" name="shape" id="TESTRGBCHASE">RGB chase<br>
+                            <input type="radio" name="shape" id="TESTFADEALL">Fade all<br>
+                            <input type="radio" name="shape" id="TESTFADERAINBOW">Fade chase<br>
+                        </form>
+                    </td>
+                    <td>
+                        Pattern speed:<br>
+
+                        <input type="range" min="0" max="255" value="0" class="slider" id="testPattSpeed"
+                            onchange="changeTestPattern()">
+                        <br>
+                        Pattern intensity:<br>
+                        <input type="range" min="0" max="255" value="0" class="slider" id="testPattInt"
+                            onchange="changeTestPattern()">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="activediv" id="testStatic" style="display: none;">
+            <table>
+                <tr>
+                    <td>
+                        <p class="table_paragraph"> Colors:</p>
+                    </td>
+                    <td>
+                        <p class="table_paragraph">Colorpicker:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Red:<div class="color" id="redInt"></div>
+                        <br>
+                        <input style="accent-color: #ff0000;" type="range" min="0" max="255" value="0" class="slider"
+                            id="staticRed" onchange="staticSetCols()">
+                        <br>
+                        Green:<div class="color" id="greenInt"></div>
+                        <br> <input style="accent-color: #00ff00;" type="range" min="0" max="255" value="0"
+                            class="slider" id="staticGreen" onchange="staticSetCols()">
+                        <br>
+                        Blue:<div class="color" id="blueInt"></div>
+                        <br><input style="accent-color: #0000ff;" type="range" min="0" max="255" value="0"
+                            class="slider" id="staticBlue" onchange="staticSetCols()">
+                        <br>
+                        White:<div class="color" id="whiteInt"></div>
+                        <br> <input style="accent-color: #ffffff;" type="range" min="0" max="255" value="0"
+                            class="slider" id="staticWhite" onchange="staticSetCols()">
+                    </td>
+                    <td>
+                        <img id="colorpickersrc" src="../img/color_circle.png" style="display: none" width="350"
+                            height="350">
+                        <div style="text-align: center;     margin: auto;">
+                            <canvas width="350" height="350" onclick="" id="colorpicker"></canvas>
+                            <script>
+                                var c = document.getElementById("colorpicker");
+                                var ctx = c.getContext("2d");
+                                var img = document.getElementById("colorpickersrc");
+                                ctx.drawImage(img, 0, 0, c.width, c.height);
+                                c.addEventListener('click', function (ev) {
+                                    var { x, y } = getCursorPosition(c, ev);
+                                    console.log(ctx.getImageData(x, y, 1, 1));
+                                });
+                                staticSetCols();
+                                function getCursorPosition(canvas, ev) {
+                                    var rect = canvas.getBoundingClientRect()
+                                    var x = ev.clientX - rect.left
+                                    var y = ev.clientY - rect.top
+                                    console.log(x);
+                                    console.log(y);
+                                    return { x, y };
+                                }
+                                function staticSetCols() {
+                                    document.getElementById("redInt").innerHTML = "value: " + document.getElementById("staticRed").value + ", " + (document.getElementById("staticRed").value / 2.55).toFixed(0) + "%";
+                                    document.getElementById("greenInt").innerHTML = "value: " + document.getElementById("staticGreen").value + ", " + (document.getElementById("staticGreen").value / 2.55).toFixed(0) + "%";
+                                    document.getElementById("blueInt").innerHTML = "value: " + document.getElementById("staticBlue").value + ", " + (document.getElementById("staticBlue").value / 2.55).toFixed(0) + "%";
+                                    document.getElementById("whiteInt").innerHTML = "value: " + document.getElementById("staticWhite").value + ", " + (document.getElementById("staticWhite").value / 2.55).toFixed(0) + "%";
+                                }
+
+                            </script>
+
+                            <p class="footer">
+
+                                <a href="https://en.wikipedia.org/wiki/File:Color_circle_%28RGB%29.png"> color wheel
+                                    source</a>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="activediv" id="progButtons">
+            <table>
+                <tr>
+                    <td>
+                        <input type="button" class="button" onclick="connect();" value="Connect" id="btnCon">
+                        <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
+                    </td>
+                    <td>
+                        firmware version:
+                    </td>
+                    <td>
+                        <p id="firmwareReturn"></p>
+                    </td>
+                    <td>
+                        <!-- <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
+                        <input type="button" class="button" onclick="setDataSer();" value="Program led strips"
+                            id="btnPgm">
+                        <!-- <input type="button" onclick="wsender.setAllData(winchNew)" value="Send new values"> -->
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+        <p class="footer">2024 LED structures</p>
+        <p class="footer">uses a <a
+                href="https://github.com/guuuuus/guuuuus.github.io/blob/main/js/webserial.js">modified</a> version of
+            <a href="https://github.com/tigoe/html-for-conndev/blob/main/webSerial/webserial.js">this</a>
+            webSerial wrapper
+        </p>
+    </div>
+</body>
+
+</html>
