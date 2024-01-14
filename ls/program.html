@@ -264,16 +264,14 @@
                                 ctx.drawImage(img, 0, 0, c.width, c.height);
                                 c.addEventListener('click', function (ev) {
                                     var { x, y } = getCursorPosition(c, ev);
-                                    
-                                    document.getElementById("staticRed").value= ctx.getImageData(x, y, 1, 1).data[0];
+                                    console.log(ctx.getImageData(x, y, 1, 1).data[0]);
+                                    document.getElementById("staticRed").value = ctx.getImageData(x, y, 1, 1).data[0];
                                 });
                                 staticSetCols();
                                 function getCursorPosition(canvas, ev) {
                                     var rect = canvas.getBoundingClientRect()
                                     var x = ev.clientX - rect.left
                                     var y = ev.clientY - rect.top
-                                    console.log(x);
-                                    console.log(y);
                                     return { x, y };
                                 }
                                 function staticSetCols() {
