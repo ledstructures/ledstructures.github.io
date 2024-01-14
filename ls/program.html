@@ -257,6 +257,12 @@
                             height="350">
                         <div style="text-align: center;     margin: auto;">
                             <canvas width="350" height="350" onclick="" id="colorpicker"></canvas>
+
+                            <form id="colorMode" onchange="">
+                                <input type="radio" name="mode" id="LIFOLLOWA" checked="true">Square, triangle etc.<br>
+                                <input type="radio" name="mode" id="LIFOLLOWPREV">flex line<br>
+                                <input type="radio" name="mode" id="LIDUBBLEPAIR">Pair a&b, c&d<br>
+                            </form>
                             <script>
                                 var c = document.getElementById("colorpicker");
                                 var ctx = c.getContext("2d");
@@ -264,10 +270,20 @@
                                 ctx.drawImage(img, 0, 0, c.width, c.height);
                                 c.addEventListener('click', function (ev) {
                                     var { x, y } = getCursorPosition(c, ev);
-                                    console.log(ctx.getImageData(x, y, 1, 1).data[0]);
-                                    document.getElementById("staticRed").value = ctx.getImageData(x, y, 1, 1).data[0];
+
+                                    let r = ctx.getImageData(x, y, 1, 1).data[0];
+                                    let g = ctx.getImageData(x, y, 1, 1).data[1];
+                                    let b = ctx.getImageData(x, y, 1, 1).data[2];
+                                    setColorSliders(r, g, b);
                                 });
                                 staticSetCols();
+
+                                function setColorSliders(r, g, b) {
+                                    
+                                    document.getElementById("staticRed").value = r;
+                                    document.getElementById("staticGreen").value = g;
+                                    document.getElementById("staticBlue").value = b;
+                                }
                                 function getCursorPosition(canvas, ev) {
                                     var rect = canvas.getBoundingClientRect()
                                     var x = ev.clientX - rect.left
