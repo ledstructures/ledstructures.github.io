@@ -269,7 +269,7 @@
                                 let ctx = c.getContext("2d");
                                 let img = document.getElementById("colorpickersrc");
                                 ctx.drawImage(img, 0, 0, c.width, c.height);
-                                c.addEventListener('hoover', function (ev) {
+                                c.addEventListener('click', function (ev) {
                                     let { x, y } = getCursorPosition(c, ev);
                                     let r = ctx.getImageData(x, y, 1, 1).data[0];
                                     let g = ctx.getImageData(x, y, 1, 1).data[1];
