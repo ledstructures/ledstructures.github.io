@@ -289,7 +289,6 @@
                                         if (radio[i].checked)
                                             coltype = radio[i].id;
                                     }
-                                    console.log(coltype);
                                     switch (coltype) {
                                         case "RGB":
                                             document.getElementById("staticRed").value = r;
@@ -322,8 +321,8 @@
                                             document.getElementById("staticBlue").value = bt;
                                             document.getElementById("staticWhite").value = w;
                                             break;
-                                            staticSetCols();
                                     }
+                                    staticSetCols();
 
                                 }
                                 function getCursorPosition(canvas, ev) {
