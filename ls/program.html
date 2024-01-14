@@ -39,7 +39,7 @@
                 <li>
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none'; 
-                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'block'; 
                         document.getElementById('testPattern').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
@@ -50,7 +50,7 @@
                 <li>
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none';
-                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'none'; 
                         document.getElementById('testPattern').style.display = 'block'; 
                         document.getElementById('testStatic').style.display = 'none'; 
@@ -60,7 +60,7 @@
                 <li>
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none'; 
-                    document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'none'; 
                         document.getElementById('testPattern').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'block'; 
@@ -269,7 +269,7 @@
                                 let ctx = c.getContext("2d");
                                 let img = document.getElementById("colorpickersrc");
                                 ctx.drawImage(img, 0, 0, c.width, c.height);
-                                c.addEventListener('click', function (ev) {
+                                c.addEventListener('hoover', function (ev) {
                                     let { x, y } = getCursorPosition(c, ev);
                                     let r = ctx.getImageData(x, y, 1, 1).data[0];
                                     let g = ctx.getImageData(x, y, 1, 1).data[1];
@@ -342,7 +342,6 @@
                                     document.getElementById("blueInt").innerHTML = "value: " + document.getElementById("staticBlue").value + ", " + b + "%";
                                     document.getElementById("whiteInt").innerHTML = "value: " + document.getElementById("staticWhite").value + ", " + w + "%";
                                 }
-
                             </script>
 
                             <p class="footer">
