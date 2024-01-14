@@ -322,6 +322,7 @@
                                             document.getElementById("staticBlue").value = bt;
                                             document.getElementById("staticWhite").value = w;
                                             break;
+                                            staticSetCols();
                                     }
 
                                 }
@@ -332,10 +333,15 @@
                                     return { x, y };
                                 }
                                 function staticSetCols() {
-                                    document.getElementById("redInt").innerHTML = "value: " + document.getElementById("staticRed").value + ", " + (document.getElementById("staticRed").value / 2.55).toFixed(0) + "%";
-                                    document.getElementById("greenInt").innerHTML = "value: " + document.getElementById("staticGreen").value + ", " + (document.getElementById("staticGreen").value / 2.55).toFixed(0) + "%";
-                                    document.getElementById("blueInt").innerHTML = "value: " + document.getElementById("staticBlue").value + ", " + (document.getElementById("staticBlue").value / 2.55).toFixed(0) + "%";
-                                    document.getElementById("whiteInt").innerHTML = "value: " + document.getElementById("staticWhite").value + ", " + (document.getElementById("staticWhite").value / 2.55).toFixed(0) + "%";
+                                    let r = (document.getElementById("staticRed").value / 2.55).toFixed(0);
+                                    let g = (document.getElementById("staticGreen").value / 2.55).toFixed(0);
+                                    let b = (document.getElementById("staticBlue").value / 2.55).toFixed(0);
+                                    let w = (document.getElementById("staticWhite").value / 2.55).toFixed(0);
+
+                                    document.getElementById("redInt").innerHTML = "value: " + document.getElementById("staticRed").value + ", " + r + "%";
+                                    document.getElementById("greenInt").innerHTML = "value: " + document.getElementById("staticGreen").value + ", " + g + "%";
+                                    document.getElementById("blueInt").innerHTML = "value: " + document.getElementById("staticBlue").value + ", " + b + "%";
+                                    document.getElementById("whiteInt").innerHTML = "value: " + document.getElementById("staticWhite").value + ", " + w + "%";
                                 }
 
                             </script>
