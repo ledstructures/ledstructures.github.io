@@ -3,10 +3,9 @@ let webserial = new WebSerialPort();
 const btnPgm = document.getElementById("btnPgm");
 
 let c = document.getElementById("colorpicker");
-let ctx = c.getContext("2d", [,{ [willReadFrequently: false ] }]);
+let ctx = c.getContext("2d");
 let img = document.getElementById("colorpickersrc");
-c.read
-
+c.willReadFrequently = true;
 
 async function connect() {
     // label for the button will change depending on what you do:
