@@ -3,8 +3,9 @@ let webserial = new WebSerialPort();
 const btnPgm = document.getElementById("btnPgm");
 
 let c = document.getElementById("colorpicker");
-let ctx = c.getContext("2d");
+let ctx = c.getContext("2d", { [willReadFrequently: false ] });
 let img = document.getElementById("colorpickersrc");
+c.read
 
 
 async function connect() {
@@ -157,11 +158,11 @@ c.addEventListener('mousemove', function (ev) {
 });
 
 c.addEventListener('click', function (ev) {
-        let { x, y } = getCursorPosition(c, ev);
-        let r = ctx.getImageData(x, y, 1, 1).data[0];
-        let g = ctx.getImageData(x, y, 1, 1).data[1];
-        let b = ctx.getImageData(x, y, 1, 1).data[2];
-        setColorSliders(r, g, b);
+    let { x, y } = getCursorPosition(c, ev);
+    let r = ctx.getImageData(x, y, 1, 1).data[0];
+    let g = ctx.getImageData(x, y, 1, 1).data[1];
+    let b = ctx.getImageData(x, y, 1, 1).data[2];
+    setColorSliders(r, g, b);
 });
 staticSetCols();
 
