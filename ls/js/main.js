@@ -46,8 +46,10 @@ function ls_usb_checksum(p) {
     let r = 0;
     for (let i = 4; i < (p.length - 2); i++) {
         r ^= p[i];
+        r &= 0xff;
     }
-    console.log(r);
+    // console.log(r);
+
     return r;
 }
 
@@ -145,11 +147,13 @@ webserial.errorCalback = disconnected
 
 ctx.drawImage(img, 0, 0, c.width, c.height);
 c.addEventListener('mousemove', function (ev) {
-    let { x, y } = getCursorPosition(c, ev);
-    let r = ctx.getImageData(x, y, 1, 1).data[0];
-    let g = ctx.getImageData(x, y, 1, 1).data[1];
-    let b = ctx.getImageData(x, y, 1, 1).data[2];
-    setColorSliders(r, g, b);
+    if (ev.buttons) {
+        let { x, y } = getCursorPosition(c, ev);
+        let r = ctx.getImageData(x, y, 1, 1).data[0];
+        let g = ctx.getImageData(x, y, 1, 1).data[1];
+        let b = ctx.getImageData(x, y, 1, 1).data[2];
+        setColorSliders(r, g, b);
+    }
 });
 staticSetCols();
 
