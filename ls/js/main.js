@@ -3,7 +3,7 @@ let webserial = new WebSerialPort();
 const btnPgm = document.getElementById("btnPgm");
 
 let c = document.getElementById("colorpicker");
-let ctx = c.getContext("2d", { [willReadFrequently: false ] });
+let ctx = c.getContext("2d", [,{ [willReadFrequently: false ] }]);
 let img = document.getElementById("colorpickersrc");
 c.read
 
