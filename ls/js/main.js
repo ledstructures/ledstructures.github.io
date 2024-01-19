@@ -2,6 +2,11 @@ let webserial = new WebSerialPort();
 
 const btnPgm = document.getElementById("btnPgm");
 
+let c = document.getElementById("colorpicker");
+let ctx = c.getContext("2d");
+let img = document.getElementById("colorpickersrc");
+
+
 async function connect() {
     // label for the button will change depending on what you do:
     let buttonLabel = "Connect";
@@ -49,26 +54,6 @@ function ls_usb_checksum(p) {
 function setCurrentData() {
     ;
 }
-
-
-
-/// set a pointer to disconnected funtion on disconnect
-webserial.errorCalback = disconnected
-
-
-
-let c = document.getElementById("colorpicker");
-let ctx = c.getContext("2d");
-let img = document.getElementById("colorpickersrc");
-ctx.drawImage(img, 0, 0, c.width, c.height);
-c.addEventListener('click', function (ev) {
-    let { x, y } = getCursorPosition(c, ev);
-    let r = ctx.getImageData(x, y, 1, 1).data[0];
-    let g = ctx.getImageData(x, y, 1, 1).data[1];
-    let b = ctx.getImageData(x, y, 1, 1).data[2];
-    setColorSliders(r, g, b);
-});
-staticSetCols();
 
 function setColorSliders(r, g, b) {
     let radio = document.getElementById("colorMode");
@@ -151,6 +136,22 @@ function staticSetCols() {
         }
     }
 }
+
+/// set a pointer to disconnected funtion on disconnect
+webserial.errorCalback = disconnected
+
+
+
+
+ctx.drawImage(img, 0, 0, c.width, c.height);
+c.addEventListener('mousemove', function (ev) {
+    let { x, y } = getCursorPosition(c, ev);
+    let r = ctx.getImageData(x, y, 1, 1).data[0];
+    let g = ctx.getImageData(x, y, 1, 1).data[1];
+    let b = ctx.getImageData(x, y, 1, 1).data[2];
+    setColorSliders(r, g, b);
+});
+staticSetCols();
 
 // try {
 //     webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
