@@ -157,13 +157,11 @@ c.addEventListener('mousemove', function (ev) {
 });
 
 c.addEventListener('click', function (ev) {
-    if (ev.buttons) {
         let { x, y } = getCursorPosition(c, ev);
         let r = ctx.getImageData(x, y, 1, 1).data[0];
         let g = ctx.getImageData(x, y, 1, 1).data[1];
         let b = ctx.getImageData(x, y, 1, 1).data[2];
         setColorSliders(r, g, b);
-    }
 });
 staticSetCols();
 
