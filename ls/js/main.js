@@ -128,10 +128,10 @@ function staticSetCols() {
             data[1] = 0x15;
             data[2] = 0x00;
             data[3] = 0x04;
-            data[4] = r;
-            data[5] = g;
-            data[6] = b;
-            data[7] = w;
+            data[4] = document.getElementById("staticRed").value;
+            data[5] = document.getElementById("staticGreen").value;
+            data[6] = document.getElementById("staticBlue").value;
+            data[7] = document.getElementById("staticWhite").value;
             data[8] = ls_usb_checksum(data);
             data[9] = 0xc3;
             webserial.sendSerial(data);
