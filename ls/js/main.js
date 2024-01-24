@@ -2,6 +2,46 @@ let webserial = new WebSerialPort();
 
 const btnPgm = document.getElementById("btnPgm");
 
+const usbcom = {
+    'usbstart': 0x3c,
+    'usbend': 0xc3,
+    'getfirmware': 0x11,
+    'programstd': 0x21,
+    'programarr': 0x22,
+    'programsave': 0x23,
+    'settestpat': 0x31,
+    'setstatic': 0x32,
+    'sethighlite': 0x33,
+    'setdmx': 0x34
+};
+
+const direction = {
+    'forward': 0x00,
+    'reverse': 0x01,
+    'patforward': 0x02,
+    'patflip': 0x03,
+    'patreverse': 0x04,
+    'patreverseflip': 0x05,
+    'double': 0x06,
+    'doubleflip': 0x07,
+    'doublereverseflip': 0x08
+};
+
+const testfigure = {
+    'off': 0x00,
+    'static': 0x01,
+    'whitegreensnake': 0x02,
+    'greenbluesnake': 0x03,
+    'blueredsnake': 0x04,
+    'redgreensnake': 0x05,
+    'rgb': 0x06,
+    'rainbow': 0x07,
+    'rgbsnap': 0x08,
+    'rgbchase': 0x09,
+    'fadeall': 0x0A,
+    'fadechase': 0x0B
+};
+
 let c = document.getElementById("colorpicker");
 let ctx = c.getContext("2d");
 let img = document.getElementById("colorpickersrc");
@@ -124,16 +164,16 @@ function staticSetCols() {
     if (webserial) {
         if (webserial.port) {
             data = new Uint8Array(10);
-            data[0] = 0x3c;
-            data[1] = 0x15;
-            data[2] = 0x00;
-            data[3] = 0x04;
+            data[0] = usbcom['usbstart'];
+            data[1] = usbcom['setstatic'];
+            data[2] = 0x00; // len msb
+            data[3] = 0x04; //len lsb
             data[4] = document.getElementById("staticRed").value;
             data[5] = document.getElementById("staticGreen").value;
             data[6] = document.getElementById("staticBlue").value;
             data[7] = document.getElementById("staticWhite").value;
             data[8] = ls_usb_checksum(data);
-            data[9] = 0xc3;
+            data[9] = usbcom['usbend'];
             webserial.sendSerial(data);
         }
     }
