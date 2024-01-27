@@ -1,50 +1,21 @@
 let webserial = new WebSerialPort();
-const programmer = new Programmer;
+const programmer = new ProgramDataGen;
 let lastSpecialPat;
 let lastStdPat;
 let lastMan;
+let waitforRepy = false;
 
-const btnPgm = document.getElementById("btnPgm");
+const btnCon = document.getElementById("btnCon");
 
-const usbcom = {
-    'usbstart': 0x3c,
-    'usbend': 0xc3,
-    'getfirmware': 0x11,
-    'programstd': 0x21,
-    'programarr': 0x22,
-    'programsave': 0x23,
-    'settestpat': 0x31,
-    'setstatic': 0x32,
-    'sethighlite': 0x33,
-    'setdmx': 0x34
-};
+const btnprogSimple = document.getElementById("btnProgSimple");
 
-const direction = {
-    'forward': 0x00,
-    'reverse': 0x01,
-    'patforward': 0x02,
-    'patflip': 0x03,
-    'patreverse': 0x04,
-    'patreverseflip': 0x05,
-    'double': 0x06,
-    'doubleflip': 0x07,
-    'doublereverseflip': 0x08
-};
+const btnsaveShape = document.getElementById("btnSaveShape");
+const btnprogShape = document.getElementById("btnProgShape");
 
-const testfigure = {
-    'off': 0x00,
-    'static': 0x01,
-    'whitegreensnake': 0x02,
-    'greenbluesnake': 0x03,
-    'blueredsnake': 0x04,
-    'redgreensnake': 0x05,
-    'rgb': 0x06,
-    'rainbow': 0x07,
-    'rgbsnap': 0x08,
-    'rgbchase': 0x09,
-    'fadeall': 0x0A,
-    'fadechase': 0x0B
-};
+const btnsaveMan = document.getElementById("btnSaveMan");
+const btnprogMan = document.getElementById("btnProgMan");
+
+
 
 let colorpicker = document.getElementById("colorpicker");
 let colorpickertx = colorpicker.getContext("2d");
@@ -54,6 +25,7 @@ colorpicker.willReadFrequently = true;
 async function connect() {
     // label for the button will change depending on what you do:
     let buttonLabel = "Connect";
+
     // if port is open, close it; if closed, open it:
     if (webserial.port) {
         await webserial.closePort();
@@ -64,6 +36,7 @@ async function connect() {
     } else {
         await webserial.openPort();
         if (webserial.port) {
+            webserial.errorCalback = disconnected
             buttonLabel = "Disconnect";
             enableButtons(true)
             // setCollors();
@@ -71,7 +44,16 @@ async function connect() {
     }
     // change button label:
     document.getElementById("btnCon").value = buttonLabel;
+}
 
+function okToSend() {
+    let r = false;
+    if (webserial) {
+        if (webserial.port) {
+            r = true;
+        }
+    }
+    return r;
 }
 
 function disconnected(e) {
@@ -79,37 +61,46 @@ function disconnected(e) {
     delete webserial.port;
     document.getElementById("btnCon").value = "Connect";
     enableButtons(false);
-    // delete winchCurr; // cant do this...
 }
 
 function enableButtons(e) {
-    // btnPgm.disabled = !e;
-}
+    // btnCon.disabled = !e;
 
+    btnprogSimple.disabled = !e;
 
-function setCurrentData() {
-    ;
+    btnsaveShape.disabled = !e;
+    btnprogShape.disabled = !e;
+
+    btnsaveMan.disabled = !e;
+    btnprogMan.disabled = !e;
+
 }
 
 function progSimple() {
-    ;
+    if (okToSend()) {
+        let addres = document.getElementById("address").value - 1;
+        console.log(addres);
+        let patt = document.getElementsByName("pattern");
+        let mode = document.getElementById("mode").value - 1;
+        let pattsize = document.getElementById("segsize").value;
+        let pattern;
+        for (let i = 0; i < patt.length; i++) {
+            if (patt[i].checked) {
+                pattern = patt[i].id;
+            }
+        }
+        console.log(programmer.programStd(addres, pattern, mode, pattsize));
+        webserial.sendSerial(programmer.programStd(addres, pattern, mode, pattsize));
+    }
 }
 
 function progShape() {
-    console.log(lastSpecialPat)
-    console.log(programmer.programArr(lastSpecialPat))
-    if (webserial) {
-        if (webserial.port) {
-            webserial.sendSerial(programmer.programArr(lastSpecialPat));
-        }
-    }
+    if (okToSend())
+        webserial.sendSerial(programmer.programArr(lastSpecialPat));
 }
 function saveShape() {
-    if (webserial) {
-        if (webserial.port) {
-            webserial.sendSerial(programmer.saveArr(lastSpecialPat));
-        }
-    }
+    if (okToSend())
+        webserial.sendSerial(programmer.saveArr(lastSpecialPat));
 }
 
 function progMan() {
@@ -117,6 +108,55 @@ function progMan() {
 }
 function saveMan() {
 
+}
+function setTestpat() {
+    if (okToSend()) {
+        let speed = document.getElementById("testPattSpeed").value;
+        let patt = document.getElementsByName("shape");
+        let intensity = document.getElementById("testPattInt").value;
+        let pattern;
+        for (let i = 0; i < patt.length; i++) {
+            if (patt[i].checked) {
+                pattern = patt[i].id;
+            }
+        }
+        console.log(programmer.setTestFig(pattern, speed, intensity));
+        webserial.sendSerial(programmer.setTestFig(pattern, speed, intensity));
+    }
+}
+
+function locateHead(el) {
+    let prev = document.getElementsByClassName('locateHitemSel');
+    let num = el.id;
+    for (let i = 0; i < prev.length; i++) {
+        prev[i].className = 'locateHitem';
+    }
+    if (okToSend())
+        webserial.sendSerial(programmer.locateHead(num));
+    el.className = 'locateHitemSel'
+    // prev = el;
+
+}
+
+function setLocateincontent() {
+    let innerd = ' ';
+    for (let i = 0; i < 128; i++) {
+        innerd += '<div class="locateHitem"';
+        // innerd += (i)
+        innerd += 'id="'
+        innerd += (i);
+
+        innerd += '" onmouseover="locateHead(this'
+        // innerd += (i);
+        innerd += ');"><b>';
+        innerd += i + 1;
+        innerd += '</b><br> @: <br>'
+        innerd += (i * 4 + 1);
+        // innerd += '-';
+        // innerd += (i * 4 + 4);
+        innerd += '</div>';
+    }
+    document.getElementById("locthead").innerHTML = innerd;
 }
 
 function changeProgShape() {
@@ -157,14 +197,20 @@ function changeProgShape() {
         if (i % 10 == 0) {
             content += "<b>";
         }
-        content += arrlist[i];
+        if (i < 10)
+            content += "&nbsp;";
+        if (i < 100)
+            content += "&nbsp;";
+
+        content += arrlist[i] + 1;
         content += ",";
+
         content += " ";
         if (i % 10 == 0) {
             content += "</b>";
         }
 
-        if (i % 10 == 9) {
+        if (i % 5 == 4) {
             content += "<br>";
         }
     }
@@ -266,9 +312,8 @@ colorpicker.addEventListener('click', function (ev) {
     setColorSliders(r, g, b);
 });
 staticSetCols();
-
-console.log(randomNoDoubles(10))
-console.log(programmer.programArr(paternCube1m))
+enableButtons(false);
+setLocateincontent();
 
 // try {
 //     webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?

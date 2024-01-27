@@ -1,4 +1,10 @@
-class Programmer {
+class ProgramDataParse {
+    constructor() {
+
+    }
+}
+
+class ProgramDataGen {
     constructor() {
         this.usbcom = {
             'usbstart': 0x3c,
@@ -56,7 +62,7 @@ class Programmer {
         this.write(data);
     }
 
-    programStd(address = 0, direction = 'forward', mode = 0, patternlen = 1) {
+    programStd(address, direction = 'forward', mode = 0, patternlen = 1) {
         let dir = 0;
         if (direction in this.direction) {
             dir = this.direction[direction];
@@ -93,7 +99,7 @@ class Programmer {
     }
 
     locateHead(headnum, address = 0) {
-        let newArr = new Uint8Array(7);
+        let newArr;
         headnum = headnum & 0x7f;
         if (address == 0)
             newArr = [this.usbcom['usbstart'], this.usbcom['sethighlite'],
@@ -102,6 +108,15 @@ class Programmer {
             newArr = [this.usbcom['usbstart'], this.usbcom['sethighlite'], 0, 3, headnum &
                 0xff, 0xff & (address >> 8), address & 0xff, 0, this.usbcom['usbend']]
         }
+        return (this.write(newArr));
+    }
+
+    setTestFig(figure, speed, intensity) {
+        let newArr;
+        let fig = 0;
+        if (figure in this.testfigure)
+            fig = this.testfigure[figure];
+        newArr = [this.usbcom['usbstart'], this.usbcom['settestpat'], 0, 3, fig, speed, intensity, 0, this.usbcom['usbend']];
         return (this.write(newArr));
     }
 

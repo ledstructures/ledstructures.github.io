@@ -23,7 +23,7 @@
                     document.getElementById('testHead').style.display = 'none'; 
                     document.getElementById('testStatic').style.display = 'none'; 
                     ">
-                        Standard pattern </a>
+                        Basic pattern </a>
                 </li>
 
                 <li>
@@ -47,7 +47,7 @@
                         document.getElementById('testPattern').style.display = 'none'; 
                         document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
-                    ">CSV / manual</a>
+                    ">CSV/ manual</a>
                 </li>
 
                 <li>
@@ -58,6 +58,7 @@
                         document.getElementById('testPattern').style.display = 'block'; 
                         document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
+                        setTestpat();
                     "> Test pattern</a>
                 </li>
 
@@ -80,7 +81,8 @@
                         document.getElementById('testPattern').style.display = 'none'; 
                         document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'block'; 
-                    ">Set Color</a>
+                        staticSetCols();
+                    ">Static Color</a>
                 </li>
             </ul>
         </nav>
@@ -92,14 +94,15 @@
                         <p class=" table_paragraph"> Start address:</p>
                     </td>
                     <td>
+                        <p class=" table_paragraph"> Mode:</p>
+                    </td>
+                    <td>
                         <p class=" table_paragraph">Pattern:</p>
                     </td>
                     <td>
                         <p class=" table_paragraph"> Pattern size:</p>
                     </td>
-                    <td>
-                        <p class=" table_paragraph"> Mode:</p>
-                    </td>
+
                     <!-- <td>
                         <p class=" table_paragraph"> Address list:</p>
                     </td> -->
@@ -107,28 +110,30 @@
 
                 <tr class="contenttr">
 
-                    <td> <input id="addres" type="number" min="1" max="509" value="1" onchange="changeProgSimple();" />
+                    <td> <input id="address" type="number" min="1" max="509" value="1" />
                     </td>
-
+                    <td> <input id="mode" type="number" min="1" max="10" value="1" />
+                    </td>
                     <td>
-                        <form id="NewMode">
-                            <input type="radio" name="mode" id="FWD" checked="true">Forward<br>
-                            <input type="radio" name="mode" id="RED">Reversed<br>
-                            <input type="radio" name="mode" id="ZIGZAGFWD">ZigZag fwd<br>
-                            <input type="radio" name="mode" id="ZIGZAGREV">ZigZag Rev<br>
-                            <input type="radio" name="mode" id="ZIGZAGFWDFLIP">ZigZag fwd flipped<br>
-                            <input type="radio" name="mode" id="ZIGZAGREVFLIP">ZigZag Rev flipped<br>
-                            <input type="radio" name="mode" id="DUBBLE">Dubble fwd<br>
-                            <input type="radio" name="mode" id="DUBBLEFLIP">Dubble flip<br>
-                            <input type="radio" name="mode" id="DUBBLEFZIG">Dubble ZigZag<br>
+                        <form id="newpat">
+                            <input type="radio" name="pattern" id="forward" checked="true">Forward<br>
+                            <input type="radio" name="pattern" id="reverse">Reversed<br>
+                            <input type="radio" name="pattern" id="custom">custom<br>
+                            <input type="radio" name="pattern" id="patforward">ZigZag fwd<br>
+                            <input type="radio" name="pattern" id="patflip">ZigZag Rev<br>
+                            <input type="radio" name="pattern" id="patreverse">ZigZag fwd flipped<br>
+                            <input type="radio" name="pattern" id="patreverseflip">ZigZag Rev flipped<br>
+                            <input type="radio" name="pattern" id="double">Dubble fwd<br>
+                            <input type="radio" name="pattern" id="doubleflip">Dubble flip<br>
+                            <input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>
+                            <input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>
 
                         </form>
                     </td>
                     <td>
-                        <input id="segSize" type="number" min="1" max="10" value="1" />
+                        <input id="segsize" type="number" min="1" max="10" value="1" />
                     </td>
-                    <td> <input id="patternSize" type="number" min="1" max="10" value="1" />
-                    </td>
+
 
                 </tr>
                 <tr>
@@ -137,7 +142,7 @@
                     <td></td>
                     <td>
                         <input type="button" class="button" onclick="progSimple();" value="Program led strips"
-                            id="progStd">
+                            id="btnProgSimple">
                     </td>
                 </tr>
             </table>
@@ -159,12 +164,12 @@
 
                 <tr class="contenttr">
                     <td>
-                        <form id="newShape" onchange="changeProgShape();">
-                            <input type="radio" name="advshape" id="CUBE2M" checked="true">Cube 2m<br>
-                            <input type="radio" name="advshape" id="CUBE1M">Cube 1m 2x<br>
-                            <input type="radio" name="advshape" id="CUBE50CM">Cube 1m 2x<br>
-                            <input type="radio" name="advshape" id="RANDOMNODUB">Enjoy this operator #1<br>
-                            <input type="radio" name="advshape" id="RANDOMDUB">Enjoy this operator #2<br>
+                        <form id="newShape">
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE2M" checked="true">Cube 2m<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE1M">Cube 1m 2x<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE50CM">Cube 1m 2x<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="RANDOMNODUB">Even beter shape<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="RANDOMDUB">Best shape? try me!<br>
 
                         </form>
                     </td>
@@ -179,11 +184,11 @@
                     <td></td>
                     <td>
                         <input type="button" class="button" onclick="saveShape();" value="Save to custom slot"
-                            id="saveShape">
+                            id="btnSaveShape">
                     </td>
                     <td>
                         <input type="button" class="button" onclick="progShape();" value="Program led strips"
-                            id="progShape">
+                            id="btnProgShape">
                     </td>
                 </tr>
             </table>
@@ -192,9 +197,9 @@
         <div class="activediv" id="progCSV" style="display: none;">
             <table>
                 <tr>
-                    <td>
+                    <!-- <td>
                         <p class="table_paragraph"> Load CSV:</p>
-                    </td>
+                    </td> -->
                     <td>
                         <p class="table_paragraph">Address list:</p>
                     </td>
@@ -203,26 +208,35 @@
                     <td>
                         <!-- <input type="button" class="button" onclick="loadCSV();" value="open CSV"> -->
                     </td>
-                    <td>
+                    <!-- <td>
                         <textarea id="outpList"></textarea>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td> *note: csv format is literly a comma seperated value of numbers (max 128) with addresses(1-512), nothing
+                        more
+
                     </td>
                 </tr>
+            </table>
+
+            <table>
                 <tr>
                     <td>
                         <input type="button" class="button" onclick="loadCSV();" value="open CSV">
 
                     </td>
                     <!-- <td></td> -->
-                </tr>
-                <tr>
+                    <!-- </tr>
+                <tr> -->
                     <!-- <td></td> -->
                     <td>
-                        <input type="button" class="button" onclick="manShape();" value="Save to custom slot"
-                            id="manShape">
+                        <input type="button" class="button" onclick="saveMan();" value="Save to custom slot"
+                            id="btnSaveMan">
                     </td>
                     <td>
-                        <input type="button" class="button" onclick="manShape();" value="Program led strips"
-                            id="manShape">
+                        <input type="button" class="button" onclick="progMan();" value="Program led strips"
+                            id="btnProgMan">
                     </td>
                 </tr>
 
@@ -241,34 +255,40 @@
                 </tr>
                 <tr>
                     <td>
-                        <form id="newTespat" onchange="changeTestPattern();">
-                            <input type="radio" name="shape" id="TESTWHGR" checked="true">White w/ green snake<br>
-                            <input type="radio" name="shape" id="TESTGRBL">Green w/ blue snake<br>
-                            <input type="radio" name="shape" id="TESTBLRD">Blue w/ red snake<br>
-                            <input type="radio" name="shape" id="TESTRDGR">Red w/ green snake<br>
-                            <input type="radio" name="shape" id="TESTRGB">RGBW snake<br>
-                            <input type="radio" name="shape" id="TESTRAINBOW">Rainbow<br>
-                            <input type="radio" name="shape" id="TESTRGBSNAP">RGB snap<br>
-                            <input type="radio" name="shape" id="TESTRGBCHASE">RGB chase<br>
-                            <input type="radio" name="shape" id="TESTFADEALL">Fade all<br>
-                            <input type="radio" name="shape" id="TESTFADERAINBOW">Fade chase<br>
+                        <form id="newTespat" onchange="setTestpat();">
+                            <input type="radio" name="shape" id="whitegreensnake" checked="true">White w/ green
+                            snake<br>
+                            <input type="radio" name="shape" id="greenbluesnake">Green w/ blue snake<br>
+                            <input type="radio" name="shape" id="blueredsnake">Blue w/ red snake<br>
+                            <input type="radio" name="shape" id="redgreensnake">Red w/ green snake<br>
+                            <input type="radio" name="shape" id="rgb">RGBW snake<br>
+                            <input type="radio" name="shape" id="rainbow">Rainbow<br>
+                            <input type="radio" name="shape" id="rgbsnap">RGB snap<br>
+                            <input type="radio" name="shape" id="rgbchase">RGB chase<br>
+                            <input type="radio" name="shape" id="fadeall">Fade all<br>
+                            <input type="radio" name="shape" id="fadechase">Fade chase<br>
                         </form>
                     </td>
                     <td>
                         Pattern speed:<br>
 
                         <input type="range" min="0" max="31" value="10" class="slider" id="testPattSpeed"
-                            onchange="changeTestPattern()">
+                            onchange="setTestpat()">
                         <br>
                         Pattern intensity:<br>
                         <input type="range" min="0" max="4" value="2" class="slider" id="testPattInt"
-                            onchange="changeTestPattern()">
+                            onchange="setTestpat()">
                     </td>
                 </tr>
             </table>
         </div>
 
         <div class="activediv" id="testHead" style="display: none;">
+            <table>
+                <tr>
+                    <div id="locthead" class="locateHcont"></div>
+                </tr>
+            </table>
         </div>
         <div class="activediv" id="testStatic" style="display: none;">
             <table>
@@ -284,7 +304,7 @@
                     <td>
                         Red:<div class="color" id="redInt"></div>
                         <br>
-                        <input style="accent-color: #ff0000;" type="range" min="0" max="255" value="0" class="slider"
+                        <input style="accent-color: #ff0000;" type="range" min="0" max="255" value="128" class="slider"
                             id="staticRed" onchange="staticSetCols()">
                         <br>
                         Green:<div class="color" id="greenInt"></div>
@@ -292,7 +312,7 @@
                             class="slider" id="staticGreen" onchange="staticSetCols()">
                         <br>
                         Blue:<div class="color" id="blueInt"></div>
-                        <br><input style="accent-color: #0000ff;" type="range" min="0" max="255" value="0"
+                        <br><input style="accent-color: #0000ff;" type="range" min="0" max="255" value="32"
                             class="slider" id="staticBlue" onchange="staticSetCols()">
                         <br>
                         White:<div class="color" id="whiteInt"></div>
@@ -314,7 +334,8 @@
                             </form>
                             <p class="footer">
 
-                                <a href="http://www.codestore.net/store.nsf/unid/BLOG-20110414-0347"> color picker source</a>
+                                <a href="http://www.codestore.net/store.nsf/unid/BLOG-20110414-0347"> color picker
+                                    source</a>
                                 <!-- <a href="https://en.wikipedia.org/wiki/File:Color_circle_%28RGB%29.png"> color picker source</a> -->
                             </p>
                         </div>
