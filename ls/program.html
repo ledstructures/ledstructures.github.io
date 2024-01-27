@@ -20,6 +20,7 @@
                     document.getElementById('progShape').style.display = 'none'; 
                     document.getElementById('progCSV').style.display = 'none'; 
                     document.getElementById('testPattern').style.display = 'none'; 
+                    document.getElementById('testHead').style.display = 'none'; 
                     document.getElementById('testStatic').style.display = 'none'; 
                     ">
                         Standard pattern </a>
@@ -27,13 +28,15 @@
 
                 <li>
                     <a onclick="
+
                         document.getElementById('progSimple').style.display = 'none'; 
                         document.getElementById('progShape').style.display = 'block'; 
                         document.getElementById('progCSV').style.display = 'none'; 
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
-                    ">
-                        Special shape </a>
+                        changeProgShape();
+                    ">Special shape</a>
                 </li>
 
                 <li>
@@ -42,9 +45,9 @@
                         document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'block'; 
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
-                    ">
-                        CSV / manual </a>
+                    ">CSV / manual</a>
                 </li>
 
                 <li>
@@ -53,8 +56,20 @@
                         document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'none'; 
                         document.getElementById('testPattern').style.display = 'block'; 
+                        document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'none'; 
-                    "> Test pattern </a>
+                    "> Test pattern</a>
+                </li>
+
+                <li>
+                    <a onclick="
+                        document.getElementById('progSimple').style.display = 'none';
+                        document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testHead').style.display = 'block'; 
+                        document.getElementById('testStatic').style.display = 'none'; 
+                    ">Locate head</a>
                 </li>
 
                 <li>
@@ -63,8 +78,9 @@
                         document.getElementById('progShape').style.display = 'none'; 
                         document.getElementById('progCSV').style.display = 'none'; 
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testHead').style.display = 'none'; 
                         document.getElementById('testStatic').style.display = 'block'; 
-                    "> Test static </a>
+                    ">Set Color</a>
                 </li>
             </ul>
         </nav>
@@ -84,9 +100,9 @@
                     <td>
                         <p class=" table_paragraph"> Mode:</p>
                     </td>
-                    <td>
+                    <!-- <td>
                         <p class=" table_paragraph"> Address list:</p>
-                    </td>
+                    </td> -->
                 </tr>
 
                 <tr class="contenttr">
@@ -95,7 +111,7 @@
                     </td>
 
                     <td>
-                        <form id="NewMode" onchange="changeProgSimple();">
+                        <form id="NewMode">
                             <input type="radio" name="mode" id="FWD" checked="true">Forward<br>
                             <input type="radio" name="mode" id="RED">Reversed<br>
                             <input type="radio" name="mode" id="ZIGZAGFWD">ZigZag fwd<br>
@@ -109,15 +125,19 @@
                         </form>
                     </td>
                     <td>
-                        <input id="segSize" type="number" min="1" max="10" value="1" onchange="changeProgSimple();" />
+                        <input id="segSize" type="number" min="1" max="10" value="1" />
                     </td>
-                    <td> <input id="patternSize" type="number" min="1" max="10" value="1"
-                            onchange="changeProgSimple();" />
-                    </td>
-                    <td>
-                        <p id="outpList"></p>
+                    <td> <input id="patternSize" type="number" min="1" max="10" value="1" />
                     </td>
 
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <input type="button" class="button" onclick="progSimple();" value="Program led strips"
+                            id="progStd">
                     </td>
                 </tr>
             </table>
@@ -140,10 +160,11 @@
                 <tr class="contenttr">
                     <td>
                         <form id="newShape" onchange="changeProgShape();">
-                            <input type="radio" name="shape" id="CUBE2M" checked="true">Cube 2m<br>
-                            <input type="radio" name="shape" id="CUBE1M">Cube 1m 2x<br>
-                            <input type="radio" name="shape" id="RANDOMDUB">Enjoy this operator #1<br>
-                            <input type="radio" name="shape" id="RANDOMNODUB">Enjoy this operator #2<br>
+                            <input type="radio" name="advshape" id="CUBE2M" checked="true">Cube 2m<br>
+                            <input type="radio" name="advshape" id="CUBE1M">Cube 1m 2x<br>
+                            <input type="radio" name="advshape" id="CUBE50CM">Cube 1m 2x<br>
+                            <input type="radio" name="advshape" id="RANDOMNODUB">Enjoy this operator #1<br>
+                            <input type="radio" name="advshape" id="RANDOMDUB">Enjoy this operator #2<br>
 
                         </form>
                     </td>
@@ -151,7 +172,18 @@
                         <img id="shapeEaxmple">
                     </td>
                     <td>
-                        <p id="outpList"></p>
+                        <p id="advOutpList"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" class="button" onclick="saveShape();" value="Save to custom slot"
+                            id="saveShape">
+                    </td>
+                    <td>
+                        <input type="button" class="button" onclick="progShape();" value="Program led strips"
+                            id="progShape">
                     </td>
                 </tr>
             </table>
@@ -180,8 +212,20 @@
                         <input type="button" class="button" onclick="loadCSV();" value="open CSV">
 
                     </td>
-                    <td></td>
+                    <!-- <td></td> -->
                 </tr>
+                <tr>
+                    <!-- <td></td> -->
+                    <td>
+                        <input type="button" class="button" onclick="manShape();" value="Save to custom slot"
+                            id="manShape">
+                    </td>
+                    <td>
+                        <input type="button" class="button" onclick="manShape();" value="Program led strips"
+                            id="manShape">
+                    </td>
+                </tr>
+
             </table>
         </div>
 
@@ -224,6 +268,8 @@
             </table>
         </div>
 
+        <div class="activediv" id="testHead" style="display: none;">
+        </div>
         <div class="activediv" id="testStatic" style="display: none;">
             <table>
                 <tr>
@@ -254,8 +300,9 @@
                             class="slider" id="staticWhite" onchange="staticSetCols()">
                     </td>
                     <td>
-                        <img id="colorpickersrc" src="../img/color_circle.png" style="display: none" width="350"
+                        <img id="colorpickersrc" src="../img/color_rect.png" style="display: none" width="350"
                             height="350">
+                        <!-- <img id="colorpickersrc" src="../img/color_circle.png" style="display: none" width="350" height="350"> -->
                         <div style="text-align: center;     margin: auto;">
                             <canvas width="350" height="350" onclick="" id="colorpicker"></canvas>
 
@@ -267,8 +314,8 @@
                             </form>
                             <p class="footer">
 
-                                <a href="https://en.wikipedia.org/wiki/File:Color_circle_%28RGB%29.png"> color wheel
-                                    source</a>
+                                <a href="http://www.codestore.net/store.nsf/unid/BLOG-20110414-0347"> color picker source</a>
+                                <!-- <a href="https://en.wikipedia.org/wiki/File:Color_circle_%28RGB%29.png"> color picker source</a> -->
                             </p>
                         </div>
                     </td>
@@ -284,15 +331,14 @@
                     </td>
                     <td>
                         firmware version:
-                    </td>
-                    <td>
                         <p id="firmwareReturn"></p>
                     </td>
-                    <td>
-                        <!-- <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
-                        <input type="button" class="button" onclick="setDataSer();" value="Program led strips"
-                            id="btnPgm">
-                        <!-- <input type="button" onclick="wsender.setAllData(winchNew)" value="Send new values"> -->
+                    <!-- <td>
+                    </td> -->
+                    <!-- <td>
+                         <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
+                    <!-- <input type="button" class="button" onclick="setDataSer();" value="Program led strips" id="btnPgm"> -->
+                    <!-- <input type="button" onclick="wsender.setAllData(winchNew)" value="Send new values"> -->
                     </td>
 
                 </tr>

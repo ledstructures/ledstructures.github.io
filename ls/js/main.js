@@ -1,6 +1,8 @@
 let webserial = new WebSerialPort();
 const programmer = new Programmer;
-
+let lastSpecialPat;
+let lastStdPat;
+let lastMan;
 
 const btnPgm = document.getElementById("btnPgm");
 
@@ -81,12 +83,94 @@ function disconnected(e) {
 }
 
 function enableButtons(e) {
-    btnPgm.disabled = !e;
+    // btnPgm.disabled = !e;
 }
 
 
 function setCurrentData() {
     ;
+}
+
+function progSimple() {
+    ;
+}
+
+function progShape() {
+    console.log(lastSpecialPat)
+    console.log(programmer.programArr(lastSpecialPat))
+    if (webserial) {
+        if (webserial.port) {
+            webserial.sendSerial(programmer.programArr(lastSpecialPat));
+        }
+    }
+}
+function saveShape() {
+    if (webserial) {
+        if (webserial.port) {
+            webserial.sendSerial(programmer.saveArr(lastSpecialPat));
+        }
+    }
+}
+
+function progMan() {
+
+}
+function saveMan() {
+
+}
+
+function changeProgShape() {
+    let type = document.getElementsByName("advshape");
+    let img;
+    let tn;
+    let arrlist;
+    for (let i = 0; i < type.length; i++) {
+        if (type[i].checked) {
+            tn = type[i].id;
+            // console.log(WinchModes[mode[i].id])
+        }
+    }
+    switch (tn) {
+        case "CUBE2M":
+            arrlist = paternCube2m;
+            // img...
+            break;
+        case "CUBE1M":
+            arrlist = paternCube1m;
+            break;
+
+        case "CUBE50CM":
+            arrlist = paternCube50cm;
+            break;
+
+        case "RANDOMDUB":
+            arrlist = randomDoubles(120);
+            break;
+
+        case "RANDOMNODUB":
+            arrlist = randomNoDoubles(120);
+            break;
+    }
+    document.getElementById("advOutpList").innerHTML = undefined;
+    let content = " ";
+    for (let i = 0; i < arrlist.length; i++) {
+        if (i % 10 == 0) {
+            content += "<b>";
+        }
+        content += arrlist[i];
+        content += ",";
+        content += " ";
+        if (i % 10 == 0) {
+            content += "</b>";
+        }
+
+        if (i % 10 == 9) {
+            content += "<br>";
+        }
+    }
+    document.getElementById("advOutpList").innerHTML = content;
+    document.getElementById("advOutpList").value = arrlist;
+    lastSpecialPat = arrlist;
 }
 
 function setColorSliders(r, g, b) {
@@ -155,7 +239,7 @@ function staticSetCols() {
 
     if (webserial) {
         if (webserial.port) {
-            webserial.sendSerial(programmer.setStaticCol(r/100,g/100,b/100,w/100));
+            webserial.sendSerial(programmer.setStaticCol(r / 100, g / 100, b / 100, w / 100));
         }
     }
 }
@@ -183,6 +267,8 @@ colorpicker.addEventListener('click', function (ev) {
 });
 staticSetCols();
 
+console.log(randomNoDoubles(10))
+console.log(programmer.programArr(paternCube1m))
 
 // try {
 //     webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
