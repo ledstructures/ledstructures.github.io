@@ -250,19 +250,19 @@ webserial.errorCalback = disconnected
 colorpickertx.drawImage(img, 0, 0, colorpicker.width, colorpicker.height);
 colorpicker.addEventListener('mousemove', function (ev) {
     if (ev.buttons) {
-        let { x, y } = getCursorPosition(c, ev);
-        let r = ctx.getImageData(x, y, 1, 1).data[0];
-        let g = ctx.getImageData(x, y, 1, 1).data[1];
-        let b = ctx.getImageData(x, y, 1, 1).data[2];
+        let { x, y } = getCursorPosition(colorpicker, ev);
+        let r = colorpickertx.getImageData(x, y, 1, 1).data[0];
+        let g = colorpickertx.getImageData(x, y, 1, 1).data[1];
+        let b = colorpickertx.getImageData(x, y, 1, 1).data[2];
         setColorSliders(r, g, b);
     }
 });
 
 colorpicker.addEventListener('click', function (ev) {
-    let { x, y } = getCursorPosition(c, ev);
-    let r = ctx.getImageData(x, y, 1, 1).data[0];
-    let g = ctx.getImageData(x, y, 1, 1).data[1];
-    let b = ctx.getImageData(x, y, 1, 1).data[2];
+    let { x, y } = getCursorPosition(colorpicker, ev);
+    let r = colorpickertx.getImageData(x, y, 1, 1).data[0];
+    let g = colorpickertx.getImageData(x, y, 1, 1).data[1];
+    let b = colorpickertx.getImageData(x, y, 1, 1).data[2];
     setColorSliders(r, g, b);
 });
 staticSetCols();
