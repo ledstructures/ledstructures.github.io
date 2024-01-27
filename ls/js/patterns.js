@@ -1,1 +1,3 @@
-const 
+const paternCube = {
+    undefined
+}

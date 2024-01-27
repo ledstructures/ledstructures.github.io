@@ -1,4 +1,6 @@
 let webserial = new WebSerialPort();
+const programmer = new Programmer;
+
 
 const btnPgm = document.getElementById("btnPgm");
 
@@ -82,16 +84,6 @@ function enableButtons(e) {
     btnPgm.disabled = !e;
 }
 
-function ls_usb_checksum(p) {
-    let r = 0;
-    for (let i = 4; i < (p.length - 2); i++) {
-        r ^= p[i];
-        r &= 0xff;
-    }
-    // console.log(r);
-
-    return r;
-}
 
 function setCurrentData() {
     ;
@@ -163,18 +155,19 @@ function staticSetCols() {
 
     if (webserial) {
         if (webserial.port) {
-            data = new Uint8Array(10);
-            data[0] = usbcom['usbstart'];
-            data[1] = usbcom['setstatic'];
-            data[2] = 0x00; // len msb
-            data[3] = 0x04; //len lsb
-            data[4] = document.getElementById("staticRed").value;
-            data[5] = document.getElementById("staticGreen").value;
-            data[6] = document.getElementById("staticBlue").value;
-            data[7] = document.getElementById("staticWhite").value;
-            data[8] = ls_usb_checksum(data);
-            data[9] = usbcom['usbend'];
-            webserial.sendSerial(data);
+            // ;
+            // data = new Uint8Array(10);
+            // data[0] = usbcom['usbstart'];
+            // data[1] = usbcom['setstatic'];
+            // data[2] = 0x00; // len msb
+            // data[3] = 0x04; //len lsb
+            // data[4] = document.getElementById("staticRed").value;
+            // data[5] = document.getElementById("staticGreen").value;
+            // data[6] = document.getElementById("staticBlue").value;
+            // data[7] = document.getElementById("staticWhite").value;
+            // data[8] = ls_usb_checksum(data);
+            // data[9] = usbcom['usbend'];
+            webserial.sendSerial(programmer.setStaticCol(r/100,g/100,b/100,w/100));
         }
     }
 }
@@ -204,6 +197,7 @@ c.addEventListener('click', function (ev) {
     setColorSliders(r, g, b);
 });
 staticSetCols();
+
 
 // try {
 //     webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?
