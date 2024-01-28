@@ -150,7 +150,7 @@ function setLocateincontent() {
         // innerd += (i);
         innerd += ');"><b>';
         innerd += i + 1;
-        innerd += '</b><br> @: <br>'
+        innerd += '</b><br> @'
         innerd += (i * 4 + 1);
         // innerd += '-';
         // innerd += (i * 4 + 4);

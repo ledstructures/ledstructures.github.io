@@ -119,7 +119,7 @@ li:hover,
 
 input[type="checkbox"],
 input[type="radio"] {
-    background-color: ##a0a0a4;
+    background-color: #a0a0a4;
     -webkit-transform: scale(0.85);
     vertical-align: middle;
 }
@@ -248,7 +248,7 @@ td {
     width: 25%;
 }
 
-.contenttr {;
+.contenttr {
     height: calc(100vh - 380px);
     /* display: flex; */
     /* flex-direction: column;     */
