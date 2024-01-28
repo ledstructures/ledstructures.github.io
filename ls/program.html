@@ -211,6 +211,8 @@
                 </tr>
                 <tr class="contenttr">
                     <td>
+                        <p id="manOutpList"></p>
+
                         <!-- <input type="button" class="button" onclick="loadCSV();" value="open CSV"> -->
                     </td>
                     <!-- <td>
@@ -220,7 +222,7 @@
                 <tr>
                     <td> *note: csv format is literly a comma seperated value of numbers (max 128) with
                         addresses(1-512), nothing
-                        more
+                        special or complicated.
 
                     </td>
                 </tr>
@@ -229,8 +231,8 @@
             <table>
                 <tr>
                     <td>
-                        <input type="button" class="button" onclick="loadCSV();" value="open CSV">
-
+                        <input type="file" class="button" id="openCSVfile" accept=".csv">
+                        <input type="button" class="button" onclick="openCSVfile.click()"  value="open CSV">
                     </td>
                     <!-- <td></td> -->
                     <!-- </tr>

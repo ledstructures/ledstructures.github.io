@@ -15,7 +15,7 @@ const btnprogShape = document.getElementById("btnProgShape");
 const btnsaveMan = document.getElementById("btnSaveMan");
 const btnprogMan = document.getElementById("btnProgMan");
 
-
+document.getElementById("openCSVfile").addEventListener("change", openFile);
 
 let colorpicker = document.getElementById("colorpicker");
 let colorpickertx = colorpicker.getContext("2d");
@@ -94,6 +94,62 @@ function progSimple() {
     }
 }
 
+function updateManAddr() {
+    let content = " ";
+    for (let i = 0; i < lastMan.length; i++) {
+        if (i % 10 == 0) {
+            content += "<b>";
+        }
+        if (i < 10)
+            content += "&nbsp;";
+        if (i < 100)
+            content += "&nbsp;";
+
+        content += lastMan[i] + 1;
+        content += ",";
+        content += " ";
+        if (i % 10 == 0) {
+            content += "</b>";
+        }
+
+        if (i % 5 == 4) {
+            content += "<br>";
+        }
+    }
+    document.getElementById("manOutpList").innerHTML = content;
+}
+
+function openFile(e) {
+    let file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        let contents = e.target.result;
+        let split = contents.split(/(?:[,\s]+)/)
+        let newArr = [];
+        for (let i = 0; i < split.length; i++) {
+            let num = parseInt(split[i]);
+            if (num)
+                newArr.push(num - 1)
+        }
+        let cplen = newArr.length;
+        if (newArr.length > 128)
+            cplen = 128;
+        let maskarr = [cplen];
+        // mask to max 512
+        for (let i = 0; i < cplen; i++)
+            maskarr[i] = (newArr[i] & 0x01ff);
+        lastMan = maskarr;
+        console.log(lastMan)
+        console.log(lastMan.length)
+        updateManAddr();
+
+    };
+    reader.readAsText(file);
+}
+
 function progShape() {
     if (okToSend())
         webserial.sendSerial(programmer.programArr(lastSpecialPat));
@@ -105,9 +161,12 @@ function saveShape() {
 
 function progMan() {
 
+    if (okToSend())
+        webserial.sendSerial(programmer.programArr(lastMan));
 }
 function saveMan() {
-
+    if (okToSend())
+        webserial.sendSerial(programmer.saveArr(lastMan));
 }
 function setTestpat() {
     if (okToSend()) {
@@ -152,8 +211,8 @@ function setLocateincontent() {
         innerd += i + 1;
         innerd += '</b><br> @'
         innerd += (i * 4 + 1);
-        // innerd += '-';
-        // innerd += (i * 4 + 4);
+        innerd += '-';
+        innerd += (i * 4 + 4);
         innerd += '</div>';
     }
     document.getElementById("locthead").innerHTML = innerd;
