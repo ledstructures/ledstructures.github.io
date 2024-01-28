@@ -111,9 +111,9 @@ function saveMan() {
 }
 function setTestpat() {
     if (okToSend()) {
-        let speed = document.getElementById("testPattSpeed").value;
+        let speed = 31 - document.getElementById("testPattSpeed").value;
         let patt = document.getElementsByName("shape");
-        let intensity = document.getElementById("testPattInt").value;
+        let intensity = 4 - document.getElementById("testPattInt").value;
         let pattern;
         for (let i = 0; i < patt.length; i++) {
             if (patt[i].checked) {

@@ -149,6 +149,7 @@
         </div>
 
         <div class="activediv" id="progShape" style="display: none;">
+            <!-- <div class="flexbox"></div> -->
             <table>
                 <tr>
                     <td>
@@ -258,7 +259,7 @@
                         <p class="table_paragraph">Intensity/Speed:</p>
                     </td>
                 </tr>
-                <tr>
+                <tr class="contenttr">
                     <td>
                         <form id="newTespat" onchange="setTestpat();">
                             <input type="radio" name="shape" id="whitegreensnake" checked="true">White w/ green
@@ -277,7 +278,7 @@
                     <td>
                         Pattern speed:<br>
 
-                        <input type="range" min="0" max="31" value="10" class="slider" id="testPattSpeed"
+                        <input type="range" min="0" max="31" value="10" step="1" class="slider" id="testPattSpeed"
                             onchange="setTestpat()">
                         <br>
                         Pattern intensity:<br>
@@ -295,12 +296,12 @@
                         <p class="table_paragraph"> Move cursor over head to highlite.</p>
                     </td>
                 </tr>
-                <tr>
-                    <td><br>
+                <tr class="contenttr">
+                    <td>
+                        <br>
                         <div style="align-items: center;   display:flex; justify-content: center;">
                             <div id="locthead" class="locateHcont"></div>
                         </div>
-                        <br>
                     </td>
                 </tr>
             </table>
@@ -315,7 +316,7 @@
                         <p class="table_paragraph">Colorpicker:</p>
                     </td>
                 </tr>
-                <tr>
+                <tr class="contenttr">
                     <td>
                         Red:<div class="color" id="redInt"></div>
                         <br>
