@@ -1,6 +1,90 @@
-class ProgramDataParse {
+class ProgramDataParser {
     constructor() {
+        this.usbcom = {
+            'usbstart': 0x3c,
+            'usbend': 0xc3,
+            'getfirmware': 0x11,
+            'programstd': 0x21,
+            'programarr': 0x22,
+            'programsave': 0x23,
+            'settestpat': 0x31,
+            'setstatic': 0x32,
+            'sethighlite': 0x33,
+            'setdmx': 0x34
+        };
+        this.receivstate = 'idle';
+        this.command;
+        this.len;
+        this.data = [];
+        this.xor;
+        this.lastcmd = [];
+        this.datacount = 0;
+    }
+    checkXOR(arr) {
+        let xor;
+        for (let i = 0; i < arr.length; i++) {
+            xor ^= arr[i];
+        }
+        return xor;
+    }
+    dataCalbacks(cmd, data) {
+        // placeholder
+        console.log(cmd);
+        console.log(data);
+    }
 
+    parser(serdata) {
+        for (let i = 0; i < serdata.detail.data.length; i++) {
+            let byte = serdata.detail.data[i];
+            switch (this.receivstate) {
+                case 'idle':
+
+                    if (byte == this.usbcom['usbstart'])
+                        this.receivstate = 'cmd'
+                    break;
+
+                case 'cmd':
+                    this.command = byte;
+                    this.receivstate = 'len1'
+                    break;
+
+                case 'len1':
+                    this.len = (byte << 8);
+                    this.receivstate = 'len2'
+                    break;
+
+                case 'len2':
+                    this.len |= byte;
+                    this.receivstate = 'datapacket'
+                    this.datacount = 0;
+                    this.data =[];
+                    break;
+
+                case 'datapacket':
+                    this.datacount++;
+                    this.data.push(byte);
+                    if (this.datacount >= this.len)
+                        this.receivstate = 'xor';
+                    break;
+
+                case 'xor':
+                    if (byte == this.checkXOR(this.data)) {
+                        this.receivstate = 'end';
+                    }
+                    else {
+                        this.receivstate = 'idle'
+                        console.log('wrong xor...')
+                    }
+                    break;
+
+                case 'end':
+                    this.receivstate = 'idle';
+                    if (byte == this.usbcom['usbend']) {
+                        this.dataCalbacks(this.command, this.data);
+                    }
+                    break;
+            }
+        }
     }
 }
 
@@ -53,13 +137,13 @@ class ProgramDataGen {
     getFirmwareV() {
         let data = [this.usbcom['usbstart'], this.usbcom['getfirmware'],
             0, 1, 0, 0, this.usbcom['usbend']];
-        this.write(data);
-        let r = this.ser.read(12);
-        if (r.length < 10)
-            return '000000';
-        let c = list(r);
-        let d = bytearray([0] * 6);
-        this.write(data);
+        return (this.write(data));
+        // // let r = this.ser.read(12);
+        // if (r.length < 10)
+        //     return '000000';
+        // let c = list(r);
+        // let d = bytearray([0] * 6);
+        // this.write(data);
     }
 
     programStd(address, direction = 'forward', mode = 0, patternlen = 1) {
@@ -144,16 +228,6 @@ class ProgramDataGen {
             xor ^= arr[i];
         }
         return xor;
-    }
-    checkXOR(arr) {
-        let xor = 0;
-        for (let i = 4; i < arr.length - 2; i++) {
-            xor ^= arr[i];
-        }
-        if (xor == arr[(arr.length - 2)])
-            return true;
-        else
-            return false;
     }
 
     write(arr) {

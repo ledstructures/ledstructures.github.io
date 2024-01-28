@@ -1,5 +1,9 @@
-let webserial = new WebSerialPort();
-const programmer = new ProgramDataGen;
+const webserial = new WebSerialPort();
+let programmer = new ProgramDataGen();
+let parser = new ProgramDataParser();
+
+parser.dataCalbacks = pgCb;
+
 let lastSpecialPat;
 let lastStdPat;
 let lastMan;
@@ -25,7 +29,6 @@ colorpicker.willReadFrequently = true;
 async function connect() {
     // label for the button will change depending on what you do:
     let buttonLabel = "Connect";
-
     // if port is open, close it; if closed, open it:
     if (webserial.port) {
         await webserial.closePort();
@@ -36,9 +39,15 @@ async function connect() {
     } else {
         await webserial.openPort();
         if (webserial.port) {
-            webserial.errorCalback = disconnected
+            webserial.errorCalback = disconnected;
             buttonLabel = "Disconnect";
-            enableButtons(true)
+            // enableButtons(true);
+            webserial.sendSerial(programmer.getFirmwareV());
+            setTimeout(() => {
+                webserial.sendSerial(programmer.getFirmwareV());
+            }, "100");
+            /// set a pointer to disconnected funtion on disconnect
+
             // setCollors();
         }
     }
@@ -53,7 +62,30 @@ function okToSend() {
             r = true;
         }
     }
+    if (waitforRepy == false)
+        r = false;
     return r;
+}
+
+
+function pgCb(cmd, data) {
+    // console.log(data);
+    // console.log(cmd);
+    enableButtons(true);
+    if (cmd == parser.usbcom['getfirmware']) {
+        document.getElementById("firmwareReturn").innerHTML = String.fromCharCode.apply(null, data);
+    }
+    else {
+        let num = data[0] << 8;
+        num |= data[1];
+        document.getElementById("returnData").innerHTML = "c:";
+        document.getElementById("returnData").innerHTML += cmd;
+        document.getElementById("returnData").innerHTML += " - #:"
+        document.getElementById("returnData").innerHTML += num;
+        document.getElementById("returnData").innerHTML += " - Xor:"
+        document.getElementById("returnData").innerHTML += data[2];
+
+    }
 }
 
 function disconnected(e) {
@@ -64,8 +96,6 @@ function disconnected(e) {
 }
 
 function enableButtons(e) {
-    // btnCon.disabled = !e;
-
     btnprogSimple.disabled = !e;
 
     btnsaveShape.disabled = !e;
@@ -73,13 +103,11 @@ function enableButtons(e) {
 
     btnsaveMan.disabled = !e;
     btnprogMan.disabled = !e;
-
+    waitforRepy = e;
 }
-
 function progSimple() {
     if (okToSend()) {
         let addres = document.getElementById("address").value - 1;
-        console.log(addres);
         let patt = document.getElementsByName("pattern");
         let mode = document.getElementById("mode").value - 1;
         let pattsize = document.getElementById("segsize").value;
@@ -89,11 +117,38 @@ function progSimple() {
                 pattern = patt[i].id;
             }
         }
-        console.log(programmer.programStd(addres, pattern, mode, pattsize));
         webserial.sendSerial(programmer.programStd(addres, pattern, mode, pattsize));
+        enableButtons(false);
     }
 }
 
+function progShape() {
+    if (okToSend()) {
+        webserial.sendSerial(programmer.programArr(lastSpecialPat));
+        enableButtons(false);
+    }
+
+}
+function saveShape() {
+    if (okToSend()) {
+        webserial.sendSerial(programmer.saveArr(lastSpecialPat));
+        enableButtons(false);
+    }
+}
+
+function progMan() {
+    if (okToSend()) {
+        enableButtons(false);
+        webserial.sendSerial(programmer.programArr(lastMan));
+    }
+}
+
+function saveMan() {
+    if (okToSend()) {
+        enableButtons(false);
+        webserial.sendSerial(programmer.saveArr(lastMan));
+    }
+}
 function updateManAddr() {
     let content = " ";
     for (let i = 0; i < lastMan.length; i++) {
@@ -148,24 +203,7 @@ function openFile(e) {
     reader.readAsText(file);
 }
 
-function progShape() {
-    if (okToSend())
-        webserial.sendSerial(programmer.programArr(lastSpecialPat));
-}
-function saveShape() {
-    if (okToSend())
-        webserial.sendSerial(programmer.saveArr(lastSpecialPat));
-}
 
-function progMan() {
-
-    if (okToSend())
-        webserial.sendSerial(programmer.programArr(lastMan));
-}
-function saveMan() {
-    if (okToSend())
-        webserial.sendSerial(programmer.saveArr(lastMan));
-}
 function setTestpat() {
     if (okToSend()) {
         let speed = 31 - document.getElementById("testPattSpeed").value;
@@ -218,7 +256,7 @@ function setLocateincontent() {
 
 function changeProgShape() {
     let type = document.getElementsByName("advshape");
-    let img;
+    let img = document.getElementById("shapeExample");
     let tn;
     let arrlist;
     for (let i = 0; i < type.length; i++) {
@@ -230,22 +268,27 @@ function changeProgShape() {
     switch (tn) {
         case "CUBE2M":
             arrlist = paternCube2m;
-            // img...
+            img.src = "../img/cube.png";
             break;
         case "CUBE1M":
             arrlist = paternCube1m;
+            img.src = "../img/cube.png";
+
             break;
 
         case "CUBE50CM":
             arrlist = paternCube50cm;
+            img.src = "../img/cube.png";
             break;
 
         case "RANDOMDUB":
             arrlist = randomDoubles(120);
+            img.src = "../img/question.png";
             break;
 
         case "RANDOMNODUB":
             arrlist = randomNoDoubles(120);
+            img.src = "../img/question.png";
             break;
     }
     document.getElementById("advOutpList").innerHTML = undefined;
@@ -347,8 +390,6 @@ function staticSetCols() {
     }
 }
 
-/// set a pointer to disconnected funtion on disconnect
-webserial.errorCalback = disconnected
 
 colorpickertx.drawImage(img, 0, 0, colorpicker.width, colorpicker.height);
 colorpicker.addEventListener('mousemove', function (ev) {
@@ -371,6 +412,8 @@ colorpicker.addEventListener('click', function (ev) {
 staticSetCols();
 enableButtons(false);
 setLocateincontent();
+
+webserial.on("data", parser.parser.bind(parser));        // make the self accesable?
 
 // try {
 //     webserial.on("data", serialParser.parseData.bind(serialParser));        // make the self accesable?

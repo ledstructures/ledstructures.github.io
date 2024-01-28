@@ -400,3 +400,10 @@ nav>ul>li>a {
     color: #181818;
     font-weight: bolder;
 }
+
+.fw{
+    text-align: left;
+}
+.debug {
+    font-size: xx-small;
+}

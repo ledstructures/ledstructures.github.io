@@ -4,7 +4,7 @@
 
 <head>
     <title>Ledstructures ledstrip programmer</title>
-    <link rel="icon" type="image/x-icon" href="img/favicon_32x32.png">
+    <link rel="icon" type="image/x-icon" href="../img/favicon_32x32.png">
 </head>
 
 <body class="progbody">
@@ -179,7 +179,7 @@
                         </form>
                     </td>
                     <td>
-                        <img id="shapeEaxmple">
+                        <img id="shapeExample" src="" width="100%">
                     </td>
                     <td>
                         <p id="advOutpList"></p>
@@ -220,9 +220,8 @@
                     </td> -->
                 </tr>
                 <tr>
-                    <td> *note: csv format is literly a comma seperated value of numbers (max 128) with
-                        addresses(1-512), nothing
-                        special or complicated.
+                    <td> *note: csv format id a list of (max 128) numbers with
+                        addresses(1-512). 
                         <a href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example file</a>
                         
                     </td>
@@ -297,7 +296,7 @@
             <table>
                 <tr>
                     <td>
-                        <p class="table_paragraph"> Move cursor over head to highlite.</p>
+                        <p class="table_paragraph"> hover cursor over head to highlite.</p>
                     </td>
                 </tr>
                 <tr class="contenttr">
@@ -372,10 +371,12 @@
                     </td>
                     <td>
                         firmware version:
-                        <p id="firmwareReturn"></p>
+                        <p class="fw" id="firmwareReturn"></p>
                     </td>
-                    <!-- <td>
-                    </td> -->
+                    <td><p class="debug">debug: </p>
+                        <br>
+                        <p class="debug" id="returnData"></p>
+                    </td>
                     <!-- <td>
                          <input type="button" onclick="webserial.sendSerial('kaas');" value="Send new values"> -->
                     <!-- <input type="button" class="button" onclick="setDataSer();" value="Program led strips" id="btnPgm"> -->
