@@ -336,43 +336,48 @@ nav>ul>li>a {
 }
 
 .locateHcont {
-
     display: grid;
+    /* display: inline; */
     justify-items: center;
     /* grid-template-columns: 50px 50px 50px 50px 50px 50px 50px  ;  */
-    grid-template-columns: repeat(16, 54px);
+    grid-template-columns: repeat(16, 52px);
     grid-template-rows: auto;
-
+    min-width: 832px;
     box-sizing: border-box;
-    width: 100%;
-    height: 100%;
+    /* width: 100%; */
+
+    /* height: 100%; */
+
     /* margin-left: auto;
     margin-right: auto; */
 
     /* background: rgba(114, 186, 94, 0.05); */
-    border: 2px solid #000000;
+    /* border: 2px solid #000000; */
 
 }
 
-.locateHitem{
+.locateHitem {
     box-sizing: border-box;
-    width: 105%;
+    width: 100%;
     height: 100%;
     background: #a0a0a4;
     border-radius: 4px;
-    border:2px solid #000000;
+    border: 2px solid #000000;
     text-align: center;
     font-size: small;
+    color: #000000;
 }
 
-.locateHitemSel, .locateHitem:hover{
+.locateHitemSel,
+.locateHitem:hover {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
     background: #fff000;
     border-radius: 4px;
-    border:2px solid #000000;
+    border: 2px solid #000000;
     /* border: 2px rgba(236, 198, 48, 0.5); */
     text-align: center;
     font-size: small;
+    color: #181818;
 }
