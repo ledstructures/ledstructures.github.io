@@ -142,8 +142,6 @@ function openFile(e) {
         for (let i = 0; i < cplen; i++)
             maskarr[i] = (newArr[i] & 0x01ff);
         lastMan = maskarr;
-        console.log(lastMan)
-        console.log(lastMan.length)
         updateManAddr();
 
     };
