@@ -283,12 +283,12 @@ function changeProgShape() {
 
         case "RANDOMDUB":
             arrlist = randomDoubles(120);
-            img.src = "../img/question.png";
+            img.src = "../img/cat.jpeg";
             break;
 
         case "RANDOMNODUB":
             arrlist = randomNoDoubles(120);
-            img.src = "../img/question.png";
+            img.src = "../img/cat.jpeg";
             break;
     }
     document.getElementById("advOutpList").innerHTML = undefined;
