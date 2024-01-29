@@ -1,0 +1,13 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "Hello World!",
+  "main": "electron.js",
+  "author": "Jane Doe",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.2.0"
+  },
+  "scripts": {"start": "electron ."
+  }
+}

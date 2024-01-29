@@ -75,16 +75,26 @@ function pgCb(cmd, data) {
     if (cmd == parser.usbcom['getfirmware']) {
         document.getElementById("firmwareReturn").innerHTML = String.fromCharCode.apply(null, data);
     }
-    else {
-        let num = data[0] << 8;
-        num |= data[1];
-        document.getElementById("returnData").innerHTML = "c:";
-        document.getElementById("returnData").innerHTML += cmd;
-        document.getElementById("returnData").innerHTML += " - #:"
-        document.getElementById("returnData").innerHTML += num;
-        document.getElementById("returnData").innerHTML += " - Xor:"
-        document.getElementById("returnData").innerHTML += data[2];
-
+    switch (cmd) {
+        case parser.usbcom['programsave']:
+            {
+                let num = data[0] << 8;
+                num |= data[1];
+                document.getElementById("returnData").innerHTML = "saved ";
+                document.getElementById("returnData").innerHTML += num;
+                document.getElementById("returnData").innerHTML += " addresses to custom slot";
+            }
+            break;
+        case parser.usbcom['programstd']:
+        case parser.usbcom['programarr']:
+            {
+                let num = data[0] << 8;
+                num |= data[1];
+                document.getElementById("returnData").innerHTML = "programmed ";
+                document.getElementById("returnData").innerHTML += num / 10;
+                document.getElementById("returnData").innerHTML += "m ledstrip";
+            } break;
+            
     }
 }
 
@@ -273,7 +283,6 @@ function changeProgShape() {
         case "CUBE1M":
             arrlist = paternCube1m;
             img.src = "../img/cube.png";
-
             break;
 
         case "CUBE50CM":

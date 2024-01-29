@@ -89,6 +89,7 @@ class WebSerialPort {
     } catch (err) {
       // if there's an error opening the port:
       console.error("There was an error opening the serial port:", err);
+      this.port = null;
     }
   }
 

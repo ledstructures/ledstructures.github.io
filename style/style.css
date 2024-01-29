@@ -73,6 +73,7 @@ input[type=number]:disabled {
 input[type="file"] {
     display: none;
 }
+
 /* input[type=file], */
 input[type=button] {
     border: 8px;
@@ -90,7 +91,7 @@ input[type=button] {
 
 input,
 p {
-    text-align: right;
+    text-align: left;
     margin: 0;
     font-weight: lighter;
 }
@@ -259,11 +260,12 @@ td {
     /* height: */
 }
 
-.flexbox{
+.flexbox {
     display: flex;
     flex-direction: column;
     min-height: 100%;
 }
+
 /* hidden help thingemawhatchies */
 .metrics_hide {
     display: none;
@@ -401,9 +403,8 @@ nav>ul>li>a {
     font-weight: bolder;
 }
 
-.fw{
+.debug,
+.fw {
     text-align: left;
-}
-.debug {
-    font-size: xx-small;
+    font-size: small;
 }

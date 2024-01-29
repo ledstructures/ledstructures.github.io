@@ -221,9 +221,10 @@
                 </tr>
                 <tr>
                     <td> *note: csv format id a list of (max 128) numbers with
-                        addresses(1-512). 
-                        <a href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example file</a>
-                        
+                        addresses(1-512).
+                        <a href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example
+                            file</a>
+
                     </td>
 
                 </tr>
@@ -233,7 +234,7 @@
                 <tr>
                     <td>
                         <input type="file" class="button" id="openCSVfile" accept=".csv">
-                        <input type="button" class="button" onclick="openCSVfile.click()"  value="open CSV">
+                        <input type="button" class="button" onclick="openCSVfile.click()" value="open CSV">
                     </td>
                     <!-- <td></td> -->
                     <!-- </tr>
@@ -370,11 +371,13 @@
                         <!-- <input type="button" onclick="alert('Connect')" value="Connect"> -->
                     </td>
                     <td>
-                        firmware version:
+                        <p class="fw">
+                            Firmware version:</p>
                         <p class="fw" id="firmwareReturn"></p>
                     </td>
-                    <td><p class="debug">debug: </p>
-                        <br>
+                    <td>
+                        <p class="debug"> 
+                                                   Info: </p>
                         <p class="debug" id="returnData"></p>
                     </td>
                     <!-- <td>
