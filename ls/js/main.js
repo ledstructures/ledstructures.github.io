@@ -46,9 +46,10 @@ async function connect() {
             setTimeout(() => {
                 webserial.sendSerial(programmer.getFirmwareV());
             }, "100");
-            /// set a pointer to disconnected funtion on disconnect
+            setTimeout(() => {
+                webserial.sendSerial(programmer.getFirmwareV());
+            }, "200");
 
-            // setCollors();
         }
     }
     // change button label:
@@ -67,13 +68,17 @@ function okToSend() {
     return r;
 }
 
-
+// callback from serial receiver, set buttons and clears ret text
 function pgCb(cmd, data) {
-    // console.log(data);
-    // console.log(cmd);
-    enableButtons(true);
+    // disconnect
+    if (cmd == 0x00) {
+        enableButtons(false);
+        document.getElementById("firmwareReturn").innerHTML = "";
+        document.getElementById("returnData").innerHTML = " ";
+    }
     if (cmd == parser.usbcom['getfirmware']) {
         document.getElementById("firmwareReturn").innerHTML = String.fromCharCode.apply(null, data);
+        enableButtons(true);
     }
     switch (cmd) {
         case parser.usbcom['programsave']:
@@ -83,6 +88,8 @@ function pgCb(cmd, data) {
                 document.getElementById("returnData").innerHTML = "saved ";
                 document.getElementById("returnData").innerHTML += num;
                 document.getElementById("returnData").innerHTML += " addresses to custom slot";
+                enableButtons(true);
+
             }
             break;
         case parser.usbcom['programstd']:
@@ -93,8 +100,12 @@ function pgCb(cmd, data) {
                 document.getElementById("returnData").innerHTML = "programmed ";
                 document.getElementById("returnData").innerHTML += num / 10;
                 document.getElementById("returnData").innerHTML += "m ledstrip";
+                enableButtons(true);
+
             } break;
-            
+        default:
+            break;
+
     }
 }
 
@@ -103,6 +114,7 @@ function disconnected(e) {
     delete webserial.port;
     document.getElementById("btnCon").value = "Connect";
     enableButtons(false);
+    pgCb(0x00, 0x00);
 }
 
 function enableButtons(e) {
