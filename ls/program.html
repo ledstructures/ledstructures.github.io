@@ -14,73 +14,145 @@
 
         <nav>
             <ul>
-                <li>
+                <li id="progSimpleMenu" class="menu_active">
                     <a onclick="
                     document.getElementById('progSimple').style.display = 'block'; 
+                    document.getElementById('progSimpleMenu').className = 'menu_active';
+
                     document.getElementById('progShape').style.display = 'none'; 
+                    document.getElementById('progShapeMenu').className = ' '; 
+                    
                     document.getElementById('progCSV').style.display = 'none'; 
+                    document.getElementById('progCSVMenu').className = ' '; 
+                    
                     document.getElementById('testPattern').style.display = 'none'; 
+                    document.getElementById('testPatternMenu').className = ' '; 
+                    
                     document.getElementById('testHead').style.display = 'none'; 
+                    document.getElementById('testHeadMenu').className = ' '; 
+                    
                     document.getElementById('testStatic').style.display = 'none'; 
+                    document.getElementById('testStaticMenu').className = ' '; 
+
                     ">
                         Basic pattern </a>
                 </li>
 
-                <li>
+                <li id="progShapeMenu">
                     <a onclick="
-
                         document.getElementById('progSimple').style.display = 'none'; 
+                        document.getElementById('progSimpleMenu').className = ' '; 
+
                         document.getElementById('progShape').style.display = 'block'; 
+                        document.getElementById('progShapeMenu').className = 'menu_active'; 
+
                         document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('progCSVMenu').className = ' '; 
+
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testPatternMenu').className = ' '; 
+
                         document.getElementById('testHead').style.display = 'none'; 
+                        document.getElementById('testHeadMenu').className = ' '; 
+
                         document.getElementById('testStatic').style.display = 'none'; 
+                        document.getElementById('testStaticMenu').className = ' '; 
+
                         changeProgShape();
                     ">Special shape</a>
                 </li>
 
-                <li>
+                <li id="progCSVMenu">
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none'; 
+                        document.getElementById('progSimpleMenu').className = ' '; 
+
                         document.getElementById('progShape').style.display = 'none'; 
-                        document.getElementById('progCSV').style.display = 'block'; 
+                        document.getElementById('progShapeMenu').className = ' '; 
+
+                        document.getElementById('progCSV').style.display = 'block';     
+                        document.getElementById('progCSVMenu').className = 'menu_active'; 
+
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testPatternMenu').className = ' '; 
+
                         document.getElementById('testHead').style.display = 'none'; 
+                        document.getElementById('testHeadMenu').className = ' '; 
+
                         document.getElementById('testStatic').style.display = 'none'; 
+                        document.getElementById('testStaticMenu').className = ' '; 
                     ">CSV/ manual</a>
                 </li>
 
-                <li>
+                <li id="testPatternMenu">
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none';
+                        document.getElementById('progSimpleMenu').className = ' '; 
+
                         document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShapeMenu').className = ' '; 
+
                         document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('progCSVMenu').className = ' '; 
+
                         document.getElementById('testPattern').style.display = 'block'; 
+                        document.getElementById('testPatternMenu').className = 'menu_active'; 
+
                         document.getElementById('testHead').style.display = 'none'; 
+                        document.getElementById('testHeadMenu').className = ' '; 
+
+
                         document.getElementById('testStatic').style.display = 'none'; 
+                        document.getElementById('testStaticMenu').className = ' '; 
+
                         setTestpat();
                     "> Test pattern</a>
                 </li>
 
-                <li>
+                <li id="testHeadMenu">
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none';
+                        document.getElementById('progSimpleMenu').className = ' '; 
+
                         document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShapeMenu').className = ' '; 
+                        
                         document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('progCSVMenu').className = ' '; 
+
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testPatternMenu').className = ' '; 
+
                         document.getElementById('testHead').style.display = 'block'; 
+                        document.getElementById('testHeadMenu').className = 'menu_active'; 
+
                         document.getElementById('testStatic').style.display = 'none'; 
+                        document.getElementById('testStaticMenu').className = ' '; 
+
+
                     ">Locate head</a>
                 </li>
 
-                <li>
+                <li id="testStaticMenu">
                     <a onclick="
                         document.getElementById('progSimple').style.display = 'none'; 
+                        document.getElementById('progSimpleMenu').className = ' '; 
+
                         document.getElementById('progShape').style.display = 'none'; 
+                        document.getElementById('progShapeMenu').className = ' '; 
+
                         document.getElementById('progCSV').style.display = 'none'; 
+                        document.getElementById('progCSVMenu').className = ' '; 
+
                         document.getElementById('testPattern').style.display = 'none'; 
+                        document.getElementById('testPatternMenu').className = ' '; 
+
                         document.getElementById('testHead').style.display = 'none'; 
+                        document.getElementById('testHeadMenu').className = ' '; 
+                        
                         document.getElementById('testStatic').style.display = 'block'; 
+                        document.getElementById('testStaticMenu').className = 'menu_active'; 
+
                         staticSetCols();
                     ">Static Color</a>
                 </li>
@@ -222,7 +294,7 @@
                 <tr>
                     <td> *note: csv format id a list of (max 128) numbers with
                         addresses(1-512).
-                        <a href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example
+                        <a style="color: #ffffff;" href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example
                             file</a>
 
                     </td>
