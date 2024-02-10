@@ -139,11 +139,13 @@ function enableButtons(e) {
     if ((e) && (lastMan)) {
         btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
-    } else if (!e) {
+    } else if (!e)
+    {
         btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
     }
-    else {
+    else
+    {
         btnsaveMan.disabled = true;
         btnprogMan.disabled = true;
     }
@@ -181,11 +183,9 @@ function saveShape() {
 }
 
 function progMan() {
-    if (okToSend() && (lastMan.hasAttribute(length))) {
-        if (lastMan.length > 0) {
-            enableButtons(false);
-            webserial.sendSerial(programmer.programArr(lastMan));
-        }
+    if (okToSend() && (lastMan)) {
+        enableButtons(false);
+        webserial.sendSerial(programmer.programArr(lastMan));
     }
 }
 
