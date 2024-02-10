@@ -191,14 +191,11 @@ function progMan() {
 
 function saveMan() {
 
-    if (okToSend() && (lastMan.hasAttribute(length))) {
-        if (lastMan.length > 0) {
-            enableButtons(false);
-            webserial.sendSerial(programmer.saveArr(lastMan));
-        }
+    if (okToSend() && (lastMan)) {
+        enableButtons(false);
+        webserial.sendSerial(programmer.saveArr(lastMan));
     }
 }
-
 function updateManAddr() {
     let content = " ";
     for (let i = 0; i < lastMan.length; i++) {
