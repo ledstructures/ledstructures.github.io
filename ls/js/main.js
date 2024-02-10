@@ -41,20 +41,30 @@ async function connect() {
         if (webserial.port) {
             webserial.errorCalback = disconnected;
             buttonLabel = "Disconnect";
-            // enableButtons(true);
+            enableButtons(true);
             webserial.sendSerial(programmer.getFirmwareV());
             setTimeout(() => {
-                webserial.sendSerial(programmer.getFirmwareV());
-            }, "100");
+                getFwEverySec();
+            }, "600");
             setTimeout(() => {
                 webserial.sendSerial(programmer.getFirmwareV());
             }, "200");
-
+            setTimeout(() => {
+                webserial.sendSerial(programmer.getFirmwareV());
+            }, "300");
         }
     }
     // change button label:
     document.getElementById("btnCon").value = buttonLabel;
 }
+
+function getFwEverySec() {
+    if (okToSend()) {
+        webserial.sendSerial(programmer.getFirmwareV())
+        setTimeout(() => { getFwEverySec() }, "500");
+    }
+}
+
 
 function okToSend() {
     let r = false;
@@ -65,6 +75,7 @@ function okToSend() {
     }
     if (waitforRepy == false)
         r = false;
+
     return r;
 }
 
@@ -89,6 +100,8 @@ function pgCb(cmd, data) {
                 document.getElementById("returnData").innerHTML += num;
                 document.getElementById("returnData").innerHTML += " addresses to custom slot";
                 enableButtons(true);
+                getFwEverySec();
+                // alert("save " + (num/10) +"m to custom slot")
 
             }
             break;
@@ -101,7 +114,8 @@ function pgCb(cmd, data) {
                 document.getElementById("returnData").innerHTML += num / 10;
                 document.getElementById("returnData").innerHTML += "m ledstrip";
                 enableButtons(true);
-
+                getFwEverySec();
+                // alert("programmed " + (num/10) +"m ledstrip")
             } break;
         default:
             break;
@@ -122,9 +136,17 @@ function enableButtons(e) {
 
     btnsaveShape.disabled = !e;
     btnprogShape.disabled = !e;
-
-    btnsaveMan.disabled = !e;
-    btnprogMan.disabled = !e;
+    if ((e) && (lastMan)) {
+        btnsaveMan.disabled = !e;
+        btnprogMan.disabled = !e;
+    } else if (!e) {
+        btnsaveMan.disabled = !e;
+        btnprogMan.disabled = !e;
+    }
+    else {
+        btnsaveMan.disabled = true;
+        btnprogMan.disabled = true;
+    }
     waitforRepy = e;
 }
 function progSimple() {
@@ -145,32 +167,38 @@ function progSimple() {
 }
 
 function progShape() {
-    if (okToSend()) {
+    if (okToSend() && (lastSpecialPat)) {
         webserial.sendSerial(programmer.programArr(lastSpecialPat));
         enableButtons(false);
     }
 
 }
 function saveShape() {
-    if (okToSend()) {
+    if (okToSend() && (lastSpecialPat)) {
         webserial.sendSerial(programmer.saveArr(lastSpecialPat));
         enableButtons(false);
     }
 }
 
 function progMan() {
-    if (okToSend()) {
-        enableButtons(false);
-        webserial.sendSerial(programmer.programArr(lastMan));
+    if (okToSend() && (lastMan.hasAttribute(length))) {
+        if (lastMan.length > 0) {
+            enableButtons(false);
+            webserial.sendSerial(programmer.programArr(lastMan));
+        }
     }
 }
 
 function saveMan() {
-    if (okToSend()) {
-        enableButtons(false);
-        webserial.sendSerial(programmer.saveArr(lastMan));
+
+    if (okToSend() && (lastMan.hasAttribute(length))) {
+        if (lastMan.length > 0) {
+            enableButtons(false);
+            webserial.sendSerial(programmer.saveArr(lastMan));
+        }
     }
 }
+
 function updateManAddr() {
     let content = " ";
     for (let i = 0; i < lastMan.length; i++) {
