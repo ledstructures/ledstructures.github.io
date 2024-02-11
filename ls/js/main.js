@@ -61,7 +61,7 @@ async function connect() {
 function getFwEverySec() {
     if (okToSend()) {
         webserial.sendSerial(programmer.getFirmwareV())
-        setTimeout(() => { getFwEverySec() }, "500");
+        setTimeout(() => { getFwEverySec() }, "1000");
     }
 }
 
