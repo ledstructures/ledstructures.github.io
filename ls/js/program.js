@@ -100,7 +100,8 @@ class ProgramDataGen {
             'settestpat': 0x31,
             'setstatic': 0x32,
             'sethighlite': 0x33,
-            'setdmx': 0x34
+            'setdmx': 0x34,
+            'disconn':0x55
         };
         // # 'enums' directions
         this.direction = {
@@ -145,6 +146,12 @@ class ProgramDataGen {
         // let d = bytearray([0] * 6);
         // this.write(data);
     }
+
+    disconnect(){
+        let data = [this.usbcom['usbstart'], this.usbcom['disconn'],
+            0, 1, 0, 0, this.usbcom['usbend']];
+        return (this.write(data));
+        }
 
     programStd(address, direction = 'forward', mode = 0, patternlen = 1) {
         let dir = 0;

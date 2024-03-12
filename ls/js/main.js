@@ -1,4 +1,5 @@
 const webserial = new WebSerialPort();
+let lastSend = Date.now();
 let programmer = new ProgramDataGen();
 let parser = new ProgramDataParser();
 
@@ -31,6 +32,7 @@ async function connect() {
     let buttonLabel = "Connect";
     // if port is open, close it; if closed, open it:
     if (webserial.port) {
+        sendSerData(programmer.disconnect());
         await webserial.closePort();
         enableButtons(false)
         disconnected("disconnect pressed")
@@ -45,25 +47,36 @@ async function connect() {
             webserial.sendSerial(programmer.getFirmwareV());
             setTimeout(() => {
                 getFwEverySec();
-            }, "600");
+            }, "1001");
             setTimeout(() => {
                 webserial.sendSerial(programmer.getFirmwareV());
             }, "200");
-            setTimeout(() => {
-                webserial.sendSerial(programmer.getFirmwareV());
-            }, "300");
         }
     }
     // change button label:
     document.getElementById("btnCon").value = buttonLabel;
 }
 
-function getFwEverySec() {
+function sendSerData(dat) {
+    // console.log(dat);
     if (okToSend()) {
-        webserial.sendSerial(programmer.getFirmwareV())
-        setTimeout(() => { getFwEverySec() }, "1000");
+        webserial.sendSerial(dat);
+        lastSend = Date.now();
     }
 }
+
+function getFwEverySec() {
+    if (webserial) {
+        if (webserial.port) {
+            if ((Date.now() - lastSend > 1001)) {
+                webserial.sendSerial(programmer.getFirmwareV())
+                lastSend = Date.now();
+            }
+        }
+        setTimeout(() => { getFwEverySec() }, "1005");
+    }
+}
+
 
 
 function okToSend() {
@@ -124,11 +137,13 @@ function pgCb(cmd, data) {
 }
 
 function disconnected(e) {
+    // webserial.closePort();
     console.log(e);
     delete webserial.port;
     document.getElementById("btnCon").value = "Connect";
     enableButtons(false);
     pgCb(0x00, 0x00);
+    waitforRepy = false;
 }
 
 function enableButtons(e) {
@@ -139,13 +154,11 @@ function enableButtons(e) {
     if ((e) && (lastMan)) {
         btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
-    } else if (!e)
-    {
+    } else if (!e) {
         btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
     }
-    else
-    {
+    else {
         btnsaveMan.disabled = true;
         btnprogMan.disabled = true;
     }
@@ -163,37 +176,37 @@ function progSimple() {
                 pattern = patt[i].id;
             }
         }
-        webserial.sendSerial(programmer.programStd(addres, pattern, mode, pattsize));
+        sendSerData(programmer.programStd(addres, pattern, mode, pattsize));
         enableButtons(false);
     }
 }
 
 function progShape() {
     if (okToSend() && (lastSpecialPat)) {
-        webserial.sendSerial(programmer.programArr(lastSpecialPat));
+        sendSerData(programmer.programArr(lastSpecialPat));
         enableButtons(false);
     }
 
 }
 function saveShape() {
     if (okToSend() && (lastSpecialPat)) {
-        webserial.sendSerial(programmer.saveArr(lastSpecialPat));
+        sendSerData(programmer.saveArr(lastSpecialPat));
         enableButtons(false);
     }
 }
 
 function progMan() {
     if (okToSend() && (lastMan)) {
+        sendSerData(programmer.programArr(lastMan));
         enableButtons(false);
-        webserial.sendSerial(programmer.programArr(lastMan));
     }
 }
 
 function saveMan() {
 
     if (okToSend() && (lastMan)) {
+        sendSerData(programmer.saveArr(lastMan));
         enableButtons(false);
-        webserial.sendSerial(programmer.saveArr(lastMan));
     }
 }
 function updateManAddr() {
@@ -263,7 +276,7 @@ function setTestpat() {
             }
         }
         console.log(programmer.setTestFig(pattern, speed, intensity));
-        webserial.sendSerial(programmer.setTestFig(pattern, speed, intensity));
+        sendSerData(programmer.setTestFig(pattern, speed, intensity));
     }
 }
 
@@ -274,7 +287,7 @@ function locateHead(el) {
         prev[i].className = 'locateHitem';
     }
     if (okToSend())
-        webserial.sendSerial(programmer.locateHead(num));
+        sendSerData(programmer.locateHead(num));
     el.className = 'locateHitemSel'
     // prev = el;
 
@@ -431,7 +444,7 @@ function staticSetCols() {
 
     if (webserial) {
         if (webserial.port) {
-            webserial.sendSerial(programmer.setStaticCol(r / 100, g / 100, b / 100, w / 100));
+            sendSerData(programmer.setStaticCol(r / 100, g / 100, b / 100, w / 100));
         }
     }
 }
