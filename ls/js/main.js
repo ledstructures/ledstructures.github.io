@@ -57,18 +57,18 @@ async function connect() {
     document.getElementById("btnCon").value = buttonLabel;
 }
 
-function sendSerData(dat) {
+function sendSerData(dat, timeoffset = 0) {
     // console.log(dat);
     if (okToSend()) {
         webserial.sendSerial(dat);
-        lastSend = Date.now();
+        lastSend = Date.now() + timeoffset;
     }
 }
 
 function getFwEverySec() {
     if (webserial) {
         if (webserial.port) {
-            if ((Date.now() - lastSend > 1001)) {
+            if ((Date.now() - lastSend > 1000)) {
                 webserial.sendSerial(programmer.getFirmwareV())
                 lastSend = Date.now();
             }
@@ -176,28 +176,28 @@ function progSimple() {
                 pattern = patt[i].id;
             }
         }
-        sendSerData(programmer.programStd(addres, pattern, mode, pattsize));
+        sendSerData(programmer.programStd(addres, pattern, mode, pattsize), 4000);
         enableButtons(false);
     }
 }
 
 function progShape() {
     if (okToSend() && (lastSpecialPat)) {
-        sendSerData(programmer.programArr(lastSpecialPat));
+        sendSerData(programmer.programArr(lastSpecialPat), 4000);
         enableButtons(false);
     }
 
 }
 function saveShape() {
     if (okToSend() && (lastSpecialPat)) {
-        sendSerData(programmer.saveArr(lastSpecialPat));
+        sendSerData(programmer.saveArr(lastSpecialPat), 3000);
         enableButtons(false);
     }
 }
 
 function progMan() {
     if (okToSend() && (lastMan)) {
-        sendSerData(programmer.programArr(lastMan));
+        sendSerData(programmer.programArr(lastMan), 4000);
         enableButtons(false);
     }
 }
@@ -205,7 +205,7 @@ function progMan() {
 function saveMan() {
 
     if (okToSend() && (lastMan)) {
-        sendSerData(programmer.saveArr(lastMan));
+        sendSerData(programmer.saveArr(lastMan), 3000);
         enableButtons(false);
     }
 }
@@ -275,7 +275,7 @@ function setTestpat() {
                 pattern = patt[i].id;
             }
         }
-        console.log(programmer.setTestFig(pattern, speed, intensity));
+        // console.log(programmer.setTestFig(pattern, speed, intensity));
         sendSerData(programmer.setTestFig(pattern, speed, intensity));
     }
 }
