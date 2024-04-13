@@ -342,12 +342,12 @@ function changeProgShape() {
 
         case "RANDOMDUB":
             arrlist = randomDoubles(120);
-            img.src = "../img/cat.jpeg";
+            img.src = "https://cataas.com/cat:cute";
             break;
 
         case "RANDOMNODUB":
             arrlist = randomNoDoubles(120);
-            img.src = "../img/cat.jpeg";
+            img.src = "https://cataas.com/cat:sad";
             break;
     }
     document.getElementById("advOutpList").innerHTML = undefined;
