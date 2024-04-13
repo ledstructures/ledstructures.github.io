@@ -314,6 +314,14 @@ function setLocateincontent() {
     document.getElementById("locthead").innerHTML = innerd;
 }
 
+function getRndCat() {
+    // console.log(new Date().getTime());
+    tags = ["cute", "orange", "sad", "happy", "black", "big", "heart"];
+    tag = tags[getRandomInt(tags.length)];
+    src = "https://cataas.com/cat/" + tag;
+    return src;
+}
+
 function changeProgShape() {
     let type = document.getElementsByName("advshape");
     let img = document.getElementById("shapeExample");
@@ -342,12 +350,12 @@ function changeProgShape() {
 
         case "RANDOMDUB":
             arrlist = randomDoubles(120);
-            img.src = "https://cataas.com/cat/cute";
+            img.src = getRndCat();
             break;
 
         case "RANDOMNODUB":
             arrlist = randomNoDoubles(120);
-            img.src = "https://cataas.com/cat/sad";
+            img.src = getRndCat();
             break;
     }
     document.getElementById("advOutpList").innerHTML = undefined;
