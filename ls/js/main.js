@@ -242,7 +242,8 @@ function openFile(e) {
     let reader = new FileReader();
     reader.onload = function (e) {
         let contents = e.target.result;
-        let split = contents.split(/(?:[,\s]+)/)
+        let split = contents.split(/,|;|\s/)
+        // let split = contents.split(/(?:[,\s]+)/)
         let newArr = [];
         for (let i = 0; i < split.length; i++) {
             let num = parseInt(split[i]);
