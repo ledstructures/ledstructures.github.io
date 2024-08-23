@@ -15,10 +15,19 @@ const btnCon = document.getElementById("btnCon");
 const btnprogSimple = document.getElementById("btnProgSimple");
 
 const btnsaveShape = document.getElementById("btnSaveShape");
+const btnsaveShape1 = document.getElementById("btnSaveShape1");
+const btnsaveShape2 = document.getElementById("btnSaveShape2");
 const btnprogShape = document.getElementById("btnProgShape");
 
 const btnsaveMan = document.getElementById("btnSaveMan");
+const btnsaveMan1 = document.getElementById("btnSaveMan1");
+const btnsaveMan2 = document.getElementById("btnSaveMan2");
+
 const btnprogMan = document.getElementById("btnProgMan");
+
+const patternPossible = document.getElementById("newpat");
+
+let fwversion = 0;
 
 document.getElementById("openCSVfile").addEventListener("change", openFile);
 
@@ -102,16 +111,30 @@ function pgCb(cmd, data) {
     }
     if (cmd == parser.usbcom['getfirmware']) {
         document.getElementById("firmwareReturn").innerHTML = String.fromCharCode.apply(null, data);
+        fwversion = parseInt(String.fromCharCode.apply(null, data));
         enableButtons(true);
     }
     switch (cmd) {
         case parser.usbcom['programsave']:
+        case parser.usbcom['programsave2']:
+        case parser.usbcom['programsave3']:
             {
                 let num = data[0] << 8;
                 num |= data[1];
                 document.getElementById("returnData").innerHTML = "saved ";
                 document.getElementById("returnData").innerHTML += num;
                 document.getElementById("returnData").innerHTML += " addresses to custom slot";
+                switch (cmd) {
+                    case parser.usbcom['programsave']:
+                        document.getElementById("returnData").innerHTML += " #1";
+                        break;
+                    case parser.usbcom['programsave2']:
+                        document.getElementById("returnData").innerHTML += " #2";
+                        break;
+                    case parser.usbcom['programsave3']:
+                        document.getElementById("returnData").innerHTML += " #3";
+                        break;
+                }
                 enableButtons(true);
                 getFwEverySec();
                 // alert("save " + (num/10) +"m to custom slot")
@@ -144,23 +167,88 @@ function disconnected(e) {
     enableButtons(false);
     pgCb(0x00, 0x00);
     waitforRepy = false;
+    fwversion = 0;
 }
 
 function enableButtons(e) {
+    // if (fwversion > 240802) {
+    //     console.log('nwfirmware')
+    // }
+    if (fwversion == 0)
+        e = false;
+    
     btnprogSimple.disabled = !e;
 
     btnsaveShape.disabled = !e;
+    if ((e) && (fwversion > 240802)) {
+        btnsaveShape1.disabled = !e;
+        btnsaveShape2.disabled = !e;
+        if (patternPossible.innerHTML.length < 800) {
+            patternPossible.innerHTML = '<input type="radio" name="pattern" id="forward" checked="true">Forward<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="reverse">Reversed<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="custom">custom1<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="custom2">custom2<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="custom3">custom3<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patforward">ZigZag fwd<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patflip">ZigZag Rev<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patreverse">ZigZag fwd flipped<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patreverseflip">ZigZag Rev flipped<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="flip">flip x<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="fliprev">reverse flip x<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="double">Dubble fwd<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doubleflip">Dubble flip<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>';
+        }
+    } else if (e) {
+        if (patternPossible.innerHTML.length < 500) {
+            patternPossible.innerHTML = '<input type="radio" name="pattern" id="forward" checked="true">Forward<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="reverse">Reversed<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="custom">custom<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patforward">ZigZag fwd<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patflip">ZigZag Rev<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patreverse">ZigZag fwd flipped<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="patreverseflip">ZigZag Rev flipped<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="double">Dubble fwd<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doubleflip">Dubble flip<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>';
+            patternPossible.innerHTML += '<input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>';
+        }
+        btnsaveShape1.disabled = true;
+        btnsaveShape2.disabled = true;
+    } else {
+
+        btnsaveShape1.disabled = true;
+        btnsaveShape2.disabled = true;
+    }
     btnprogShape.disabled = !e;
     if ((e) && (lastMan)) {
+        if (fwversion > 240802) {
+            btnsaveMan1.disabled = !e;
+            btnsaveMan2.disabled = !e;
+        }
+
         btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
     } else if (!e) {
-        btnsaveMan.disabled = !e;
         btnprogMan.disabled = !e;
+
+        btnsaveMan.disabled = !e;
+        btnsaveMan1.disabled = !e;
+        btnsaveMan2.disabled = !e;
+        // document.getElementById('newpat').innerHTML = '';
+        patternPossible.innerHTML = '';
+
     }
     else {
         btnsaveMan.disabled = true;
+        btnsaveMan1.disabled = true;
+        btnsaveMan2.disabled = true;
+
         btnprogMan.disabled = true;
+        // document.getElementById('newpat').innerHTML = '';
+
+
     }
     waitforRepy = e;
 }
@@ -176,7 +264,7 @@ function progSimple() {
                 pattern = patt[i].id;
             }
         }
-        sendSerData(programmer.programStd(addres, pattern, mode, pattsize), 4000);
+        sendSerData(programmer.programStd(addres, pattern, mode, pattsize, parseInt(document.getElementById("firmwareReturn").innerHTML)), 4000);
         enableButtons(false);
     }
 }
@@ -188,9 +276,9 @@ function progShape() {
     }
 
 }
-function saveShape() {
+function saveShape(slotnum) {
     if (okToSend() && (lastSpecialPat)) {
-        sendSerData(programmer.saveArr(lastSpecialPat), 3000);
+        sendSerData(programmer.saveArr(lastSpecialPat, slotnum), 3000);
         enableButtons(false);
     }
 }
@@ -202,10 +290,10 @@ function progMan() {
     }
 }
 
-function saveMan() {
+function saveMan(slotnum) {
 
     if (okToSend() && (lastMan)) {
-        sendSerData(programmer.saveArr(lastMan), 3000);
+        sendSerData(programmer.saveArr(lastMan, slotnum), 3000);
         enableButtons(false);
     }
 }
@@ -335,19 +423,19 @@ function changeProgShape() {
         }
     }
     switch (tn) {
-        case "CUBE2M":
-            arrlist = paternCube2m;
-            img.src = "../img/cube.png";
-            break;
         case "CUBE1M":
             arrlist = paternCube1m;
             img.src = "../img/cube.png";
             break;
-
         case "CUBE50CM":
             arrlist = paternCube50cm;
             img.src = "../img/cube.png";
             break;
+
+        // case "CUBE50CM":
+        //     arrlist = paternCube50cm;
+        //     img.src = "../img/cube.png";
+        //     break;
 
         case "RANDOMDUB":
             arrlist = randomDoubles(120);

@@ -82,7 +82,6 @@ input[type="file"] {
 input[type=button] {
     border: 8px;
     height: 36px;
-    width: 100%;
     text-align: center;
     font-weight: 600;
     font-size: 12;
@@ -98,6 +97,13 @@ p {
     text-align: left;
     margin: 0;
     font-weight: lighter;
+}
+.button{
+    width: 100%;
+
+}
+.buttonsave{
+    width: 32%;
 }
 
 .button.disabled:hover,

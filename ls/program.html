@@ -188,7 +188,7 @@
                     </td>
                     <td>
                         <form id="newpat">
-                            <input type="radio" name="pattern" id="forward" checked="true">Forward<br>
+                            <!-- <input type="radio" name="pattern" id="forward" checked="true">Forward<br>
                             <input type="radio" name="pattern" id="reverse">Reversed<br>
                             <input type="radio" name="pattern" id="custom">custom<br>
                             <input type="radio" name="pattern" id="patforward">ZigZag fwd<br>
@@ -198,7 +198,7 @@
                             <input type="radio" name="pattern" id="double">Dubble fwd<br>
                             <input type="radio" name="pattern" id="doubleflip">Dubble flip<br>
                             <input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>
-                            <input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>
+                            <input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br> -->
 
                         </form>
                     </td>
@@ -238,11 +238,11 @@
                 <tr class="contenttr">
                     <td>
                         <form id="newShape">
-                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE2M"
-                                checked="true">Cube 2m<br>
-                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE1M">Cube 1m 2x<br>
-                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE50CM">Cube 1m
-                            2x<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE1M"
+                                checked="true">Cube 1m<br>
+                            <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE50CM">Cube 50cmm 2x<br>
+                            <!-- <input type="radio" onclick="changeProgShape();" name="advshape" id="CUBE20CM">Cube m
+                            2x<br> -->
                             <input type="radio" onclick="changeProgShape();" name="advshape" id="RANDOMNODUB">Even beter
                             shape<br>
                             <input type="radio" onclick="changeProgShape();" name="advshape" id="RANDOMDUB">Best shape?
@@ -260,8 +260,12 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="button" class="button" onclick="saveShape();" value="Save to custom slot"
+                        <input type="button" class="buttonsave" onclick="saveShape(0);" value="Save slot1"
                             id="btnSaveShape">
+                        <input type="button" class="buttonsave" onclick="saveShape(1);" value="Save slot2"
+                            id="btnSaveShape1">
+                        <input type="button" class="buttonsave" onclick="saveShape(2);" value="Save slot3"
+                            id="btnSaveShape2">
                     </td>
                     <td>
                         <input type="button" class="button" onclick="progShape();" value="Program led strips"
@@ -292,9 +296,10 @@
                     </td> -->
                 </tr>
                 <tr>
-                    <td> *note: csv format id a list of (max 128) numbers with
+                    <td> *note on csv format: a list of (max 128) numbers with
                         addresses(1-512).
-                        <a style="color: #ffffff;" href="ledstructures_csv_example_120.csv" download="ledstructures_csv_example_120.csv">Example
+                        <a style="color: #ffffff;" href="ledstructures_csv_example_120.csv"
+                            download="ledstructures_csv_example_120.csv">Example
                             file</a>
 
                     </td>
@@ -312,8 +317,12 @@
                 <tr> -->
                     <!-- <td></td> -->
                     <td>
-                        <input type="button" class="button" onclick="saveMan();" value="Save to custom slot"
+                        <input type="button" class="buttonsave" onclick="saveMan(0);" value="Save slot1"
                             id="btnSaveMan">
+                        <input type="button" class="buttonsave" onclick="saveMan(1);" value="Save slot2"
+                            id="btnSaveMan1">
+                        <input type="button" class="buttonsave" onclick="saveMan(2);" value="Save slot3"
+                            id="btnSaveMan2">
                     </td>
                     <td>
                         <input type="button" class="button" onclick="progMan();" value="Program led strips"

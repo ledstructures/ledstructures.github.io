@@ -7,6 +7,8 @@ class ProgramDataParser {
             'programstd': 0x21,
             'programarr': 0x22,
             'programsave': 0x23,
+            'programsave2': 0x24,
+            'programsave3': 0x25,
             'settestpat': 0x31,
             'setstatic': 0x32,
             'sethighlite': 0x33,
@@ -57,7 +59,7 @@ class ProgramDataParser {
                     this.len |= byte;
                     this.receivstate = 'datapacket'
                     this.datacount = 0;
-                    this.data =[];
+                    this.data = [];
                     break;
 
                 case 'datapacket':
@@ -101,7 +103,7 @@ class ProgramDataGen {
             'setstatic': 0x32,
             'sethighlite': 0x33,
             'setdmx': 0x34,
-            'disconn':0x55
+            'disconn': 0x55
         };
         // # 'enums' directions
         this.direction = {
@@ -117,6 +119,46 @@ class ProgramDataGen {
             'doublereverseflip': 0x09,
             'zigzagdouble': 0x0a
         };
+        this.directionFW24 = {
+            'forward': 0x00,
+            'reverse': 0x01,
+            'custom': 0x02,
+
+            'custom2': 0x03,
+            'custom3': 0x04,
+
+            'patforward': 0x05,
+            'patflip': 0x06,
+            'patreverse': 0x07,
+            'patreverseflip': 0x08,
+
+            'flip': 0x09,
+            'fliprev': 0x0a,
+
+            'double': 0x0b,
+            'doubleflip': 0x0c,
+            'doublereverseflip': 0x0d,
+            'zigzagdouble': 0x0e
+        };
+
+        // FORWARD = 0x00,
+        // REVERSE = 0x01,
+        // CUSTOM = 0x02,
+        // CUSTOM1 = 0x03,
+        // CUSTOM2 = 0x04,
+        // PATTERNFWD = 0x05,
+        // PATTERNFLIP = 0x06,
+        // PATTERNREV = 0x07,
+        // PATTERNREVFLIP = 0x08,
+        // PATTERNFLIPNONZZ = 0x09,
+        // PATTERNREVFLIPNONZZ = 0x0a,
+
+        // DOUBLE = 0x0b,
+        // DOUBLEFLIP = 0x0c,    // cntre in
+        // DOUBLEFLIPREV = 0x0d, // centr out
+        // ZIGZAGDOUBLE = 0x0e,
+        // // CUBE,
+
         // # 'enums' tespattern
         this.testfigure = {
             'off': 0x00,
@@ -147,16 +189,24 @@ class ProgramDataGen {
         // this.write(data);
     }
 
-    disconnect(){
+    disconnect() {
         let data = [this.usbcom['usbstart'], this.usbcom['disconn'],
             0, 1, 0, 0, this.usbcom['usbend']];
         return (this.write(data));
+    }
+
+    programStd(address, direction = 'forward', mode = 0, patternlen = 1, firmware = 230808) {
+        let dir = 0;
+        if (firmware > 240802) {
+            if (direction in this.directionFW24) {
+                dir = this.directionFW24[direction];
+            }
         }
 
-    programStd(address, direction = 'forward', mode = 0, patternlen = 1) {
-        let dir = 0;
-        if (direction in this.direction) {
-            dir = this.direction[direction];
+        else {
+            if (direction in this.direction) {
+                dir = this.direction[direction];
+            }
         }
         let addressMSB = 0xff & (address >> 8);
         let addressLSB = address & 0xff;
@@ -164,6 +214,7 @@ class ProgramDataGen {
         let newArr = [this.usbcom['usbstart'], this.usbcom['programstd'], 0, 5, addressMSB, addressLSB, mode, dir, patternlen, 0, this.usbcom['usbend']];
         return (this.write(newArr));
     }
+
     programArr(intArr) {
         let length = intArr.length
         // # from short to byte = x2, 1 for the len of the short
@@ -177,9 +228,10 @@ class ProgramDataGen {
         return (this.write(newArr));
     }
 
-    saveArr(intArr) {
+    saveArr(intArr, slotnum) {
+
         let length = intArr.length
-        let newArr = [this.usbcom['usbstart'], this.usbcom['programsave'], (0xff & (length * 2) >> 8), (0xff & (length * 2))];
+        let newArr = [this.usbcom['usbstart'], (parseInt(this.usbcom['programsave']) + slotnum), (0xff & (length * 2) >> 8), (0xff & (length * 2))];
         for (let i = 0; i < intArr.length; i++) {
             newArr.push((0xff & (intArr[i] >> 8)));
             newArr.push(0xff & intArr[i]);
