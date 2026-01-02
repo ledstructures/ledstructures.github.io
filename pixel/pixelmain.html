@@ -49,10 +49,21 @@
                             <span class="deviation_hide">1m circle = 10pix, 2m circle 30 pix etc??</span>
                             <br>
                             <input type="radio" onclick="calcall();" name="fixture" id="PIXELTUBE">Pixel
-                            tube<br>
+                            tube
+                            <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">Tube lengths are 2m (100pix), 1m (50pix), and
+                                50cm (25pix). </span>
+                            <br>
                             <input type="radio" onclick="calcall();" name="fixture" id="PIXELSTRIP">Pixel
-                            strip<br>
-                            <input type="radio" onclick="calcall();" name="fixture" id="LSFLEX">Ls flex<br>
+                            strip
+                            <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">Pix strips lengths are 2m (120pix), 1m (60pix), and
+                                60cm (36pix), 50cm (30pix), 20cm (12pix). </span>
+                            <br>
+                            <input type="radio" onclick="calcall();" name="fixture" id="LSFLEX">Ls flex
+                            <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">Flex tube lengths are 6m (120pix). Other lenghts on request.</span>
+                            <br>
                             <input type="radio" onclick="calcall();" name="fixture" id="NEONSTRIP">Neon
                             flex<br>
                         </form>
@@ -132,7 +143,6 @@
             if (radiopixtype[1].checked)// tube
             {
                 pixels = document.getElementById("nummeters").value * 50;
-
             }
             if (radiopixtype[2].checked)// strip
             {
@@ -280,7 +290,7 @@
 
             if (timinus > 23000) // longer than a dmx frame
             {
-                content += 'Warning! Framerate is lower than DMX-512 at fastest speed!';
+                content += 'Warning! Framerate is lower than DMX-512! (at 43fps)';
                 document.getElementById("fpsresult").style.backgroundColor = "red"
             } else {
                 content += 'Max framerate is higer than DMX-512';
