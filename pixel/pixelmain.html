@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../style/style.css">
+
+<head>
+    <title>
+        Ledstructures pixel calculator
+    </title>
+    <link rel="icon" type="image/x-icon" href="../img/favicon_32x32.png">
+</head>
+
+<body class="pixcalbody" onload="calcallpm();">
+    <script id="navbar" src="../navbar.js" onload="higliteactive('pixelcalc')"></script>
+    <br>
+    <div class="contentdiv">
+        <div class="activediv">
+            <table>
+                <tr>
+                    <td>
+                        <p class=" table_paragraph">Number of pixels or ic's</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">pixels/segment by meter</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Pixel / fixture type</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">PSU type</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Channels per pixel</p>
+                    </td>
+                    <td>
+                        <p class=" table_paragraph">Bits per channel</p>
+                    </td>
+                </tr>
+                <tr class="contenttr">
+                    <td>
+                        <input id="numpixels" type="number" min="1" max="5000" value="200" onchange="calcall();" />
+                    </td>
+                    <td>
+                        <input id="nummeters" type="number" min="1" max="1000" value="5" onchange="calcallpm();" />
+                    </td>
+                    <td>
+                        <form id="fixture">
+                            <input type="radio" onclick="calcall();" name="fixture" id="CIRCLE" checked="true">Circle
+                            <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">1m circle = 10pix, 2m circle 30 pix etc??</span>
+                            <br>
+                            <input type="radio" onclick="calcall();" name="fixture" id="PIXELTUBE">Pixel
+                            tube<br>
+                            <input type="radio" onclick="calcall();" name="fixture" id="PIXELSTRIP">Pixel
+                            strip<br>
+                            <input type="radio" onclick="calcall();" name="fixture" id="LSFLEX">Ls flex<br>
+                            <input type="radio" onclick="calcall();" name="fixture" id="NEONSTRIP">Neon
+                            flex<br>
+                        </form>
+                    </td>
+                    <td>
+                        <form id="psu">
+                            <input type="radio" onclick="calcall();" name="psu" id="W200" checked="true">200W psu<br>
+                            <input type="radio" onclick="calcall();" name="psu" id="W300">300W psu<br>
+                        </form>
+                    </td>
+                    <td>
+                        <form id="colchans">
+                            <input type="radio" onclick="calcall();" name="colchans" id="RGB3">3/RGB<br>
+                            <input type="radio" onclick="calcall();" name="colchans" id="RGBW4"
+                                checked="true">4/RGBW<br>
+                        </form>
+                        </p>
+                    </td>
+                    <td>
+                        <form id="channeldept">
+                            <input type="radio" onclick="calcall();" name="channeldept" id="BIT8"
+                                checked="true">8-bit<br>
+                            <input type="radio" onclick="calcall();" name="channeldept" id="BIT12">12-bit<br>
+                            <input type="radio" onclick="calcall();" name="channeldept" id="BIT14">14-bit<br>
+                            <input type="radio" onclick="calcall();" name="channeldept" id="BIT16">16-bit<br>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <p class=" table_paragraph">
+                            Results:</p>
+                        <br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p class=" table_paragraph">
+                            Power data</p>
+                    </td>
+                    <td colspan=4 id="powerdata">
+                        Total power: <br>
+                        Current settings: <br>
+                        Max lim settings: <br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" id="fpsresult">
+                        <p class=" table_paragraph">
+                            Refresh rate</p> <br>
+                        This assumes running at 800kz.<br>
+                        Running data output faster than 800khz is not reconmended.
+                    </td>
+                    <td colspan=4 id="fpsdata">
+
+                    </td>
+                </tr>
+
+            </table>
+            <p class="footer">2026 LEDstructures</p>
+
+        </div>
+    </div>
+    <script>
+        function calcallpm() {
+            let radiopixtype = document.getElementById("fixture");
+            // if (radiopixtype[0])
+            let pixels = 200;
+            //     document.getElementById("nummeters").value = 
+            if (radiopixtype[0].checked)// circle
+            {
+
+            }
+            if (radiopixtype[1].checked)// tube
+            {
+                pixels = document.getElementById("nummeters").value * 50;
+
+            }
+            if (radiopixtype[2].checked)// strip
+            {
+                pixels = document.getElementById("nummeters").value * 60;
+            }
+            if (radiopixtype[3].checked)// strip
+            {
+                pixels = document.getElementById("nummeters").value * 20;
+            }
+            if (radiopixtype[4].checked)// strip
+            {
+                pixels = document.getElementById("nummeters").value * 20;
+            }
+
+            document.getElementById("numpixels").value = pixels.toFixed(0);
+            calcall();
+        }
+        function calcall() {
+            removeconfilcting();
+
+            times();
+
+        }
+        function removeconfilcting() {
+            let radiocolor = document.getElementById("colchans");
+            let radiopixtype = document.getElementById("fixture");
+            let radiobits = document.getElementById('channeldept');
+            let meters = 0;
+            if (radiopixtype[0].checked)// circle
+            {
+
+            }
+            if (radiopixtype[1].checked)// tube
+            {
+                meters = document.getElementById("numpixels").value / 50;
+
+            }
+            if (radiopixtype[2].checked)// strip
+            {
+                meters = document.getElementById("numpixels").value / 60;
+            }
+            if (radiopixtype[3].checked)// strip
+            {
+                meters = document.getElementById("numpixels").value / 20;
+            }
+            if (radiopixtype[4].checked)// strip
+            {
+                meters = document.getElementById("numpixels").value / 20;
+            }
+
+            if ((!radiopixtype[2].checked) && (!radiopixtype[3].checked)) {
+                let radio = document.getElementsByName("colchans");
+                for (i = 0; i < radio.length; i++) {
+                    radio[i].disabled = false;
+                }
+            }
+            else {
+                let radio = document.getElementsByName("colchans");
+                for (i = 0; i < radio.length; i++) {
+                    radio[i].disabled = true;
+                }
+                document.getElementById('colchans')[1].checked = false;
+                document.getElementById('colchans')[0].checked = true;
+            }
+
+            if ((radiopixtype[0].checked) || (radiopixtype[1].checked)) {
+                let radio = document.getElementsByName("channeldept");
+                for (i = 0; i < radio.length; i++) {
+                    radio[i].disabled = false;
+                }
+            } else {
+                let radio = document.getElementsByName("channeldept");
+                for (i = 0; i < radio.length; i++) {
+                    radio[i].disabled = true;
+                }
+                document.getElementById('channeldept')[3].checked = false;
+                document.getElementById('channeldept')[2].checked = false;
+                document.getElementById('channeldept')[1].checked = false;
+                document.getElementById('channeldept')[0].checked = true;
+            }
+            document.getElementById("nummeters").value = meters.toFixed(3);
+        }
+
+        function times() {
+            let numofpix = document.getElementById('numpixels').value;
+            let colorchans = 3;
+            let chanbits = 8;
+            let pixeltype = 'WS'
+            let radiocolor = document.getElementById("colchans");
+            let radiopixtype = document.getElementById("fixture");
+            let radiobits = document.getElementById('channeldept');
+
+            if ((!radiopixtype[2].checked) && (!radiopixtype[3].checked)) {
+                if (radiocolor[1].checked) {
+                    colorchans = 4;
+                }
+            }
+
+            if ((radiopixtype[0].checked) || (radiopixtype[1].checked)) {
+                pixeltype = 'CIRCLE'
+                if (radiobits[3].checked) {
+                    chanbits = 16;
+                } else if (radiobits[2].checked) {
+                    chanbits = 14;
+                } else if (radiobits[1].checked) {
+                    chanbits = 12;
+                } else {
+                    chanbits = 8;
+                }
+            }
+
+            if (radiopixtype[2].checked) {
+                pixeltype = 'CL28'
+
+            }
+            writetimes(calctimes(numofpix, colorchans, chanbits, pixeltype));
+        }
+
+        // calt times based on 
+        function calctimes(pixels, channelspp, bitspp, pixeltype) {
+            let timinusec = 100 // latchtime specified in most datsheets
+            let bits = pixels * channelspp * bitspp;
+
+            if (pixeltype == 'CL28') {
+                while ((pixels % 48) != 0) {
+                    pixels++;
+                    bits += 8;
+                }
+                bits += 16;
+            }
+            if (pixeltype == 'CIRCLE') {
+                timinusec = 300 // 250 main reset + 50 reset between 'work code' and data
+                bits += (9 * 8); // 'work code 8 bytes, '
+            }
+            timinusec += (bits * 1.25);
+            return [timinusec, bits];
+        }
+        // write times + warning
+        function writetimes(vals) {
+            let timinus = vals[0]
+            let channels = (vals[1] / 8).toFixed(0)
+            var fps = 1000000 / timinus;
+            var content = '';
+            // console.log(timinus);
+
+            if (timinus > 23000) // longer than a dmx frame
+            {
+                content += 'Warning! Framerate is lower than DMX-512 at fastest speed!';
+                document.getElementById("fpsresult").style.backgroundColor = "red"
+            } else {
+                content += 'Max framerate is higer than DMX-512';
+                document.getElementById("fpsresult").style.backgroundColor = ""
+            }
+            content += '<br>';
+            content += '<br>';
+
+            content += 'Fps:    ';
+            content += fps.toFixed(2);
+            content += ' Hz <br>';
+            content += 'Minimal frame time: ';
+            if (timinus < 1000) {
+                content += timinus.toFixed(2);
+                content += ' μs';
+            }
+            else if (timinus < 1000000) {
+                content += (timinus / 1000).toFixed(2);
+                content += ' ms';
+            } else {
+                content += (timinus / 1000000).toFixed(2);
+                content += ' sec';
+            }
+            content += '<br>';
+            content += 'Channels: ';
+
+            content += channels;
+            document.getElementById("fpsdata").innerHTML = content;
+        };
+
+
+        function writepower(totalp, currentset, limitset) {
+
+        }
+
+
+    </script>
+</body>
+
+</html>
