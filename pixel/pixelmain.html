@@ -118,7 +118,7 @@
                         <p class=" table_paragraph">
                             Refresh rate</p> <br>
                         This assumes running at 800kz.<br>
-                        Running data output faster than 800khz is not reconmended.
+                        Running data output faster than 800khz is not recommended.
                     </td>
                     <td colspan=4 id="fpsdata">
 
@@ -284,8 +284,8 @@
         function writetimes(vals) {
             let timinus = vals[0]
             let channels = (vals[1] / 8).toFixed(0)
-            var fps = 1000000 / timinus;
-            var content = '';
+            let fps = 1000000 / timinus;
+            let content = '';
             // console.log(timinus);
 
             if (timinus > 23000) // longer than a dmx frame
