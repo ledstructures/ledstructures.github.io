@@ -135,10 +135,10 @@ class ProgramDataGen {
             'flip': 0x09,
             'fliprev': 0x0a,
 
-            'double': 0x0b,
-            'doubleflip': 0x0c,
-            'doublereverseflip': 0x0d,
-            'zigzagdouble': 0x0e
+            // 'double': 0x0b,
+            // 'doubleflip': 0x0c,
+            // 'doublereverseflip': 0x0d,
+            // 'zigzagdouble': 0x0e
         };
 
         // FORWARD = 0x00,

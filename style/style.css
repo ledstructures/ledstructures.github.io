@@ -14,9 +14,9 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 100%; */
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
 
 }
 
@@ -254,6 +254,11 @@ input[type="radio"] {
 }
 
 
+
+.pixresults  div {
+    border: 0px solid #000000;
+}
+
 /* abused for help ? container */
 i {
     font-style: normal;
@@ -266,7 +271,7 @@ span {
     position: absolute;
     background-color: #7392db;
     color: #000000;
-    border: 16px solid #7392db;
+    border: 8px solid #7392db;
     /* font-weight: lighter; */
     z-index: 1;
     opacity: 95%;
@@ -300,6 +305,14 @@ td {
 
 .contenttr {
     height: calc(100vh - 380px);
+    /* display: flex; */
+    /* flex-direction: column;     */
+    /* height: calc(100vh); */
+    /* height: */
+}
+
+.contenthalftr {
+    height: calc(100vh - 600px);
     /* display: flex; */
     /* flex-direction: column;     */
     /* height: calc(100vh); */

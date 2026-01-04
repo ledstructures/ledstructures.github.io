@@ -17,25 +17,31 @@
             <table>
                 <tr>
                     <td>
-                        <p class=" table_paragraph">Number of pixels or ic's</p>
+                        <p class="table_paragraph">Number of pixels or ic's</p>
                     </td>
                     <td>
-                        <p class=" table_paragraph">pixels/segment per meter</p>
+                        <p class="table_paragraph">pixels/segment per meter</p>
                     </td>
                     <td>
-                        <p class=" table_paragraph">Pixel / fixture type</p>
+                        <p class="table_paragraph">Pixel / fixture type</p>
                     </td>
                     <td>
-                        <p class=" table_paragraph">PSU type</p>
+                        <p class="table_paragraph">PSU type</p>
                     </td>
                     <td>
-                        <p class=" table_paragraph">Channels per pixel</p>
+                        <p class="table_paragraph">Channels per pixel <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">Setting the color channels correct has an BIG impact on both
+                                the power and fps.</span>
+                        </p>
+
                     </td>
                     <td>
-                        <p class=" table_paragraph">Bits per channel</p>
+                        <p class="table_paragraph">Resolution per channel <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">The resolution only has impact on the fps </span>
+                        </p>
                     </td>
                 </tr>
-                <tr class="contenttr">
+                <tr class="contenthalftr">
                     <td>
                         <input id="numpixels" type="number" min="1" max="5000" value="200" onchange="calcall();" />
                     </td>
@@ -48,21 +54,22 @@
                             <i class="deviation_help">&#x1F6C8;</i>
                             <span class="deviation_hide">1m circle = 10pix, 2m circle 30 pix etc??</span>
                             <br>
-                            <input type="radio" onclick="calcall();" name="fixture" id="PIXELTUBE">Pixel
+                            <input type="radio" onclick="setDist(4);" name="fixture" id="PIXELTUBE">Pixel
                             tube
                             <i class="deviation_help">&#x1F6C8;</i>
                             <span class="deviation_hide">Tube lengths are 2m (100pix), 1m (50pix), and
                                 50cm (25pix). </span>
                             <br>
-                            <input type="radio" onclick="calcall();" name="fixture" id="PIXELSTRIP">Pixel
+                            <input type="radio" onclick="setDist(8);" name="fixture" id="PIXELSTRIP">Pixel
                             strip
                             <i class="deviation_help">&#x1F6C8;</i>
                             <span class="deviation_hide">Pix strips lengths are 2m (120pix), 1m (60pix), and
                                 60cm (36pix), 50cm (30pix), 20cm (12pix). </span>
                             <br>
-                            <input type="radio" onclick="calcall();" name="fixture" id="LSFLEX">Ls flex
+                            <input type="radio" onclick="setDist(6);" name="fixture" id="LSFLEX">Ls flex
                             <i class="deviation_help">&#x1F6C8;</i>
-                            <span class="deviation_hide">Flex tube lengths are 6m (120pix). Other lenghts on request.</span>
+                            <span class="deviation_hide">Flex tube lengths are 6m (120pix). Other lenghts on
+                                request.</span>
                             <br>
                             <input type="radio" onclick="calcall();" name="fixture" id="NEONSTRIP">Neon
                             flex<br>
@@ -104,7 +111,9 @@
                 <tr>
                     <td colspan="2">
                         <p class=" table_paragraph">
-                            Power data</p>
+                            Power data</p><br>
+                        Both the advatek and magipix will only work correct if the correct ic and dimmer limit and
+                        current settings are selected
                     </td>
                     <td colspan=4 id="powerdata">
                         Total power: <br>
@@ -130,7 +139,14 @@
 
         </div>
     </div>
+    <script src="js/times.js"></script>
+    <script src="js/power.js"></script>
+
     <script>
+        function setDist(length) {
+            document.getElementById("nummeters").value = length;
+            calcallpm();
+        }
         function calcallpm() {
             let radiopixtype = document.getElementById("fixture");
             // if (radiopixtype[0])
@@ -164,6 +180,7 @@
             removeconfilcting();
 
             times();
+            writepower();
 
         }
         function removeconfilcting() {
@@ -224,106 +241,6 @@
                 document.getElementById('channeldept')[0].checked = true;
             }
             document.getElementById("nummeters").value = meters.toFixed(3);
-        }
-
-        function times() {
-            let numofpix = document.getElementById('numpixels').value;
-            let colorchans = 3;
-            let chanbits = 8;
-            let pixeltype = 'WS'
-            let radiocolor = document.getElementById("colchans");
-            let radiopixtype = document.getElementById("fixture");
-            let radiobits = document.getElementById('channeldept');
-
-            if ((!radiopixtype[2].checked) && (!radiopixtype[3].checked)) {
-                if (radiocolor[1].checked) {
-                    colorchans = 4;
-                }
-            }
-
-            if ((radiopixtype[0].checked) || (radiopixtype[1].checked)) {
-                pixeltype = 'CIRCLE'
-                if (radiobits[3].checked) {
-                    chanbits = 16;
-                } else if (radiobits[2].checked) {
-                    chanbits = 14;
-                } else if (radiobits[1].checked) {
-                    chanbits = 12;
-                } else {
-                    chanbits = 8;
-                }
-            }
-
-            if (radiopixtype[2].checked) {
-                pixeltype = 'CL28'
-
-            }
-            writetimes(calctimes(numofpix, colorchans, chanbits, pixeltype));
-        }
-
-        // calt times based on 
-        function calctimes(pixels, channelspp, bitspp, pixeltype) {
-            let timinusec = 100 // latchtime specified in most datsheets
-            let bits = pixels * channelspp * bitspp;
-
-            if (pixeltype == 'CL28') {
-                while ((pixels % 48) != 0) {
-                    pixels++;
-                    bits += 8;
-                }
-                bits += 16;
-            }
-            if (pixeltype == 'CIRCLE') {
-                timinusec = 300 // 250 main reset + 50 reset between 'work code' and data
-                bits += (9 * 8); // 'work code 8 bytes, '
-            }
-            timinusec += (bits * 1.25);
-            return [timinusec, bits];
-        }
-        // write times + warning
-        function writetimes(vals) {
-            let timinus = vals[0]
-            let channels = (vals[1] / 8).toFixed(0)
-            let fps = 1000000 / timinus;
-            let content = '';
-            // console.log(timinus);
-
-            if (timinus > 23000) // longer than a dmx frame
-            {
-                content += 'Warning! Framerate is lower than DMX-512! (at 43fps)';
-                document.getElementById("fpsresult").style.backgroundColor = "red"
-            } else {
-                content += 'Max framerate is higer than DMX-512';
-                document.getElementById("fpsresult").style.backgroundColor = ""
-            }
-            content += '<br>';
-            content += '<br>';
-
-            content += 'Fps:    ';
-            content += fps.toFixed(2);
-            content += ' Hz <br>';
-            content += 'Minimal frame time: ';
-            if (timinus < 1000) {
-                content += timinus.toFixed(2);
-                content += ' μs';
-            }
-            else if (timinus < 1000000) {
-                content += (timinus / 1000).toFixed(2);
-                content += ' ms';
-            } else {
-                content += (timinus / 1000000).toFixed(2);
-                content += ' sec';
-            }
-            content += '<br>';
-            content += 'Channels: ';
-
-            content += channels;
-            document.getElementById("fpsdata").innerHTML = content;
-        };
-
-
-        function writepower(totalp, currentset, limitset) {
-
         }
 
 
