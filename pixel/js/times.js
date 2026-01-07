@@ -91,5 +91,8 @@ function writetimes(vals) {
     content += 'Channels: ';
 
     content += channels;
+        content += ', pulses: ';
+    content += channels*8;
+
     document.getElementById("fpsdata").innerHTML = content;
 };

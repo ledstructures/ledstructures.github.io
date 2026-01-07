@@ -1,9 +1,13 @@
 function calcpowerpixel(meters, psu) {
     let current = 0;
-    let linmultiplier = 1.58;
+    let linmultiplier = 1.58; // w per meter per step
     let power = meters * linmultiplier;
+    const ret = [0, current, power];
+    for (let i = 1; i <= 16; i++) {
+        ret.push((meters * linmultiplier) * i);
+    }
     if (power >= psu)
-        return [0, current, power];
+        return ret;
     else {
         psu -= (meters * linmultiplier);
         while ((power < psu) && (current < 15)) {
@@ -11,7 +15,10 @@ function calcpowerpixel(meters, psu) {
             current++;
         }
     }
-    return [1, current, power];
+    ret[0] = 1;
+    ret[1] = current;
+    ret[2] = power;
+    return ret;
 }
 
 function calcpowerflex(meters, psu) {
@@ -29,18 +36,82 @@ function calcpowerflex(meters, psu) {
 
 }
 
+function calcpowercirclergb(meters, psu) {
+    let current = 0;
+    let linmultiplier = 13.5; // 1.5a/1/2meterm *24 * 3 channels /16
+    let basepower = 12 // .5A cont
+    let power = (basepower * meters) + (meters * linmultiplier);
+    const ret = [0, current, power];
+    for (let i = 1; i <= 16; i++) {
+        ret.push((basepower * meters) + ((meters * linmultiplier) * i));
+    }
+    if (power >= psu)
+        return ret;
+    else {
+        psu -= (meters * linmultiplier);
+        while ((power < psu) && (current < 15)) {
+            power += (meters * linmultiplier);
+            current++;
+        }
+    }
+    ret[0] = 1;
+    ret[1] = current;
+    ret[2] = power;
+    return ret;
+}
+
+function calcpowercirclergbw(meters, psu) {
+    let current = 0;
+    // let linmultiplier = 16.8; // 1.5a/1/2meterm *24 * 4 channels /16 steps
+    let linmultiplier = 18; // 1.5a/1/2meterm *24 * 4 channels /16 steps
+    let basepower = 12 // .5 a cont
+    let power = (basepower * meters) + (meters * linmultiplier);
+    const ret = [0, current, power];
+    for (let i = 1; i <= 16; i++) {
+        ret.push((basepower * meters) + ((meters * linmultiplier) * i))
+    }
+    if (power >= psu)
+        return ret;
+    else {
+        psu -= (meters * linmultiplier);
+        while ((power < psu) && (current < 15)) {
+            power += (meters * linmultiplier);
+            current++;
+        }
+    }
+    ret[0] = 1;
+    ret[1] = current;
+    ret[2] = power;
+    return ret;
+}
+
 function writepower() {
     let watts = 200;
     let radiopsu = document.getElementById("psu");
     let radiofixture = document.getElementById("fixture");
+    let radiocolorchans = document.getElementById("colchans");
     let content = '';
-    console.log("popow")
     if (radiopsu[1].checked)
         watts = 300;
 
-    if (radiofixture[2].checked)    // 8606
+    if ((radiofixture[0].checked) || (radiofixture[1].checked) || (radiofixture[2].checked))   // circle
     {
-        let result = calcpowerpixel(document.getElementById("nummeters").value, watts);
+        let result;
+        // circle
+        if (radiofixture[0].checked) {
+            if (radiocolorchans[0].checked)
+                result = calcpowercirclergb(document.getElementById("nummeters").value, watts);
+            else
+                result = calcpowercirclergbw(document.getElementById("nummeters").value, watts);
+        }
+        // tube
+        if (radiofixture[1].checked) {
+            return
+        }
+        if (radiofixture[2].checked) {
+            result = calcpowerpixel(document.getElementById("nummeters").value, watts);
+
+        }
         content += '<div class="pixresults">';
 
         if (result[0] == 0) {
@@ -72,14 +143,31 @@ function writepower() {
         content += 'Should result in: ';
         // content += '</td><td>';
         content += result[2].toFixed(1);
-        content += 'W @ full power';
+        content += 'W @ full on';
         content += '</div>';
+        content += '<div>';
+        content += 'Powerconsumption per step: '
         content += '</div>';
 
+        for (let i = 0; i < 16; i++) {
+            content += '<div>';
+            content += 'step: '
+            content += i;
+            content += ' (';
+            content += (i * 16) + 15;
+            content += ') ';
+
+            content += result[i + 3].toFixed(1);
+            content += ' W';
 
 
+
+            content += '</div>';
+
+        } content += '</div>';
     }
-    if (radiofixture[3].checked)    // 8606
+
+    if (radiofixture[3].checked)    // flex
     {
         let result = calcpowerflex(document.getElementById("nummeters").value, watts);
         if (result[0] == 0) {
@@ -96,7 +184,7 @@ function writepower() {
         content += '<br>';
         content += 'Should result in: ';
         content += result[2].toFixed(1);
-        content += 'W @ full power';
+        content += 'W @ full on';
     }
     document.getElementById("powerdata").innerHTML = content;
 
