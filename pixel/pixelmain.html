@@ -50,11 +50,12 @@
                     </td>
                     <td>
                         <form id="fixture">
-                            <input type="radio" onclick="setDist(1);" name="fixture" id="CIRCLE" checked="true">Circle
+                            <input type="radio" onclick="setRGBW(), setDist(1);" name="fixture" id="CIRCLE"
+                                checked="true">Circle
                             <i class="deviation_help">&#x1F6C8;</i>
                             <span class="deviation_hide">1m circle = 10pix, 2m circle 30 pix etc??</span>
                             <br>
-                            <input type="radio" onclick="setDist(4);" name="fixture" id="PIXELTUBE">Pixel
+                            <input type="radio" onclick="setDist(2);" name="fixture" id="PIXELTUBE">Pixel
                             tube
                             <i class="deviation_help">&#x1F6C8;</i>
                             <span class="deviation_hide">Tube lengths are 2m (100pix), 1m (50pix), and
@@ -72,7 +73,9 @@
                                 request.</span>
                             <br>
                             <input type="radio" onclick="calcall();" name="fixture" id="NEONSTRIP">Neon
-                            flex<br>
+                            flex
+                            <i class="deviation_help">&#x1F6C8;</i>
+                            <span class="deviation_hide">Assumes neonflex at 35w/m rgbw, 27w/m rgb, all 20segm/m</span><br>
                         </form>
                     </td>
                     <td>
@@ -109,7 +112,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" id="powerresults">
                         <p class=" table_paragraph">
                             Power data</p><br>
                         Both the advatek and magipix will only work correct if the correct ic and dimmer limit and
@@ -143,10 +146,16 @@
     <script src="js/power.js"></script>
 
     <script>
+        function setRGBW() {
+            document.getElementById('colchans')[1].checked = true;
+            document.getElementById('colchans')[0].checked = false;
+        }
+
         function setDist(length) {
             document.getElementById("nummeters").value = length;
             calcallpm();
         }
+
         function calcallpm() {
             let radiopixtype = document.getElementById("fixture");
             // if (radiopixtype[0])

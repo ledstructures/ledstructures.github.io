@@ -64,15 +64,15 @@ function writetimes(vals) {
     if (timinus > 23000) // longer than a dmx frame
     {
         content += 'Warning! Framerate is lower than DMX-512! (at 43fps)';
-        document.getElementById("fpsresult").style.backgroundColor = "red"
+        document.getElementById("fpsresult").style.backgroundColor = "red";
     } else {
-        content += 'Max framerate is higer than DMX-512';
-        document.getElementById("fpsresult").style.backgroundColor = ""
+        content += 'Max framerate can be higher than DMX-512';
+        document.getElementById("fpsresult").style.backgroundColor = "";
     }
     content += '<br>';
     content += '<br>';
 
-    content += 'Fps:    ';
+    content += 'Max fps:    ';
     content += fps.toFixed(2);
     content += ' Hz <br>';
     content += 'Minimal frame time: ';
