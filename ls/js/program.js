@@ -164,15 +164,15 @@ class ProgramDataGen {
             'off': 0x00,
             'static': 0x01,
             'whitegreensnake': 0x02,
-            'greenbluesnake': 0x03,
-            'blueredsnake': 0x04,
-            'redgreensnake': 0x05,
-            'rgb': 0x06,
-            'rainbow': 0x07,
-            'rgbsnap': 0x08,
-            'rgbchase': 0x09,
-            'fadeall': 0x0A,
-            'fadechase': 0x0B
+            // 'greenbluesnake': 0x03,
+            // 'blueredsnake': 0x04,
+            // 'redgreensnake': 0x05,
+            'rgb': 0x03,
+            // 'rainbow': 0x07,
+            'rgbsnap': 0x04,
+            'rgbchase': 0x05,
+            // 'fadeall': 0x0A,
+            'fadechase': 0x06
         };
 
     }

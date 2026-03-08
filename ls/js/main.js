@@ -195,10 +195,10 @@ function enableButtons(e) {
             patternPossible.innerHTML += '<input type="radio" name="pattern" id="patreverseflip">ZigZag Rev flipped<br>';
             patternPossible.innerHTML += '<input type="radio" name="pattern" id="flip">flip x<br>';
             patternPossible.innerHTML += '<input type="radio" name="pattern" id="fliprev">reverse flip x<br>';
-            patternPossible.innerHTML += '<input type="radio" name="pattern" id="double">Dubble fwd<br>';
-            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doubleflip">Dubble flip<br>';
-            patternPossible.innerHTML += '<input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>';
-            patternPossible.innerHTML += '<input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>';
+            // patternPossible.innerHTML += '<input type="radio" name="pattern" id="double">Dubble fwd<br>';
+            // patternPossible.innerHTML += '<input type="radio" name="pattern" id="doubleflip">Dubble flip<br>';
+            // patternPossible.innerHTML += '<input type="radio" name="pattern" id="doublereverseflip">Dubble reverse flip<br>';
+            // patternPossible.innerHTML += '<input type="radio" name="pattern" id="zigzagdouble">Dubble ZigZag<br>';
         }
     } else if (e) {
         if (patternPossible.innerHTML.length < 500) {
